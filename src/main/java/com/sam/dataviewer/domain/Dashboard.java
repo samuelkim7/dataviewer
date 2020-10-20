@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class DashBoard {
+public class Dashboard {
 
     @Id
     @Column(name = "dashboard_id")

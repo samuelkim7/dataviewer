@@ -23,7 +23,7 @@ public class Order {
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "dashboard_id")
-    private DashBoard dashBoard;
+    private Dashboard dashBoard;
 
     private String title;
 
