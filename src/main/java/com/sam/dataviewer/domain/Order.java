@@ -32,6 +32,8 @@ public class Order {
 
     private String content;
 
+    private String file;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 

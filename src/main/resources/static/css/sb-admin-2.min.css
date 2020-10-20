@@ -10676,7 +10676,7 @@ a:focus {
 }
 
 .sidebar .nav-item .nav-link span {
-    font-size: .65rem;
+    font-size: 1.2rem;
     display: block
 }
 
@@ -10705,7 +10705,7 @@ a:focus {
 .sidebar .nav-item .collapsing .collapse-inner {
     padding: .5rem 0;
     min-width: 10rem;
-    font-size: .85rem;
+    font-size: 1rem;
     margin: 0 0 1rem 0
 }
 
@@ -10809,7 +10809,7 @@ a:focus {
     text-align: center;
     padding: 0 1rem;
     font-weight: 800;
-    font-size: .65rem
+    font-size: .80rem
 }
 
 @media (min-width:768px) {
@@ -10848,7 +10848,7 @@ a:focus {
         margin-right: .25rem
     }
     .sidebar .nav-item .nav-link span {
-        font-size: .85rem;
+        font-size: 1.2rem;
         display: inline
     }
     .sidebar .nav-item .nav-link[data-toggle=collapse]::after {
@@ -10995,11 +10995,11 @@ a:focus {
 }
 
 .sidebar-dark .sidebar-heading {
-    color: rgba(255, 255, 255, .4)
+    color: rgba(255, 255, 255, .8)
 }
 
 .sidebar-dark .nav-item .nav-link {
-    color: rgba(255, 255, 255, .8)
+    color: rgba(255, 255, 255, .9)
 }
 
 .sidebar-dark .nav-item .nav-link i {
