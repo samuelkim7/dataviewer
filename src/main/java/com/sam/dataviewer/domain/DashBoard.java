@@ -4,6 +4,8 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +25,7 @@ public class DashBoard {
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
+
+    @OneToMany(mappedBy = "dashboard")
+    private List<Figure> figures = new ArrayList<>();
 }
