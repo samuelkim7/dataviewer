@@ -5,16 +5,19 @@ import lombok.Getter;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
 @Entity
+@Table(name = "orders")
 @Getter
 public class Order {
 
     @Id
     @Column(name = "order_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -38,6 +41,6 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "order")
-    private Estimate estimate;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<Estimate> estimates = new ArrayList<>();
 }

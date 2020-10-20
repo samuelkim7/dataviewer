@@ -13,11 +13,11 @@ public class Member {
 
     @Id
     @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+    @GeneratedValue
+    private Long Id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     private String password;
 

@@ -13,7 +13,8 @@ public class Estimate {
 
     @Id
     @Column(name = "estimate_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = LAZY)

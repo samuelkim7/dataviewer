@@ -1,14 +1,18 @@
 package com.sam.dataviewer.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Entity
+@Getter
 public class Figure {
 
     @Id
     @Column(name = "figure_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = LAZY)

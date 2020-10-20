@@ -13,7 +13,7 @@ public class Dashboard {
 
     @Id
     @Column(name = "dashboard_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String title;
