@@ -1,5 +1,7 @@
 package com.sam.dataviewer.controller;
 
+import com.sam.dataviewer.domain.Order;
+import com.sam.dataviewer.form.OrderForm;
 import com.sam.dataviewer.repository.OrderRepository;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,9 @@ public class OrderController {
         if (result.hasErrors()) {
             return "order/orderForm";
         }
+
+        Order order = new Order();
+
 
         return "redirect:/";
     }

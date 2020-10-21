@@ -30,7 +30,7 @@ public class MemberService {
     * 아이디 중복 검증
     */
     private void validateUserId(Member member) {
-        Member existingMember = memberRepository.findByUserId(member.getUserId());
+        Member existingMember = memberRepository.findByUsername(member.getUsername());
         if (existingMember != null) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }
