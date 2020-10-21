@@ -22,7 +22,6 @@ public class Member implements UserDetails {
     @GeneratedValue
     private Long Id;
 
-    @Column(name = "user_name")
     private String username;
 
     private String password;

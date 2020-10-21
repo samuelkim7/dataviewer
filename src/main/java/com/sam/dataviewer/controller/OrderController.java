@@ -35,7 +35,6 @@ public class OrderController {
 
         Order order = new Order();
 
-
         return "redirect:/";
     }
 }
