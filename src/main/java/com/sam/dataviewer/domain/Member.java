@@ -42,6 +42,15 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    /*
+    * 생성 메서드
+    */
+    public static Member createMember(String username) {
+        Member member = new Member();
+        member.username =
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));

@@ -21,6 +21,7 @@ public class MemberService {
     */
     @Transactional
     public Long join(Member member) {
+        Member.createMember()
         validateUsername(member);
         memberRepository.save(member);
         return member.getId();
