@@ -21,7 +21,7 @@ public class OrderController {
     private final OrderRepository orderRepository;
 
     @GetMapping("/order/new")
-    public String orderForm(Model model) {
+    public String createForm(Model model) {
         model.addAttribute("orderForm", new OrderForm());
         return "order/orderForm";
     }

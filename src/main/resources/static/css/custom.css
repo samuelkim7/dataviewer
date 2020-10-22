@@ -1,3 +1,9 @@
 .fieldError {
     border-color: #bd2130;
 }
+
+.login {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 10px 50px;
+}

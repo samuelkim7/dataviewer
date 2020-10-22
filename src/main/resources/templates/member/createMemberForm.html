@@ -20,15 +20,15 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col"></div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <br><br>
                         <h2 class="text-center my-5">DATAVIEWER</h2>
 
                         <div class="alert alert-danger" th:if="${param.error}">
-                            존재하지 않는 아이디이거나 비밀번호가 틀립니다.
+                            Invalid credentials
                         </div>
 
-                        <form method="post" th:action="@{/login}">
+                        <form method="post" th:object="" th:action="@{/login}">
 
                             <div class="form-group text-left">
                                 <input type="text" class="form-control" name="username" id="username"
