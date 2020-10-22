@@ -57,8 +57,8 @@
                             </div>
 
                             <div class="form-group text-left">
-                                <label th:for="name">생년월일</label>
-                                <input type="text" th:field="*{birthDate}" class="form-control" placeholder="yyyy-MM-dd">
+                                <label th:for="name">생년월일 (형식: yyyy-MM-dd)</label>
+                                <input type="text" th:field="*{birthDate}" class="form-control" placeholder="1900-01-01 (예시)">
                                 <p class="errorMsg" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></p>
                             </div>
 

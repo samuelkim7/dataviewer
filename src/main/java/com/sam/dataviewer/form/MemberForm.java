@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter @Setter
 public class MemberForm {
@@ -29,7 +29,7 @@ public class MemberForm {
     private String phoneNumber;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     private String address;
 }

@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public class Member implements UserDetails {
     private String phoneNumber;
 
     @Column(name = "birth_date")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     private String address;
 
@@ -51,7 +51,7 @@ public class Member implements UserDetails {
     public static Member createMember(
             String username, String encodedPassword,
             String name, String email,
-            String phoneNumber, LocalDateTime birthDate,
+            String phoneNumber, LocalDate birthDate,
             String address
     ) {
         Member member = new Member();
