@@ -22,11 +22,7 @@
                     <div class="col"></div>
                     <div class="col-5">
                         <br><br>
-                        <h2 class="text-center my-5">DATAVIEWER</h2>
-
-                        <div class="alert alert-danger" th:if="${param.error}">
-                            존재하지 않는 아이디이거나 비밀번호가 틀립니다.
-                        </div>
+                        <h2 class="text-center my-5 logo">DATAVIEWER</h2>
 
                         <form method="post" th:action="@{/login}">
 
@@ -34,13 +30,15 @@
                                 <input type="text" class="form-control" name="username" id="username"
                                        placeholder="아이디" autocomplete="off">
                             </div>
-
                             <div class="form-group text-left">
                                 <input type="password" class="form-control" name="password" id="password"
                                        placeholder="비밀번호">
                             </div>
+                            <div class="alert alert-danger" th:if="${param.error}">
+                                존재하지 않는 아이디이거나 비밀번호가 틀립니다.
+                            </div>
                             <div class="text-right">
-                            <button class="btn btn-success login">로그인</button>
+                                <button class="btn btn-success login mb-5">로그인</button>
                             </div>
                         </form>
                     </div>

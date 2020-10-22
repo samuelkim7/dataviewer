@@ -3,7 +3,6 @@ package com.sam.dataviewer.controller;
 import com.sam.dataviewer.form.MemberForm;
 import com.sam.dataviewer.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +16,11 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/member/new")
     public String createForm(Model model) {

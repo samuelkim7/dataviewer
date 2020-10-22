@@ -2,6 +2,7 @@ package com.sam.dataviewer.form;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -20,13 +21,14 @@ public class MemberForm {
     @NotEmpty(message = "필수 정보입니다.")
     private String name;
 
+    @NotEmpty(message = "필수 정보입니다.")
     @Email(message = "이메일 형식을 맞춰서 입력해주세요.")
     private String email;
 
     @NotEmpty(message = "필수 정보입니다.")
     private String phoneNumber;
 
-    @NotEmpty(message = "필수 정보입니다.")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDateTime birthDate;
 
     private String address;
