@@ -4,6 +4,7 @@ import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.form.MemberForm;
 import com.sam.dataviewer.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +17,24 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /*
     * 회원 가입
     */
     @Transactional
-    public Long join(MemberForm memberForm) {
-        Member.createMember();
-        validateUsername(member);
+    public Long join(MemberForm form) {
+        //회원 아이디 중복 확인
+        validateUsername(form.getUsername());
+
+        //password 암호화
+        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        Member member = Member.createMember(
+                form.getUsername(), encodedPassword,
+                form.getName(), form.getEmail(),
+                form.getPhoneNumber(), form.getBirthDate(),
+                form.getAddress()
+        );
         memberRepository.save(member);
         return member.getId();
     }
@@ -31,8 +42,8 @@ public class MemberService {
     /*
     * 아이디 중복 검증
     */
-    private void validateUsername(Member member) {
-        Member existingMember = memberRepository.findByUsername(member.getUsername());
+    private void validateUsername(String username) {
+        Member existingMember = memberRepository.findByUsername(username);
         if (existingMember != null) {
             throw new IllegalStateException("이미 존재하는 아이디입니다.");
         }

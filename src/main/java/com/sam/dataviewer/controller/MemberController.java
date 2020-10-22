@@ -32,7 +32,8 @@ public class MemberController {
         try {
             memberService.join(memberForm);
         } catch (IllegalStateException e) {
-
+            bindingResult.rejectValue("username", "duplication", "이미 존재하는 아이디입니다.");
         }
+        return "/";
     }
 }

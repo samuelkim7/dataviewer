@@ -42,8 +42,6 @@ public class Member implements UserDetails {
 
     private String address;
 
-    private String zipcode;
-
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
@@ -51,20 +49,19 @@ public class Member implements UserDetails {
     * 생성 메서드
     */
     public static Member createMember(
-            String username, String password,
+            String username, String encodedPassword,
             String name, String email,
             String phoneNumber, LocalDateTime birthDate,
-            String address, String zipcode
+            String address
     ) {
         Member member = new Member();
         member.username = username;
-        member.password = password;
+        member.password = encodedPassword;
         member.name = name;
         member.email = email;
         member.phoneNumber = phoneNumber;
         member.birthDate = birthDate;
         member.address = address;
-        member.zipcode = zipcode;
         return member;
     }
 

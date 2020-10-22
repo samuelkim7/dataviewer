@@ -30,6 +30,4 @@ public class MemberForm {
     private LocalDateTime birthDate;
 
     private String address;
-
-    private String zipcode;
 }
