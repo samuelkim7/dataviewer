@@ -22,13 +22,9 @@
                     <div class="col"></div>
                     <div class="col-4">
                         <br><br>
-                        <h2 class="text-center my-5">DATAVIEWER</h2>
+                        <h2 class="text-center my-5 logo" >DATAVIEWER</h2>
 
-                        <div class="alert alert-danger" th:if="${param.error}">
-                            Invalid credentials
-                        </div>
-
-                        <form method="post" th:object="" th:action="@{/login}">
+                        <form action="/member/new" th:object="${memberForm}" method="post">
 
                             <div class="form-group text-left">
                                 <input type="text" class="form-control" name="username" id="username"

@@ -1,6 +1,7 @@
 package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Member;
+import com.sam.dataviewer.form.MemberForm;
 import com.sam.dataviewer.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,8 @@ public class MemberService {
     * 회원 가입
     */
     @Transactional
-    public Long join(Member member) {
-        Member.createMember()
+    public Long join(MemberForm memberForm) {
+        Member.createMember();
         validateUsername(member);
         memberRepository.save(member);
         return member.getId();

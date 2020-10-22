@@ -25,12 +25,14 @@ public class MemberController {
     }
 
     @PostMapping("/member/new")
-    public String createMember(@Valid MemberForm form, BindingResult bindingResult) {
+    public String createMember(@Valid MemberForm memberForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "member/createMemberForm";
         }
         try {
-            memberService.join()
+            memberService.join(memberForm);
+        } catch (IllegalStateException e) {
+
         }
     }
 }

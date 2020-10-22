@@ -1,6 +1,8 @@
 package com.sam.dataviewer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Entity
 @Getter
+// 기본 생성자 protected로 접근 제한
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member implements UserDetails {
     private static final long serialVersionUID = 1l;
 
@@ -30,10 +34,11 @@ public class Member implements UserDetails {
 
     private String email;
 
-    private String phone;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "birth_date")
-    private LocalDateTime birthdate;
+    private LocalDateTime birthDate;
 
     private String address;
 
@@ -45,11 +50,23 @@ public class Member implements UserDetails {
     /*
     * 생성 메서드
     */
-    public static Member createMember(String username) {
+    public static Member createMember(
+            String username, String password,
+            String name, String email,
+            String phoneNumber, LocalDateTime birthDate,
+            String address, String zipcode
+    ) {
         Member member = new Member();
-        member.username =
+        member.username = username;
+        member.password = password;
+        member.name = name;
+        member.email = email;
+        member.phoneNumber = phoneNumber;
+        member.birthDate = birthDate;
+        member.address = address;
+        member.zipcode = zipcode;
+        return member;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
