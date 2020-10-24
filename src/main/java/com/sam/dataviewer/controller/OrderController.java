@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,5 +39,14 @@ public class OrderController {
 
         orderService.order(principal, orderForm);
         return "redirect:/orders";
+    }
+
+    @GetMapping("/orders")
+    public String orderList(@RequestParam("principal") String principal, Model model) {
+        model.getAttribute("principal");
+        List<Order> orders = orderService.findOrders(principal);
+        model.addAttribute("orders", orders);
+
+        return "order/orderList";
     }
 }

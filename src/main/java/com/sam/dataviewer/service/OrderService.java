@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -30,4 +32,8 @@ public class OrderService {
         return order.getId();
     }
 
+    public List<Order> findOrders(String username) {
+        Member member = memberRepository.findByUsername(username);
+        return orderRepository.findAllByMember(member);
+    }
 }
