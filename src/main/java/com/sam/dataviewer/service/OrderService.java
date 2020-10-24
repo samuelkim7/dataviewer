@@ -32,8 +32,19 @@ public class OrderService {
         return order.getId();
     }
 
-    public List<Order> findOrders(String username) {
+    /* 주문 전체 조회 */
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    /* 주문 한 건 조회 */
+    public Order findOne(Long orderId){
+        return orderRepository.getOne(orderId);
+    }
+
+    /* 회원 아이디 별 주문 전체 조회 */
+    public List<Order> findOrdersByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
-        return orderRepository.findAllByMember(member);
+        return orderRepository.findByMemberOrderByIdDesc(member);
     }
 }

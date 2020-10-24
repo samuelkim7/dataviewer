@@ -19,9 +19,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    /*
-    * 회원 가입
-    */
+    /* 회원 가입 */
     @Transactional
     public Long join(MemberForm form) {
         //회원 아이디 중복 확인
@@ -40,9 +38,7 @@ public class MemberService {
         return member.getId();
     }
 
-    /*
-    * 아이디 중복 검증
-    */
+    /* 아이디 중복 검증 */
     private void validateUsername(String username) {
         Member existingMember = memberRepository.findByUsername(username);
         if (existingMember != null) {
@@ -50,16 +46,12 @@ public class MemberService {
         }
     }
 
-    /*
-    * 회원 전체 조회
-    */
+    /* 회원 전체 조회 */
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
 
-    /*
-    * 회원 한 명 조회
-    */
+    /* 회원 한 명 조회 */
     public Member findOne(Long memberId){
         return memberRepository.getOne(memberId);
     }

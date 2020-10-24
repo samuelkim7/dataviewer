@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -44,9 +41,16 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderList(Principal principal, Model model) {
-        List<Order> orders = orderService.findOrders(principal.getName());
+        List<Order> orders = orderService.findOrdersByUsername(principal.getName());
         model.addAttribute("orders", orders);
 
         return "order/orderList";
+    }
+
+    @GetMapping("/order/orderDetail/{id}")
+    public String orderDetail(@PathVariable Long id, Model model){
+        Order order = orderService.findOne(id);
+        model.addAttribute("order", order);
+        return "order/orderDetail";
     }
 }
