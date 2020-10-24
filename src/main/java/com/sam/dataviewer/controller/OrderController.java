@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -18,23 +19,23 @@ import javax.validation.Valid;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
 
     @GetMapping("/order/new")
     public String createForm(Model model) {
         model.addAttribute("orderForm", new OrderForm());
-        return "order/orderForm";
+        return "order/createOrderForm";
     }
 
     @PostMapping("/order/new")
-    public String createOrder(@Valid OrderForm form, BindingResult result) {
+    public String createOrder(@RequestParam("principal") String principal,
+                              @Valid OrderForm orderForm,
+                              BindingResult result) {
 
         if (result.hasErrors()) {
-            return "order/orderForm";
+            return "order/createOrderForm";
         }
 
-        Order order = new Order();
-
-        return "redirect:/";
+        orderService.order(principal, orderForm);
+        return "redirect:/orders";
     }
 }

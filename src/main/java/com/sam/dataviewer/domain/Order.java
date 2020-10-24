@@ -1,6 +1,8 @@
 package com.sam.dataviewer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -13,6 +15,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id
@@ -34,17 +37,23 @@ public class Order {
 
     private String file;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status;   // WAIT, ORDER, CANCEL
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Estimate> estimates = new ArrayList<>();
+
+    /* 연관관계 메서드 */
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
 
     /*
     * 생성 메서드
@@ -52,5 +61,17 @@ public class Order {
       그리고 dashboard의 경우 연관관계의 주인을 dashboard로 지정하는 것이 좋을 듯 하다. 왜냐하면 order 생성시
       꼭 dashboard id가 있을 필요가 없기 때문이다. order 생성 후 결제가 이루어지면 그 때 dashboard가 생성되면 되기 때문임
      */
-//    public static Order createOrder()
+    public static Order createOrder(
+            Member member, String title,
+            String content, String file
+    ) {
+        Order order = new Order();
+        order.setMember(member);
+        order.title = title;
+        order.content = content;
+        order.file = file;
+        order.createdAt = LocalDateTime.now();
+        order.status = OrderStatus.WAIT;
+        return order;
+    }
 }

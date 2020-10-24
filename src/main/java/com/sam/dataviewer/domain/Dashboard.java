@@ -20,11 +20,11 @@ public class Dashboard {
 
     private String content;
 
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "dashboard")
     private List<Figure> figures = new ArrayList<>();

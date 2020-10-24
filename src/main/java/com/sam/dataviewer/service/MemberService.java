@@ -29,6 +29,7 @@ public class MemberService {
 
         //password 암호화
         String encodedPassword = passwordEncoder.encode(form.getPassword());
+
         Member member = Member.createMember(
                 form.getUsername(), encodedPassword,
                 form.getName(), form.getEmail(),
