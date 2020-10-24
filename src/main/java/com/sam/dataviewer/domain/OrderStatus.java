@@ -1,5 +1,5 @@
 package com.sam.dataviewer.domain;
 
 public enum OrderStatus {
-    WAIT, ORDER, CANCEL
+    WAIT, ORDER, COMPLETE, CANCEL
 }

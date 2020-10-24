@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,7 +30,7 @@ public class OrderController {
     }
 
     @PostMapping("/order/new")
-    public String createOrder(@RequestParam("principal") String principal,
+    public String createOrder(Principal principal,
                               @Valid OrderForm orderForm,
                               BindingResult result) {
 
@@ -37,14 +38,13 @@ public class OrderController {
             return "order/createOrderForm";
         }
 
-        orderService.order(principal, orderForm);
+        orderService.order(principal.getName(), orderForm);
         return "redirect:/orders";
     }
 
     @GetMapping("/orders")
-    public String orderList(@RequestParam("principal") String principal, Model model) {
-        model.getAttribute("principal");
-        List<Order> orders = orderService.findOrders(principal);
+    public String orderList(Principal principal, Model model) {
+        List<Order> orders = orderService.findOrders(principal.getName());
         model.addAttribute("orders", orders);
 
         return "order/orderList";

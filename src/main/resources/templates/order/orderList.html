@@ -22,25 +22,33 @@
                     <div class="col"></div>
                     <div class="col-8">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">분석 의뢰 신청</h1>
+                            <h1 class="h3 mb-0 text-gray-800">나의 의뢰</h1>
                         </div>
 
-                        <form role="form" action="/order/new" th:object="${orderForm}" method="post">
-                            <div class="form-group">
-                                <label th:for="title">제목</label>
-                                <input type="text" th:field="*{title}" class="form-control">
-                                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
-                            </div>
-                            <div class="form-group">
-                                <label th:for="content">의뢰 사항</label>
-                                <textarea th:field="*{content}" cols="30" rows="15" class="form-control"></textarea>
-                                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
-                            </div>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>의뢰 제목</th>
+                                <th>요청 일시</th>
+                                <th>상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}" th:with="num=1">
+                                <td th:text="${num}"></td>
+                                <td> <a th:text="${order.title}" href="/order/orderDetail"></a></td>
+                                <td th:text="${order.createdAt}"></td>
+                                <td th:switch="${order.status.name()}">
+                                    <span th:case="'WAIT'">대기중</span>
+                                    <span th:case="'ORDER'">분석중</span>
+                                    <span th:case="'COMPLETE'">분석 완료</span>
+                                    <span th:case="'CANCEL'">취소</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                            <input type="hidden" name="principal" th:value="${principal}">
-
-                            <button type="submit" class="btn btn-primary">신청하기</button>
-                        </form>
                     </div>
                     <div class="col"></div>
                 </div>

@@ -34,7 +34,7 @@
 
                             <div class="form-group text-left">
                                 <label th:for="name">비밀번호</label>
-                                <input type="text" th:field="*{password}" class="form-control">
+                                <input type="password" th:field="*{password}" class="form-control">
                                 <p class="errorMsg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                             </div>
 
