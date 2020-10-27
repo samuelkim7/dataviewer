@@ -4,6 +4,7 @@ import com.sam.dataviewer.form.OrderForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter
+@DynamicUpdate   // Dirty Checking 시 변경된 field만 update
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
@@ -89,6 +91,8 @@ public class Order {
         return form;
     }
 
+    /* 의뢰 수정 */
+    // Form Object에서 가져온 정보 사용. Dirty Checking을 통한 수정
     public void update(String title, String content, String file) {
         this.title = title;
         this.content = content;
