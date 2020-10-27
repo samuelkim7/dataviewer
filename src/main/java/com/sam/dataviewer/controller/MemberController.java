@@ -3,6 +3,7 @@ package com.sam.dataviewer.controller;
 import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.dto.PasswordDto;
 import com.sam.dataviewer.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -53,8 +54,38 @@ public class MemberController {
     }
 
     @PostMapping("/member/update")
-    public String updateMember(@Valid MemberDto memberDto) {
+    public String updateMember(@Valid MemberDto memberDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "member/memberDetail";
+        }
         memberService.updateMember(memberDto);
         return "redirect:/member/memberDetail";
+    }
+
+    @GetMapping("/member/updatePassword")
+    public String updateForm(Model model) {
+        model.addAttribute("passwordDto", new PasswordDto());
+        return "member/updatePasswordForm";
+    }
+
+    @PostMapping("/member/updatePassword")
+    public String updatePassword(
+            Principal principal,
+            @Valid PasswordDto passwordDto,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "member/updatePasswordForm";
+        }
+        try {
+            memberService.updatePassword(principal.getName(), passwordDto);
+        } catch (IllegalStateException e) {
+            bindingResult.rejectValue("currentPassword", "discord", "기존 비밀번호가 틀렸습니다.");
+            return "member/updatePasswordForm";
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("confirmPassword", "discord", "재확인용 비밀번호가 일치하지 않습니다.");
+            return "member/updatePasswordForm";
+        }
+        return "redirect:/login";
     }
 }

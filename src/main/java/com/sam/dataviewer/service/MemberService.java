@@ -2,6 +2,7 @@ package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.dto.MemberDto;
+import com.sam.dataviewer.dto.PasswordDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,7 +43,7 @@ public class MemberService {
     private void validateUsername(String username) {
         Member existingMember = memberRepository.findByUsername(username);
         if (existingMember != null) {
-            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+            throw new IllegalStateException("아이디 중복");
         }
     }
 
@@ -75,4 +76,35 @@ public class MemberService {
                 dto.getBirthDate(), dto.getAddress()
         );
     }
+
+    /* 비밀번호 변경 */
+    @Transactional
+    public void updatePassword(String username, PasswordDto dto) {
+        Member member = memberRepository.findByUsername(username);
+
+        // 기존 비밀번호 확인
+        validateCurrentPassword(dto.getCurrentPassword(), member.getPassword());
+
+        //새 비밀번호 재확인
+        validateConfirmPassword(dto.getNewPassword(), dto.getConfirmPassword());
+
+        //password 암호화
+        String encodedPassword = passwordEncoder.encode(dto.getNewPassword());
+        member.updatePassword(encodedPassword);
+    }
+
+    /* 기존 비밀번호 검증 */
+    private void validateCurrentPassword(String currentPassword, String encodedPassword) {
+        if(!passwordEncoder.matches(currentPassword, encodedPassword)) {
+            throw new IllegalStateException("비밀번호 틀림");
+        }
+    }
+
+    /* 비밀번호 재확인 검증 */
+    private void validateConfirmPassword(String newPassword, String confirmPassword) {
+        if(!newPassword.equals(confirmPassword)) {
+            throw new IllegalArgumentException("비밀번호 재확인 실패");
+        }
+    }
+
 }
