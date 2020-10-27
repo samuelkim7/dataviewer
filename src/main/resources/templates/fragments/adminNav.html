@@ -21,36 +21,15 @@
         </div>
     </form>
 
-    <!-- 회원 가입, 로그인 버튼 -->
-    <ul class="float-right navbar-nav" th:if="${principal == null}">
-        <li class="nav-item active">
-            <a href="/member/new" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-flag"></i>
-                    </span>
-                <span class="text">회원 가입</span>
-            </a>
-            &nbsp;&nbsp;
-        </li>
-        <li class="nav-item active">
-            <a href="/login" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-check"></i>
-                    </span>
-                <span class="text">로그인</span>
-            </a>
-        </li>
-    </ul>
-
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto" th:if="${principal != null}">
 
-        <li class="nav-item active mt-3" sec:authrize="hasRole('ROLE_ADMIN')">
+        <li class="nav-item active mt-3">
             <a href="/admin" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-flag"></i>
                     </span>
-                <span class="text">관리자 페이지로</span>
+                <span class="text">관리자 페이지</span>
             </a>
         </li>
 
@@ -63,10 +42,6 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/member/memberDetail">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    회원 정보
-                </a>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     알림
