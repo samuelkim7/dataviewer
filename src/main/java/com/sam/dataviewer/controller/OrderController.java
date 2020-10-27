@@ -41,17 +41,22 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderList(Principal principal, Model model) {
-        List<Order> orders = orderService.findOrdersByUsername(principal.getName());
-        model.addAttribute("orders", orders);
-
+        List<OrderForm> orderForms = orderService.findOrdersByUsername(principal.getName());
+        model.addAttribute("orderForms", orderForms);
         return "order/orderList";
     }
 
     @GetMapping("/order/orderDetail/{id}")
     public String orderDetail(@PathVariable Long id, Model model){
-        Order order = orderService.findOne(id);
-        model.addAttribute("order", order);
+        OrderForm orderForm = orderService.findOne(id);
+        model.addAttribute("orderForm", orderForm);
         return "order/orderDetail";
+    }
+
+    @PostMapping("/order/update")
+    public String updateOrder(@Valid OrderForm orderForm) {
+        orderService.updateOrder(orderForm);
+        return "redirect:/orders";
     }
 
     @GetMapping("/order/cancel/{id}")

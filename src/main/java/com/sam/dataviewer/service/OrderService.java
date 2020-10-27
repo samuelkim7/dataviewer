@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,26 +33,40 @@ public class OrderService {
         return order.getId();
     }
 
-    /* 주문 전체 조회 */
+    /* 의뢰 전체 조회 */
     public List<Order> findAll() {
         return orderRepository.findAll();
     }
 
-    /* 주문 한 건 조회 */
-    public Order findOne(Long orderId){
-        return orderRepository.getOne(orderId);
+    /* 의뢰 한 건 조회 */
+    public OrderForm findOne(Long orderId){
+        Order order = orderRepository.getOne(orderId);
+        return order.toForm();
     }
 
-    /* 회원 아이디 별 주문 전체 조회 */
-    public List<Order> findOrdersByUsername(String username) {
+    /* 회원 아이디 별 의뢰 전체 조회 */
+    public List<OrderForm> findOrdersByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
-        return orderRepository.findByMemberOrderByIdDesc(member);
+        List<Order> orders = orderRepository.findByMemberOrderByIdDesc(member);
+        List<OrderForm> orderForms = new ArrayList<>();
+        for (Order order : orders) {
+            OrderForm form = order.toForm();
+            orderForms.add(form);
+        }
+        return orderForms;
     }
 
-    /* 주문 취소 */
+    /* 의뢰 취소 */
     @Transactional
     public void cancelOrder(Long id) {
         Order order = orderRepository.getOne(id);
         order.cancel();
+    }
+
+    /* 의뢰 수정 */
+    @Transactional
+    public void updateOrder(OrderForm form) {
+        Order order = orderRepository.getOne(form.getId());
+        order.update(form.getTitle(), form.getContent(), form.getFile());
     }
 }

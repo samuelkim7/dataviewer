@@ -35,16 +35,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="order, iterator : ${orders}" th:id="'id_' + ${order.id}">
+                            <tr th:each="form, iterator : ${orderForms}" th:id="'id_' + ${form.id}">
                                 <td th:text="${iterator.index+1}"></td>
-                                <td> <a th:text="${order.title}" th:href="@{'/order/orderDetail/' + ${order.id}}"></a></td>
-                                <td th:switch="${order.status.name()}">
+                                <td> <a th:text="${form.title}" th:href="@{'/order/orderDetail/' + ${form.id}}"></a></td>
+                                <td th:switch="${form.status.name()}">
                                     <span th:case="'WAIT'">대기중</span>
                                     <span th:case="'ORDER'">분석중</span>
                                     <span th:case="'COMPLETE'">분석 완료</span>
                                     <span th:case="'CANCEL'">취소</span>
                                 </td>
-                                <td th:text="${order.createdAt}"></td>
+                                <td th:text="${form.createdAt}"></td>
                             </tr>
                             </tbody>
                         </table>

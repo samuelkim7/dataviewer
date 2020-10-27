@@ -1,5 +1,6 @@
 package com.sam.dataviewer.domain;
 
+import com.sam.dataviewer.form.OrderForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,12 +57,7 @@ public class Order {
         member.getOrders().add(this);
     }
 
-    /*
-    * 생성 메서드
-      order 생성시 회원 id가 있어야 한다. 이를 위해서는 session을 사용하여 로그인된 회원의 id를 갖고 있어야 한다.
-      그리고 dashboard의 경우 연관관계의 주인을 dashboard로 지정하는 것이 좋을 듯 하다. 왜냐하면 order 생성시
-      꼭 dashboard id가 있을 필요가 없기 때문이다. order 생성 후 결제가 이루어지면 그 때 dashboard가 생성되면 되기 때문임
-     */
+    /* 생성 메서드 */
     public static Order createOrder(
             Member member, String title,
             String content, String file
@@ -76,7 +72,26 @@ public class Order {
         return order;
     }
 
+    /* 의뢰 취소 */
     public void cancel() {
         this.status = OrderStatus.CANCEL;
+    }
+
+    /* Form Object로 변환 */
+    public OrderForm toForm() {
+        OrderForm form = new OrderForm();
+        form.setId(this.getId());
+        form.setTitle(this.getTitle());
+        form.setContent(this.getContent());
+        form.setCreatedAt(this.getCreatedAt());
+        form.setFile(this.getFile());
+        form.setStatus(this.getStatus());
+        return form;
+    }
+
+    public void update(String title, String content, String file) {
+        this.title = title;
+        this.content = content;
+        this.file = file;
     }
 }
