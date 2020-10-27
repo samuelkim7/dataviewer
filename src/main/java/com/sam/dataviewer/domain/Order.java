@@ -75,4 +75,8 @@ public class Order {
         order.status = OrderStatus.WAIT;
         return order;
     }
+
+    public void cancel() {
+        this.status = OrderStatus.CANCEL;
+    }
 }

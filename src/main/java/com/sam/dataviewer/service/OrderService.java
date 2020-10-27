@@ -47,4 +47,11 @@ public class OrderService {
         Member member = memberRepository.findByUsername(username);
         return orderRepository.findByMemberOrderByIdDesc(member);
     }
+
+    /* 주문 취소 */
+    @Transactional
+    public void cancelOrder(Long id) {
+        Order order = orderRepository.getOne(id);
+        order.cancel();
+    }
 }

@@ -53,4 +53,10 @@ public class OrderController {
         model.addAttribute("order", order);
         return "order/orderDetail";
     }
+
+    @GetMapping("/order/cancel/{id}")
+    public String cancelOrder(@PathVariable Long id) {
+        orderService.cancelOrder(id);
+        return "redirect:/orders";
+    }
 }
