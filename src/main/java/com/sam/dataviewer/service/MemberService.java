@@ -21,18 +21,18 @@ public class MemberService {
 
     /* 회원 가입 */
     @Transactional
-    public Long join(MemberDto Dto) {
+    public Long join(MemberDto dto) {
         //회원 아이디 중복 확인
-        validateUsername(Dto.getUsername());
+        validateUsername(dto.getUsername());
 
         //password 암호화
-        String encodedPassword = passwordEncoder.encode(Dto.getPassword());
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
         Member member = Member.createMember(
-                Dto.getUsername(), encodedPassword,
-                Dto.getName(), Dto.getEmail(),
-                Dto.getPhoneNumber(), Dto.getBirthDate(),
-                Dto.getAddress()
+                dto.getUsername(), encodedPassword,
+                dto.getName(), dto.getEmail(),
+                dto.getPhoneNumber(), dto.getBirthDate(),
+                dto.getAddress()
         );
         memberRepository.save(member);
         return member.getId();
@@ -54,5 +54,25 @@ public class MemberService {
     /* 회원 한 명 조회 */
     public Member findOne(Long memberId){
         return memberRepository.getOne(memberId);
+    }
+
+    /* 회원 아이디로 조회 */
+    public MemberDto findOne(String username) {
+        Member member = memberRepository.findByUsername(username);
+        return member.toDto();
+    }
+
+    /* 회원 정보 수정 */
+    @Transactional
+    public void updateMember(MemberDto dto) {
+        //password 암호화
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+
+        Member member = memberRepository.findByUsername(dto.getUsername());
+        member.update(
+                encodedPassword, dto.getName(),
+                dto.getEmail(), dto.getPhoneNumber(),
+                dto.getBirthDate(), dto.getAddress()
+        );
     }
 }

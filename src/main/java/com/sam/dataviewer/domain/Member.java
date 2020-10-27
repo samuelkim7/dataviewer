@@ -1,5 +1,6 @@
 package com.sam.dataviewer.domain;
 
+import com.sam.dataviewer.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -88,5 +89,31 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    /* dto Object로 변환 */
+    public MemberDto toDto() {
+        MemberDto dto = new MemberDto();
+        dto.setUsername(this.getUsername());
+        dto.setName(this.getName());
+        dto.setEmail(this.email);
+        dto.setPhoneNumber(this.getPhoneNumber());
+        dto.setBirthDate(this.getBirthDate());
+        dto.setAddress(this.getAddress());
+        return dto;
+    }
+
+    /* 회원 정보 수정 */
+    public void update(
+            String encodedPassword, String name,
+            String email, String phoneNumber,
+            LocalDate birthDate, String address
+    ) {
+        this.password = encodedPassword;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.birthDate = birthDate;
+        this.address = address;
     }
 }

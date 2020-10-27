@@ -1,6 +1,8 @@
 package com.sam.dataviewer.controller;
 
+import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.dto.MemberDto;
+import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,5 +43,18 @@ public class MemberController {
             return "member/createMemberForm";
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/member/memberDetail")
+    public String memberDetail(Principal principal, Model model) {
+        MemberDto memberDto = memberService.findOne(principal.getName());
+        model.addAttribute("memberDto", memberDto);
+        return "member/memberDetail";
+    }
+
+    @PostMapping("/member/update")
+    public String updateMember(@Valid MemberDto memberDto) {
+        memberService.updateMember(memberDto);
+        return "redirect:/member/memberDetail";
     }
 }

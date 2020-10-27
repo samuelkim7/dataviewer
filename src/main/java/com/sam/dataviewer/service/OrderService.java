@@ -66,8 +66,8 @@ public class OrderService {
 
     /* 의뢰 수정 */
     @Transactional
-    public void updateOrder(OrderDto Dto) {
-        Order order = orderRepository.getOne(Dto.getId());
-        order.update(Dto.getTitle(), Dto.getContent(), Dto.getFile());
+    public void updateOrder(OrderDto dto) {
+        Order order = orderRepository.getOne(dto.getId());
+        order.update(dto.getTitle(), dto.getContent(), dto.getFile());
     }
 }
