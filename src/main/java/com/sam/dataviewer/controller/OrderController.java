@@ -1,8 +1,6 @@
 package com.sam.dataviewer.controller;
 
-import com.sam.dataviewer.domain.Order;
-import com.sam.dataviewer.form.OrderForm;
-import com.sam.dataviewer.repository.OrderRepository;
+import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,41 +19,41 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/order/new")
-    public String createForm(Model model) {
-        model.addAttribute("orderForm", new OrderForm());
+    public String createDto(Model model) {
+        model.addAttribute("orderDto", new OrderDto());
         return "order/createOrderForm";
     }
 
     @PostMapping("/order/new")
     public String createOrder(Principal principal,
-                              @Valid OrderForm orderForm,
+                              @Valid OrderDto orderDto,
                               BindingResult result) {
 
         if (result.hasErrors()) {
             return "order/createOrderForm";
         }
 
-        orderService.order(principal.getName(), orderForm);
+        orderService.order(principal.getName(), orderDto);
         return "redirect:/orders";
     }
 
     @GetMapping("/orders")
     public String orderList(Principal principal, Model model) {
-        List<OrderForm> orderForms = orderService.findOrdersByUsername(principal.getName());
-        model.addAttribute("orderForms", orderForms);
+        List<OrderDto> orderDtos = orderService.findOrdersByUsername(principal.getName());
+        model.addAttribute("orderDtos", orderDtos);
         return "order/orderList";
     }
 
     @GetMapping("/order/orderDetail/{id}")
     public String orderDetail(@PathVariable Long id, Model model){
-        OrderForm orderForm = orderService.findOne(id);
-        model.addAttribute("orderForm", orderForm);
+        OrderDto orderDto = orderService.findOne(id);
+        model.addAttribute("orderDto", orderDto);
         return "order/orderDetail";
     }
 
     @PostMapping("/order/update")
-    public String updateOrder(@Valid OrderForm orderForm) {
-        orderService.updateOrder(orderForm);
+    public String updateOrder(@Valid OrderDto orderDto) {
+        orderService.updateOrder(orderDto);
         return "redirect:/orders";
     }
 

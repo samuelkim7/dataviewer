@@ -1,4 +1,4 @@
-package com.sam.dataviewer.form;
+package com.sam.dataviewer.dto;
 
 import com.sam.dataviewer.domain.OrderStatus;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class OrderForm {
+public class OrderDto {
 
     private Long id;
 

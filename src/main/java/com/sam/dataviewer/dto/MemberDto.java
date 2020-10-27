@@ -1,4 +1,4 @@
-package com.sam.dataviewer.form;
+package com.sam.dataviewer.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter @Setter
-public class MemberForm {
+public class MemberDto {
 
     @NotEmpty(message = "필수 정보입니다.")
     private String username;

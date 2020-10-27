@@ -1,11 +1,10 @@
 package com.sam.dataviewer.domain;
 
-import com.sam.dataviewer.form.OrderForm;
+import com.sam.dataviewer.dto.OrderDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
@@ -79,20 +78,20 @@ public class Order {
         this.status = OrderStatus.CANCEL;
     }
 
-    /* Form Object로 변환 */
-    public OrderForm toForm() {
-        OrderForm form = new OrderForm();
-        form.setId(this.getId());
-        form.setTitle(this.getTitle());
-        form.setContent(this.getContent());
-        form.setCreatedAt(this.getCreatedAt());
-        form.setFile(this.getFile());
-        form.setStatus(this.getStatus());
-        return form;
+    /* dto Object로 변환 */
+    public OrderDto toDto() {
+        OrderDto dto = new OrderDto();
+        dto.setId(this.getId());
+        dto.setTitle(this.getTitle());
+        dto.setContent(this.getContent());
+        dto.setCreatedAt(this.getCreatedAt());
+        dto.setFile(this.getFile());
+        dto.setStatus(this.getStatus());
+        return dto;
     }
 
     /* 의뢰 수정 */
-    // Form Object에서 가져온 정보 사용. Dirty Checking을 통한 수정
+    // dto Object에서 가져온 정보 사용. Dirty Checking을 통한 수정
     public void update(String title, String content, String file) {
         this.title = title;
         this.content = content;

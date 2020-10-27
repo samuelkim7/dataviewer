@@ -1,7 +1,7 @@
 package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Member;
-import com.sam.dataviewer.form.MemberForm;
+import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,18 +21,18 @@ public class MemberService {
 
     /* 회원 가입 */
     @Transactional
-    public Long join(MemberForm form) {
+    public Long join(MemberDto Dto) {
         //회원 아이디 중복 확인
-        validateUsername(form.getUsername());
+        validateUsername(Dto.getUsername());
 
         //password 암호화
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
+        String encodedPassword = passwordEncoder.encode(Dto.getPassword());
 
         Member member = Member.createMember(
-                form.getUsername(), encodedPassword,
-                form.getName(), form.getEmail(),
-                form.getPhoneNumber(), form.getBirthDate(),
-                form.getAddress()
+                Dto.getUsername(), encodedPassword,
+                Dto.getName(), Dto.getEmail(),
+                Dto.getPhoneNumber(), Dto.getBirthDate(),
+                Dto.getAddress()
         );
         memberRepository.save(member);
         return member.getId();

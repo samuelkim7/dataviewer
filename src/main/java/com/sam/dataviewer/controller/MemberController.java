@@ -1,6 +1,6 @@
 package com.sam.dataviewer.controller;
 
-import com.sam.dataviewer.form.MemberForm;
+import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,17 +24,17 @@ public class MemberController {
 
     @GetMapping("/member/new")
     public String createForm(Model model) {
-        model.addAttribute("memberForm", new MemberForm());
+        model.addAttribute("memberDto", new MemberDto());
         return "member/createMemberForm";
     }
 
     @PostMapping("/member/new")
-    public String createMember(@Valid MemberForm memberForm, BindingResult bindingResult) {
+    public String createMember(@Valid MemberDto memberDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "member/createMemberForm";
         }
         try {
-            memberService.join(memberForm);
+            memberService.join(memberDto);
         } catch (IllegalStateException e) {
             bindingResult.rejectValue("username", "duplication", "이미 존재하는 아이디입니다.");
             return "member/createMemberForm";

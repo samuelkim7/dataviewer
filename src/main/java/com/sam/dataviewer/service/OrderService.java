@@ -2,7 +2,8 @@ package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.Order;
-import com.sam.dataviewer.form.OrderForm;
+import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ public class OrderService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long order(String username, OrderForm form) {
+    public Long order(String username, OrderDto dto) {
         Member member = memberRepository.findByUsername(username);
 
         Order order = Order.createOrder(
-                member, form.getTitle(),
-                form.getContent(), form.getFile()
+                member, dto.getTitle(),
+                dto.getContent(), dto.getFile()
         );
 
         orderRepository.save(order);
@@ -39,21 +40,21 @@ public class OrderService {
     }
 
     /* 의뢰 한 건 조회 */
-    public OrderForm findOne(Long orderId){
+    public OrderDto findOne(Long orderId){
         Order order = orderRepository.getOne(orderId);
-        return order.toForm();
+        return order.toDto();
     }
 
     /* 회원 아이디 별 의뢰 전체 조회 */
-    public List<OrderForm> findOrdersByUsername(String username) {
+    public List<OrderDto> findOrdersByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
         List<Order> orders = orderRepository.findByMemberOrderByIdDesc(member);
-        List<OrderForm> orderForms = new ArrayList<>();
+        List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : orders) {
-            OrderForm form = order.toForm();
-            orderForms.add(form);
+            OrderDto dto = order.toDto();
+            orderDtos.add(dto);
         }
-        return orderForms;
+        return orderDtos;
     }
 
     /* 의뢰 취소 */
@@ -65,8 +66,8 @@ public class OrderService {
 
     /* 의뢰 수정 */
     @Transactional
-    public void updateOrder(OrderForm form) {
-        Order order = orderRepository.getOne(form.getId());
-        order.update(form.getTitle(), form.getContent(), form.getFile());
+    public void updateOrder(OrderDto Dto) {
+        Order order = orderRepository.getOne(Dto.getId());
+        order.update(Dto.getTitle(), Dto.getContent(), Dto.getFile());
     }
 }
