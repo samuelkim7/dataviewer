@@ -45,7 +45,7 @@
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto" th:if="${principal != null}">
 
-        <li class="nav-item active mt-3" sec:authrize="hasRole('ROLE_ADMIN')">
+        <li class="nav-item active mt-3" sec:authorize="hasRole('ADMIN')">
             <a href="/admin" class="btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                       <i class="fas fa-flag"></i>

@@ -1,6 +1,9 @@
 package com.sam.dataviewer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +12,8 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Estimate {
 
     @Id
@@ -35,4 +40,14 @@ public class Estimate {
 
     @Enumerated(EnumType.STRING)
     private EstimateStatus status;
+
+    /* 연관관계 메서드 */
+    public void setOrder(Order order) {
+        this.order = order;
+        order.getEstimates().add(this);
+    }
+
+    /* 생성 메서드 */
+    public static Estimate createEstimate() {
+    }
 }

@@ -19,7 +19,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/order/new")
-    public String createDto(Model model) {
+    public String createForm(Model model) {
         model.addAttribute("orderDto", new OrderDto());
         return "order/createOrderForm";
     }

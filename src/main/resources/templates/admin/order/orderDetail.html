@@ -43,11 +43,11 @@
 
                             <input type="hidden" th:field="*{id}" th:value="${orderDto.id}">
 
-                            <button type="submit" class="btn btn-primary mr-2" th:if="*{status.name() == 'WAIT'}">견적 작성</button>
+                            <button type="submit" class="btn btn-primary mr-2 mb-5" th:if="*{status.name() == 'WAIT'}">견적 작성</button>
                             <a class="btn btn-primary mr-2"
                                th:if="*{status.name() == 'ORDER' || status.name() == 'COMPLETE'}"
                                th:href="@{'/admin/estimateDetail/' + ${orderDto.id}}">견적 확인</a>
-                            <a class="btn btn-primary mr-2" href="/admin/orders">의뢰 목록</a>
+                            <a class="btn btn-primary mr-2 mb-5" href="/admin/orders">의뢰 목록</a>
                         </form>
                     </div>
                     <div class="col"></div>

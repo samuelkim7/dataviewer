@@ -44,7 +44,7 @@
                                     <span th:case="'COMPLETE'">분석 완료</span>
                                     <span th:case="'CANCEL'">취소</span>
                                 </td>
-                                <td th:text="${dto.createdAt}"></td>
+                                <td th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
                             </tr>
                             </tbody>
                         </table>

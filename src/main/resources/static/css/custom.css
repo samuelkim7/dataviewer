@@ -12,3 +12,7 @@
 .errorMsg {
     color: red;
 }
+
+.ck.ck-content {
+    height: 300px;
+}
