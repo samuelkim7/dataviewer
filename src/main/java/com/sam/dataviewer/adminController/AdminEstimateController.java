@@ -50,8 +50,8 @@ public class AdminEstimateController {
 
     @GetMapping("/estimate/estimateDetail/{id}")
     public String estimateDetail(@PathVariable Long id, Model model){
-        OrderDto orderDto = estimateService.findOne(id);
-        model.addAttribute("orderDto", orderDto);
+        EstimateDto estimateDto = estimateService.findOne(id);
+        model.addAttribute("estimateDto", estimateDto);
         return "admin/estimate/estimateDetail";
     }
 

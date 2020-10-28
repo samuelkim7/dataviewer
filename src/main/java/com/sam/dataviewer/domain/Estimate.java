@@ -1,5 +1,6 @@
 package com.sam.dataviewer.domain;
 
+import com.sam.dataviewer.dto.EstimateDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,5 +61,34 @@ public class Estimate {
         estimate.createdAt = LocalDateTime.now();
         estimate.status = EstimateStatus.OFFER;
         return estimate;
+    }
+
+    /* dto Object로 변환 */
+    public EstimateDto toDto() {
+        EstimateDto dto = new EstimateDto();
+        dto.setId(this.getId());
+        dto.setTitle(this.getTitle());
+        dto.setContent(this.getContent());
+        dto.setPrice(this.getPrice());
+        dto.setCreatedAt(this.getCreatedAt());
+        dto.setStatus(this.getStatus());
+        return dto;
+    }
+
+    /* 견적 수정 */
+    public void update(String title, String content, Long price) {
+        this.title = title;
+        this.content = content;
+        this.price = price;
+    }
+
+    /* 견적 취소 */
+    public void cancel() {
+        this.status = EstimateStatus.CANCEL;
+    }
+
+    /* 견적 승낙 */
+    public void accept() {
+        this.status = EstimateStatus.ACCEPT;
     }
 }

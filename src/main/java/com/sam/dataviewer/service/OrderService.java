@@ -34,7 +34,7 @@ public class OrderService {
         return order.getId();
     }
 
-    /* 의뢰 전체 조회 */
+    /* 의뢰 전체 조회 for ADMIN */
     public List<OrderDto> findAll() {
         List<Order> orders = orderRepository.findAll();
         List<OrderDto> orderDtos = new ArrayList<>();
@@ -45,12 +45,12 @@ public class OrderService {
     }
 
     /* 의뢰 한 건 조회 */
-    public OrderDto findOne(Long orderId){
-        Order order = orderRepository.getOne(orderId);
+    public OrderDto findOne(Long id){
+        Order order = orderRepository.getOne(id);
         return order.toDto();
     }
 
-    /* 회원 아이디 별 의뢰 전체 조회 */
+    /* 회원 아이디 별 의뢰 전체 조회 for USER */
     public List<OrderDto> findOrdersByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
         List<Order> orders = orderRepository.findByMemberOrderByIdDesc(member);
