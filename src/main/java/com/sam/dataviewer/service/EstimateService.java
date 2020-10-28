@@ -17,10 +17,14 @@ public class EstimateService {
     private final EstimateRepository estimateRepository;
     private final OrderRepository orderRepository;
 
-    public Long request(Long orderId, EstimateDto estimateDto) {
+    @Transactional
+    public Long request(Long orderId, EstimateDto dto) {
         Order order = orderRepository.getOne(orderId);
 
-        Estimate estimate = Estimate.createEstimate();
+        Estimate estimate = Estimate.createEstimate(
+                order, dto.getTitle(),
+                dto.getContent(), dto.getPrice()
+        );
 
         estimateRepository.save(estimate);
         return estimate.getId();

@@ -48,6 +48,17 @@ public class Estimate {
     }
 
     /* 생성 메서드 */
-    public static Estimate createEstimate() {
+    public static Estimate createEstimate(
+            Order order, String title,
+            String content, Long price
+    ) {
+        Estimate estimate = new Estimate();
+        estimate.setOrder(order);
+        estimate.title = title;
+        estimate.content = content;
+        estimate.price = price;
+        estimate.createdAt = LocalDateTime.now();
+        estimate.status = EstimateStatus.OFFER;
+        return estimate;
     }
 }
