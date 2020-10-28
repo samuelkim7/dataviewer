@@ -33,6 +33,8 @@ public class Estimate {
 
     private Long price;
 
+    private int duration;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -50,14 +52,15 @@ public class Estimate {
 
     /* 생성 메서드 */
     public static Estimate createEstimate(
-            Order order, String title,
-            String content, Long price
+            Order order, String title, String content,
+            Long price, int duration
     ) {
         Estimate estimate = new Estimate();
         estimate.setOrder(order);
         estimate.title = title;
         estimate.content = content;
         estimate.price = price;
+        estimate.duration = duration;
         estimate.createdAt = LocalDateTime.now();
         estimate.status = EstimateStatus.OFFER;
         return estimate;
@@ -70,6 +73,7 @@ public class Estimate {
         dto.setTitle(this.getTitle());
         dto.setContent(this.getContent());
         dto.setPrice(this.getPrice());
+        dto.setDuration(this.getDuration());
         dto.setCreatedAt(this.getCreatedAt());
         dto.setStatus(this.getStatus());
         return dto;

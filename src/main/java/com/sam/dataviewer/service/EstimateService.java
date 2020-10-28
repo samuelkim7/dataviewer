@@ -29,8 +29,8 @@ public class EstimateService {
         Order order = orderRepository.getOne(orderId);
 
         Estimate estimate = Estimate.createEstimate(
-                order, dto.getTitle(),
-                dto.getContent(), dto.getPrice()
+                order, dto.getTitle(), dto.getContent(),
+                dto.getPrice(), dto.getDuration()
         );
 
         estimateRepository.save(estimate);
@@ -76,8 +76,7 @@ public class EstimateService {
 
     /* 회원 아이디별 견적 전체 조회 for USER */
     public List<EstimateDto> findEstimatesByUsername(String username) {
-        Member member = memberRepository.findByUsername(username);
-        List<Estimate> estimates = estimateRepository.findByMemberOrderByIdDesc(member);
+        List<Estimate> estimates = estimateRepository.findByUsername(username);
         List<EstimateDto> estimateDtos = new ArrayList<>();
         for (Estimate estimate : estimates) {
             estimateDtos.add(estimate.toDto());

@@ -3,14 +3,12 @@ package com.sam.dataviewer.adminController;
 import com.sam.dataviewer.dto.EstimateDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.EstimateService;
+import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,16 +19,19 @@ import java.util.List;
 public class AdminEstimateController {
 
     private final EstimateService estimateService;
+    private final OrderService orderService;
 
     @GetMapping("/estimate/new")
     public String createForm(Model model) {
+        List<OrderDto> orderDtos = orderService.findAll();
+        model.addAttribute("orders", orderDtos);
         model.addAttribute("estimateDto", new EstimateDto());
         return "admin/estimate/createEstimateForm";
     }
 
-    @PostMapping("/estimate/new/{orderId}")
+    @PostMapping("/estimate/new")
     public String createEstimate(
-            @PathVariable Long orderId,
+            @RequestParam("orderId") Long orderId,
             @Valid EstimateDto estimateDto,
             BindingResult result
     ) {
