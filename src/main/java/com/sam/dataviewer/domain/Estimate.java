@@ -33,7 +33,7 @@ public class Estimate {
 
     private Long price;
 
-    private int duration;
+    private String duration;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -53,7 +53,7 @@ public class Estimate {
     /* 생성 메서드 */
     public static Estimate createEstimate(
             Order order, String title, String content,
-            Long price, int duration
+            Long price, String duration
     ) {
         Estimate estimate = new Estimate();
         estimate.setOrder(order);

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
@@ -18,11 +19,11 @@ public class EstimateDto {
     @NotEmpty(message = "견적 사항을 기입해주세요.")
     private String content;
 
-    @NotEmpty(message = "견적 금액을 기입해주세요.")
+    @NotNull(message = "견적 금액을 기입해주세요.")
     private Long price;
 
     @NotEmpty(message = "예상 소요 일자를 기입해주세요.")
-    private int duration;
+    private String duration;
 
     private LocalDateTime createdAt;
 
