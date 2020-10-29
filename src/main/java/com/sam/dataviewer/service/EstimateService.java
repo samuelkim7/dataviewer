@@ -83,4 +83,9 @@ public class EstimateService {
         }
         return estimateDtos;
     }
+
+    public OrderDto findOrder(Long id) {
+        Order order = estimateRepository.findOrderByEstimateId(id);
+        return order.toDto();
+    }
 }
