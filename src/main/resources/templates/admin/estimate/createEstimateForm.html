@@ -27,10 +27,14 @@
 
                         <form th:action="@{/admin/estimate/new}" th:object="${estimateDto}" method="post">
                             <div class="form-group">
-                                <label for="order">견적 대상</label>
-                                <select name="orderId" id="order" class="form-control">
+                                <label th:if="${orders}" for="orders">견적 대상</label>
+                                <select th:if="${orders}" id="orders" class="form-control">
                                     <option value="">선택</option>
-                                    <option th:each="order : ${orders}" th:value="${order.id}" th:text="${order.title}"/>
+                                    <option  th:each="order : ${orders}" th:value="${order.id}" th:text="${order.title}"/>
+                                </select>
+                                <label th:if="${order}" for="order">견적 대상</label>
+                                <select th:if="${order}" id="order" class="form-control">
+                                    <option th:value="${order.id}" th:text="${order.title}"/>
                                 </select>
                             </div>
 
