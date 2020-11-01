@@ -76,4 +76,9 @@ public class OrderService {
         Order order = orderRepository.getOne(dto.getId());
         order.update(dto.getTitle(), dto.getContent(), dto.getFile());
     }
+
+    public OrderDto findOrderByEstimateId(Long estimateId) {
+        Order order = orderRepository.findByEstimateId(estimateId);
+        return order.toDto();
+    }
 }

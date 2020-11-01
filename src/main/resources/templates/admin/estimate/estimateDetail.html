@@ -29,7 +29,8 @@
                             <div class="form-group">
                                 <label for="order">견적 대상</label>
                                 <a class="btn btn-primary" id="order"
-                                   th:href="@{'/admin/order/orderDetail/' + orderDto.id}">${orderDto.title}</a>
+                                   th:text="${orderDto.title}"
+                                   th:href="@{'/admin/order/orderDetail/' + ${orderDto.id}}"></a>
                             </div>
                             <div class="form-group">
                                 <label th:for="title">제목</label>

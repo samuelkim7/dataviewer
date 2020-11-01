@@ -11,4 +11,9 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByMemberOrderByIdDesc(Member member);
+
+    @Query("SELECT DISTINCT o FROM Order o " +
+            "JOIN o.estimates e " +
+            "WHERE e.id = :id")
+    Order findByEstimateId(@Param("id") Long estimateId);
 }
