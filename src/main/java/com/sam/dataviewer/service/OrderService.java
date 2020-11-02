@@ -38,7 +38,7 @@ public class OrderService {
 
     /* 의뢰 전체 조회 for ADMIN */
     public List<OrderDto> findAll() {
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderRepository.findByOrderByIdDesc();
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order : orders) {
             orderDtos.add(order.toDto());

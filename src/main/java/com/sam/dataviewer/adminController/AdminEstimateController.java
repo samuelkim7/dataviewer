@@ -21,7 +21,7 @@ public class AdminEstimateController {
     private final EstimateService estimateService;
     private final OrderService orderService;
 
-    @GetMapping("/estimate/new/{orderId}")
+    @GetMapping("/estimate/newWithId/{orderId}")
     public String createForm(@PathVariable Long orderId, Model model) {
         OrderDto orderDto = orderService.findOne(orderId);
         model.addAttribute("order", orderDto);

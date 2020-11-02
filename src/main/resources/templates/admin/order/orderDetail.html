@@ -43,7 +43,7 @@
 
                             <a class="btn btn-primary mr-2 mb-5"
                                th:if="*{status.name() == 'WAIT'}"
-                               th:href="@{'/admin/estimate/new/' + ${orderDto.id}}">견적 작성</a>
+                               th:href="@{'/admin/estimate/newWithId/' + ${orderDto.id}}">견적 작성</a>
                             <a class="btn btn-primary mr-2"
                                th:if="*{status.name() == 'ORDER' || status.name() == 'COMPLETE'}"
                                th:href="@{'/admin/estimateDetail/' + ${orderDto.id}}">견적 확인</a>

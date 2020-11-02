@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "JOIN o.estimates e " +
             "WHERE e.id = :id")
     Order findByEstimateId(@Param("id") Long estimateId);
+
+    List<Order> findByOrderByIdDesc();
 }
