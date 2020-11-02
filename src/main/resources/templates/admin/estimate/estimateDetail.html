@@ -28,9 +28,14 @@
                         <form th:action="@{admin/estimate/update}" th:object="${estimateDto}" method="post">
                             <div class="form-group">
                                 <label for="order">견적 대상</label>
-                                <a class="btn btn-primary" id="order"
-                                   th:text="${orderDto.title}"
-                                   th:href="@{'/admin/order/orderDetail/' + ${orderDto.id}}"></a>
+                                <div class="input-group">
+                                    <input type="text" id="order" th:value="${orderDto.title}"
+                                           class="form-control" readonly>
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-primary btn-detail"
+                                           th:href="@{'/admin/order/orderDetail/' + ${orderDto.id}}">의뢰 상세보기</a>
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label th:for="title">제목</label>
@@ -53,16 +58,18 @@
                             </div>
                             <div class="form-group">
                                 <label th:for="content">견적 사항</label>
-                                <textarea th:field="*{content}" cols="30" rows="15" class="form-control" id="textarea"></textarea>
+                                <textarea th:field="*{content}" cols="30" rows="15" class="form-control"
+                                          id="textarea"></textarea>
                                 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mr-2"
-                                    th:if="*{status.name() == 'OFFER'  || status.name() == 'ACCEPT'}">수정하기</button>
-                            <a class="btn btn-danger mr-2 confirmCancel"
+                            <button type="submit" class="btn btn-primary mr-2 mb-3"
+                                    th:if="*{status.name() == 'OFFER'  || status.name() == 'ACCEPT'}">수정하기
+                            </button>
+                            <a class="btn btn-danger mr-2 mb-3 confirmCancel"
                                th:if="*{status.name() == 'OFFER' || status.name() == 'ACCEPT'}"
                                th:href="@{'/admin/estimate/cancel/' + *{id}}">견적 취소</a>
-                            <a class="btn btn-primary mr-2 mb-5" href="/admin/estimates">견적 목록</a>
+                            <a class="btn btn-primary mr-2 mb-3" href="/admin/estimates">견적 목록</a>
                         </form>
                     </div>
                     <div class="col"></div>

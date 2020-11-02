@@ -36,9 +36,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="dto, iterator : ${estimateDtos}" th:id="'id_' + ${dto.id}">
+                            <tr th:each="dto, iterator : ${estimateDtos}">
                                 <td th:text="${iterator.index+1}"></td>
-                                <td> <a th:text="${dto.title}" th:href="@{'admin/estimate/estimateDetail/' + ${dto.id}}"></a></td>
+                                <td> <a th:text="${dto.title}" th:href="@{'/admin/estimate/estimateDetail/' + ${dto.id}}"></a></td>
                                 <td th:text="${#numbers.formatInteger(dto.price, 3, 'COMMA')} + '원'"></td>
                                 <td th:switch="${dto.status.name()}">
                                     <span th:case="'OFFER'">요청</span>
