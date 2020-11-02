@@ -28,4 +28,15 @@ public class Dashboard {
 
     @OneToMany(mappedBy = "dashboard")
     private List<Figure> figures = new ArrayList<>();
+
+    /* 생성 메서드 */
+    public static Dashboard createDashboard(
+            String title, String content
+    ) {
+        Dashboard dashboard = new Dashboard();
+        dashboard.title = title;
+        dashboard.content = content;
+        dashboard.createdAt = LocalDateTime.now();
+        return dashboard;
+    }
 }
