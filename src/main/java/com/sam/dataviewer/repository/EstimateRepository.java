@@ -15,4 +15,6 @@ public interface EstimateRepository extends JpaRepository<Estimate, Long> {
             "join o.member as m " +
             "WHERE m.username = :username")
     List<Estimate> findByUsername(@Param("username") String username);
+
+    List<Estimate> findByOrderByIdDesc();
 }

@@ -107,4 +107,9 @@ public class MemberService {
         }
     }
 
+    /* 주문 번호로 회원 찾기 */
+    public MemberDto findMemberByOrderId(Long orderId) {
+        Member member = memberRepository.findByOrderId(orderId);
+        return member.toDto();
+    }
 }

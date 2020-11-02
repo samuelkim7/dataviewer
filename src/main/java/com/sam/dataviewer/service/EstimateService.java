@@ -39,7 +39,7 @@ public class EstimateService {
 
     /* 견적 전체 조회 for ADMIN */
     public List<EstimateDto> findAll() {
-        List<Estimate> estimates = estimateRepository.findAll();
+        List<Estimate> estimates = estimateRepository.findByOrderByIdDesc();
         List<EstimateDto> estimateDtos = new ArrayList<>();
         for (Estimate estimate : estimates) {
             estimateDtos.add(estimate.toDto());
