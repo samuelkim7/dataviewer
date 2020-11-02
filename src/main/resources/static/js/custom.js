@@ -10,4 +10,14 @@ $(document).ready(function() {
         .catch(error => {
             console.log(error);
         });
+
+    ClassicEditor
+        .create(document.querySelector("#textareaReadOnly"))
+        .then(editor => {
+            editor.isReadOnly = true;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
 });
