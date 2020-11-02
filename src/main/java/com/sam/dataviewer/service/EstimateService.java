@@ -57,7 +57,7 @@ public class EstimateService {
     @Transactional
     public void updateEstimate(EstimateDto dto) {
         Estimate estimate = estimateRepository.getOne(dto.getId());
-        estimate.update(dto.getTitle(), dto.getContent(), dto.getPrice());
+        estimate.update(dto.getTitle(), dto.getContent(), dto.getPrice(), dto.getDuration());
     }
 
     /* 견적 취소 */

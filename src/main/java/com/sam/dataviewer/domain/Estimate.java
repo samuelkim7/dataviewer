@@ -80,10 +80,11 @@ public class Estimate {
     }
 
     /* 견적 수정 */
-    public void update(String title, String content, Long price) {
+    public void update(String title, String content, Long price, String duration) {
         this.title = title;
         this.content = content;
         this.price = price;
+        this.duration = duration;
     }
 
     /* 견적 취소 */

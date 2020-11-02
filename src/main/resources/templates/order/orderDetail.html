@@ -41,7 +41,7 @@
                                 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                             </div>
 
-                            <input type="hidden" th:field="*{id}" th:value="${orderDto.id}">
+                            <input type="hidden" th:field="*{id}">
 
                             <button type="submit" class="btn btn-primary mr-2"
                                     th:if="*{status.name() == 'WAIT' || status.name() == 'ORDER'}">수정하기</button>

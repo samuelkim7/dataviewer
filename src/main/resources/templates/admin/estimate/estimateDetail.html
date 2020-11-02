@@ -25,7 +25,7 @@
                             <h1 class="h3 mb-0 text-gray-800">견적 상세보기</h1>
                         </div>
 
-                        <form th:action="@{admin/estimate/update}" th:object="${estimateDto}" method="post">
+                        <form th:action="@{/admin/estimate/update}" th:object="${estimateDto}" method="post">
                             <div class="form-group">
                                 <label for="order">견적 대상</label>
                                 <div class="input-group">
@@ -62,6 +62,8 @@
                                           id="textarea"></textarea>
                                 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                             </div>
+
+                            <input type="hidden" th:field="*{id}">
 
                             <button type="submit" class="btn btn-primary mr-2 mb-3"
                                     th:if="*{status.name() == 'OFFER'  || status.name() == 'ACCEPT'}">수정하기
