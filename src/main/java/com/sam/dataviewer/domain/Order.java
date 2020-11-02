@@ -97,4 +97,9 @@ public class Order {
         this.content = content;
         this.file = file;
     }
+
+    /* 의뢰 시작 */
+    public void start() {
+        this.status = OrderStatus.ORDER;
+    }
 }

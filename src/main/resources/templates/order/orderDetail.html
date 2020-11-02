@@ -48,7 +48,7 @@
                             <a class="btn btn-danger mr-2 confirmCancel"
                                th:if="*{status.name() == 'WAIT' || status.name() == 'ORDER'}"
                                th:href="@{'/order/cancel/' + *{id}}">의뢰 취소</a>
-                            <a class="btn btn-primary mr-2" href="/orders">의뢰 목록</a>
+                            <a class="btn btn-primary mr-2" href="/estimates">의뢰 목록</a>
                         </form>
                     </div>
                     <div class="col"></div>

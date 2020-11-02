@@ -81,4 +81,11 @@ public class OrderService {
         Order order = orderRepository.findByEstimateId(estimateId);
         return order.toDto();
     }
+
+    /* 의뢰 시작 */
+    @Transactional
+    public void startOrder(Long id) {
+        Order order = orderRepository.getOne(id);
+        order.start();
+    }
 }
