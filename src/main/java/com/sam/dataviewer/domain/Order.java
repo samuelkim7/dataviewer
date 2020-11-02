@@ -38,7 +38,7 @@ public class Order {
 
     private String content;
 
-    private String file;
+    private String fileName;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -61,13 +61,13 @@ public class Order {
     /* 생성 메서드 */
     public static Order createOrder(
             Member member, String title,
-            String content, String file
+            String content, String fileName
     ) {
         Order order = new Order();
         order.setMember(member);
         order.title = title;
         order.content = content;
-        order.file = file;
+        order.fileName = fileName;
         order.createdAt = LocalDateTime.now();
         order.status = OrderStatus.WAIT;
         return order;
@@ -85,17 +85,16 @@ public class Order {
         dto.setTitle(this.getTitle());
         dto.setContent(this.getContent());
         dto.setCreatedAt(this.getCreatedAt());
-        dto.setFile(this.getFile());
+        dto.setFileName(this.getFileName());
         dto.setStatus(this.getStatus());
         return dto;
     }
 
     /* 의뢰 수정 */
-    // dto Object에서 가져온 정보 사용. Dirty Checking을 통한 수정
-    public void update(String title, String content, String file) {
+    public void update(String title, String content, String fileName) {
         this.title = title;
         this.content = content;
-        this.file = file;
+        this.fileName = fileName;
     }
 
     /* 의뢰 시작 */

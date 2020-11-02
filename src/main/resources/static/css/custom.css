@@ -20,3 +20,7 @@
 .btn-detail {
     padding: 10px;
 }
+
+p.fileName {
+    font-weight: bold;
+}

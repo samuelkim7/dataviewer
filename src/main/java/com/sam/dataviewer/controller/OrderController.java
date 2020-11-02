@@ -1,15 +1,22 @@
 package com.sam.dataviewer.controller;
 
 import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -17,6 +24,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final FileService fileService;
 
     @GetMapping("/order/new")
     public String createForm(Model model) {
@@ -27,13 +35,19 @@ public class OrderController {
     @PostMapping("/order/new")
     public String createOrder(Principal principal,
                               @Valid OrderDto orderDto,
+                              MultipartFile file,
                               BindingResult result) {
 
         if (result.hasErrors()) {
             return "order/createOrderForm";
         }
-
-        orderService.order(principal.getName(), orderDto);
+        String fileName = "";
+        try {
+            fileName = fileService.saveFile(file);
+        } catch (IOException e) {
+            result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
+        }
+        orderService.order(principal.getName(), orderDto, fileName);
         return "redirect:/orders";
     }
 
@@ -52,8 +66,21 @@ public class OrderController {
     }
 
     @PostMapping("/order/update")
-    public String updateOrder(@Valid OrderDto orderDto) {
-        orderService.updateOrder(orderDto);
+    public String updateOrder(
+            @Valid OrderDto orderDto,
+            MultipartFile file,
+            BindingResult result
+    ) {
+        if (result.hasErrors()) {
+            return "order/orderDetail";
+        }
+        String fileName = "";
+        try {
+            fileName = fileService.updateFile(orderDto.getFileName(), file);
+        } catch (IOException e) {
+            result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
+        }
+        orderService.updateOrder(orderDto, fileName);
         return "redirect:/orders";
     }
 
