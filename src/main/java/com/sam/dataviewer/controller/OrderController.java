@@ -13,11 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -36,7 +32,7 @@ public class OrderController {
     @PostMapping("/order/new")
     public String createOrder(Principal principal,
                               @Valid OrderDto orderDto,
-                              MultipartFile file,
+                              List<MultipartFile> files,
                               BindingResult result) {
 
         if (result.hasErrors()) {
@@ -46,7 +42,9 @@ public class OrderController {
         Long orderId = orderService.order(principal.getName(), orderDto);
 
         try {
-            fileService.saveFile(orderId, file);
+            if (files.size() != 0) {
+                fileService.saveFile(orderId, files);
+            }
         } catch (IOException e) {
             result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
         }
@@ -72,7 +70,7 @@ public class OrderController {
     @PostMapping("/order/update")
     public String updateOrder(
             @Valid OrderDto orderDto,
-            MultipartFile file,
+            List<MultipartFile> files,
             BindingResult result
     ) {
         if (result.hasErrors()) {
@@ -80,11 +78,23 @@ public class OrderController {
         }
 
         try {
-            fileService.saveFile(orderDto.getId(), file);
+            if (files.size() != 0) {
+                fileService.saveFile(orderDto.getId(), files);
+            }
         } catch (IOException e) {
             result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
         }
         orderService.updateOrder(orderDto);
+        return "redirect:/orders";
+    }
+
+    @GetMapping("/order/deleteFile/{fileName}")
+    public String deleteUploadedFile(@PathVariable String fileName) {
+        try {
+            fileService.deleteFile(fileName);
+        } catch (IOException e) {
+            //
+        }
         return "redirect:/orders";
     }
 

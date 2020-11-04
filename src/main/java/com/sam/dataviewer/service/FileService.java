@@ -30,23 +30,23 @@ public class FileService {
 
     /* 분석 file 저장 */
     @Transactional
-    public Long saveFile(Long orderId, MultipartFile file) throws IOException {
-        // 파일 저장
-        byte[] bytes = file.getBytes();
-        String originalFileName = file.getOriginalFilename();
-        String fileName = getFileName(originalFileName);
-        Path path = Paths.get("src/main/resources/static/file/" + fileName);
-        Files.write(path, bytes);
+    public void saveFile(Long orderId, List<MultipartFile> files) throws IOException {
+        for (MultipartFile file: files) {
+            // 파일 저장
+            byte[] bytes = file.getBytes();
+            String originalFileName = file.getOriginalFilename();
+            String fileName = getFileName(originalFileName);
+            Path path = Paths.get("src/main/resources/static/file/" + fileName);
+            Files.write(path, bytes);
 
-        //파일 정보 DB에 저장
-        Order order = orderRepository.getOne(orderId);
-        File fileDB = File.createFile(
-                order, originalFileName, fileName,
-                path.toString(), file.getSize()
-        );
-        fileRepository.save(fileDB);
-
-        return fileDB.getId();
+            //파일 정보 DB에 저장
+            Order order = orderRepository.getOne(orderId);
+            File fileDB = File.createFile(
+                    order, originalFileName, fileName,
+                    path.toString(), file.getSize()
+            );
+            fileRepository.save(fileDB);
+        }
     }
 
     /* fileName 랜덤 생성 */
@@ -55,11 +55,6 @@ public class FileService {
         UUID uuid = UUID.randomUUID();
         String fileName = uuid.toString() + "_" + originalFileName;
         return fileName;
-    }
-
-    /* 분석 file 삭제 */
-    public String updateFile(MultipartFile file) throws IOException {
-        return null;
     }
 
     /* 의뢰 id로 file 전체 조회  */
@@ -71,5 +66,15 @@ public class FileService {
             fileDtos.add(file.toDto());
         }
         return fileDtos;
+    }
+
+    /* 파일 삭제 */
+    @Transactional
+    public void deleteFile(String fileName) throws IOException {
+        File file = fileRepository.findByFileName(fileName);
+        Path path = Paths.get(file.getFilePath());
+        Files.delete(path);
+
+        fileRepository.delete(file);
     }
 }

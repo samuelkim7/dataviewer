@@ -41,15 +41,17 @@
                                 <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                             </div>
                             <div class="form-group">
-                                <label for="file">분석 대상 파일</label>
-                                <input type="file" class="form-control" name="file" id="file">
+                                <label for="file">분석 대상 파일 추가</label>
+                                <input type="file" class="form-control" name="uploadedFiles" id="file" multiple>
                             </div>
 
                             <div class="form-group">
-                                <label th:if="${fileDtos}" th:for="fileDtos">현재 파일</label>
+                                <label th:if="${fileDtos}" th:for="fileDtos">현재 파일 리스트</label>
                                 <ul th:if="${fileDtos}">
-                                    <li th:each="file : ${fileDtos}"
-                                        th:text="${file.originalFileName} + '(' + ${file.fileSize} + ')'" />
+                                    <li th:each="file : ${fileDtos}">
+                                        <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span>
+                                        <a th:href="@{'/order/deleteFile/' + ${file.fileName}}">삭제</a>
+                                    </li>
                                 </ul>
                             </div>
 
