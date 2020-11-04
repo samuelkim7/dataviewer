@@ -24,12 +24,12 @@ public class OrderService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long order(String username, OrderDto dto, String fileName) {
+    public Long order(String username, OrderDto dto) {
         Member member = memberRepository.findByUsername(username);
 
         Order order = Order.createOrder(
                 member, dto.getTitle(),
-                dto.getContent(), fileName
+                dto.getContent()
         );
 
         orderRepository.save(order);
@@ -72,9 +72,9 @@ public class OrderService {
 
     /* 의뢰 수정 */
     @Transactional
-    public void updateOrder(OrderDto dto, String fileName) {
+    public void updateOrder(OrderDto dto) {
         Order order = orderRepository.getOne(dto.getId());
-        order.update(dto.getTitle(), dto.getContent(), fileName);
+        order.update(dto.getTitle(), dto.getContent());
     }
 
     public OrderDto findOrderByEstimateId(Long estimateId) {

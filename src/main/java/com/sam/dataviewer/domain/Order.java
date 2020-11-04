@@ -4,7 +4,9 @@ import com.sam.dataviewer.dto.OrderDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
@@ -30,27 +32,30 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "dashboard_id")
-    private Dashboard dashBoard;
-
     private String title;
 
     private String content;
 
-    private String fileName;
-
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;   // WAIT, ORDER, CANCEL
 
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "dashboard_id")
+    private Dashboard dashBoard;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Estimate> estimates = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<File> files = new ArrayList<>();
 
     /* 연관관계 메서드 */
     public void setMember(Member member) {
@@ -61,14 +66,12 @@ public class Order {
     /* 생성 메서드 */
     public static Order createOrder(
             Member member, String title,
-            String content, String fileName
+            String content
     ) {
         Order order = new Order();
         order.setMember(member);
         order.title = title;
         order.content = content;
-        order.fileName = fileName;
-        order.createdAt = LocalDateTime.now();
         order.status = OrderStatus.WAIT;
         return order;
     }
@@ -85,16 +88,14 @@ public class Order {
         dto.setTitle(this.getTitle());
         dto.setContent(this.getContent());
         dto.setCreatedAt(this.getCreatedAt());
-        dto.setFileName(this.getFileName());
         dto.setStatus(this.getStatus());
         return dto;
     }
 
     /* 의뢰 수정 */
-    public void update(String title, String content, String fileName) {
+    public void update(String title, String content) {
         this.title = title;
         this.content = content;
-        this.fileName = fileName;
     }
 
     /* 의뢰 시작 */

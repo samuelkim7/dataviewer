@@ -4,7 +4,9 @@ import com.sam.dataviewer.dto.EstimateDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -35,9 +37,11 @@ public class Estimate {
 
     private String duration;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -61,7 +65,6 @@ public class Estimate {
         estimate.content = content;
         estimate.price = price;
         estimate.duration = duration;
-        estimate.createdAt = LocalDateTime.now();
         estimate.status = EstimateStatus.OFFER;
         return estimate;
     }

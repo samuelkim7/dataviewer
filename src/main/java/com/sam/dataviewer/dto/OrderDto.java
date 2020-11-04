@@ -18,8 +18,6 @@ public class OrderDto {
     @NotEmpty(message = "분석 의뢰 사항을 기입해주세요.")
     private String content;
 
-    private String fileName;
-
     private LocalDateTime createdAt;
 
     private OrderStatus status;

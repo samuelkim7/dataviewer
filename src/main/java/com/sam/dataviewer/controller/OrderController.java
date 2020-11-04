@@ -1,5 +1,6 @@
 package com.sam.dataviewer.controller;
 
+import com.sam.dataviewer.dto.FileDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.OrderService;
@@ -41,13 +42,14 @@ public class OrderController {
         if (result.hasErrors()) {
             return "order/createOrderForm";
         }
-        String fileName = "";
+
+        Long orderId = orderService.order(principal.getName(), orderDto);
+
         try {
-            fileName = fileService.saveFile(file);
+            fileService.saveFile(orderId, file);
         } catch (IOException e) {
             result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
         }
-        orderService.order(principal.getName(), orderDto, fileName);
         return "redirect:/orders";
     }
 
@@ -61,7 +63,9 @@ public class OrderController {
     @GetMapping("/order/orderDetail/{id}")
     public String orderDetail(@PathVariable Long id, Model model){
         OrderDto orderDto = orderService.findOne(id);
+        List<FileDto> fileDtos = fileService.findByOrderId(id);
         model.addAttribute("orderDto", orderDto);
+        model.addAttribute("fileDtos", fileDtos);
         return "order/orderDetail";
     }
 
@@ -74,13 +78,13 @@ public class OrderController {
         if (result.hasErrors()) {
             return "order/orderDetail";
         }
-        String fileName = "";
+
         try {
-            fileName = fileService.updateFile(orderDto.getFileName(), file);
+            fileService.saveFile(orderDto.getId(), file);
         } catch (IOException e) {
             result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
         }
-        orderService.updateOrder(orderDto, fileName);
+        orderService.updateOrder(orderDto);
         return "redirect:/orders";
     }
 

@@ -3,6 +3,8 @@ package com.sam.dataviewer.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 
@@ -27,8 +29,10 @@ public class Figure {
     @Enumerated(EnumType.STRING)
     private FigureType type;
 
-    @Column(name = "original_title")
-    private String originalTitle;
+    private String title;
+
+    @Column(name = "original_file_name")
+    private String originalFileName;
 
     @Column(name = "file_name")
     private String fileName;
@@ -38,9 +42,11 @@ public class Figure {
 
     private String description;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

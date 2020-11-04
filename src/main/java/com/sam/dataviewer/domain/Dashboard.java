@@ -1,6 +1,8 @@
 package com.sam.dataviewer.domain;
 
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,9 +22,11 @@ public class Dashboard {
 
     private String content;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -36,7 +40,6 @@ public class Dashboard {
         Dashboard dashboard = new Dashboard();
         dashboard.title = title;
         dashboard.content = content;
-        dashboard.createdAt = LocalDateTime.now();
         return dashboard;
     }
 }
