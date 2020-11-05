@@ -42,7 +42,7 @@ public class OrderController {
         Long orderId = orderService.order(principal.getName(), orderDto);
 
         try {
-            if (files.size() != 0) {
+            if (!files.isEmpty() && !files.get(0).isEmpty()) {
                 fileService.saveFile(orderId, files);
             }
         } catch (IOException e) {
@@ -78,7 +78,7 @@ public class OrderController {
         }
 
         try {
-            if (files.size() != 0) {
+            if (!files.isEmpty() && !files.get(0).isEmpty()) {
                 fileService.saveFile(orderDto.getId(), files);
             }
         } catch (IOException e) {
