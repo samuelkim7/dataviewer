@@ -7,6 +7,7 @@ import com.sam.dataviewer.repository.FileRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -78,13 +79,10 @@ public class FileService {
     }
 
     /* 파일 다운로드 */
-    public Map<String, Object> downloadFile(Long id) throws IOException {
-        File file = fileRepository.getOne(id);
+    public Resource downloadFile(String originalFileName) throws IOException {
+        File file = fileRepository.findByOriginalFileName(originalFileName);
         Path path = Paths.get(file.getFilePath());
         InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
-        Map<String, Object> map = new HashMap<>();
-        map.put("resource", resource);
-        map.put("originalFileName", file.getOriginalFileName());
-        return map;
+        return resource;
     }
 }

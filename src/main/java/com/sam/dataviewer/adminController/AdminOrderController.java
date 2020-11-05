@@ -48,15 +48,14 @@ public class AdminOrderController {
         return "admin/order/orderDetail";
     }
 
-    @GetMapping("/order/downloadFile/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
-        Map<String, Object> map = null;
+    @GetMapping("/order/downloadFile/{originalFileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String originalFileName) {
+        Resource resource = null;
         try {
-            map = fileService.downloadFile(fileId);
+            resource = fileService.downloadFile(originalFileName);
         } catch (IOException e) {
+            //
         }
-        Resource resource = (Resource) map.get("resource");
-        String originalFileName = (String) map.get("originalFileName");
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFileName + "\"")

@@ -5,12 +5,18 @@ import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
@@ -88,14 +94,31 @@ public class OrderController {
         return "redirect:/orders";
     }
 
+    @GetMapping("/order/downloadFile/{originalFileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String originalFileName) {
+        Resource resource = null;
+        try {
+            resource = fileService.downloadFile(originalFileName);
+        } catch (IOException e) {
+            //
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFileName + "\"")
+                .body(resource);
+    }
+
     @GetMapping("/order/deleteFile/{fileId}")
-    public String deleteFile(@PathVariable Long fileId) {
+    public String deleteFile(
+            @PathVariable Long fileId,
+            HttpServletRequest request
+    ) {
         try {
             fileService.deleteFile(fileId);
         } catch (IOException e) {
             //
         }
-        return "redirect:/orders";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @GetMapping("/order/cancel/{id}")
