@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -52,4 +49,22 @@ public class AdminDashboardController {
         return "admin/dashboard/dashboardList";
     }
 
+    @GetMapping("/dashboard/dashboardDetail/{id}")
+    public String dashboardDetail(@PathVariable Long id, Model model) {
+        DashboardDto dashboardDto = dashboardService.findOne(id);
+        model.addAttribute("dashboardDto", dashboardDto);
+        return "admin/dashboard/dashboardDetail";
+    }
+
+    @PostMapping("/dashboard/update")
+    public String updateDashboard(@Valid DashboardDto dashboardDto) {
+        dashboardService.updateDashboard(dashboardDto);
+        return "redirect:/admin/dashboards";
+    }
+
+    @GetMapping("/dashboard/delete/{id}")
+    public String deleteDashboard(@PathVariable Long id) {
+        dashboardService.deleteDashboard(id);
+        return "redirect:/admin/dashboards";
+    }
 }

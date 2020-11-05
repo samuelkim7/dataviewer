@@ -67,13 +67,13 @@ public class AdminEstimateController {
     }
 
     @PostMapping("/estimate/update")
-    public String updateOrder(@Valid EstimateDto estimateDto) {
+    public String updateEstimate(@Valid EstimateDto estimateDto) {
         estimateService.updateEstimate(estimateDto);
         return "redirect:/admin/estimates";
     }
 
     @GetMapping("/estimate/cancel/{id}")
-    public String cancelOrder(@PathVariable Long id) {
+    public String cancelEstimate(@PathVariable Long id) {
         estimateService.cancelEstimate(id);
         return "redirect:/admin/estimates";
     }

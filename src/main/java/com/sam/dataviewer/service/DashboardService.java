@@ -30,6 +30,7 @@ public class DashboardService {
         return dashboard.getId();
     }
 
+    /* Dashboard 전체 조회 for ADMIN */
     public List<DashboardDto> findAll() {
         List<Dashboard> dashboards = dashboardRepository.findByOrderByIdDesc();
         List<DashboardDto> dashboardDtos = new ArrayList<>();
@@ -37,5 +38,24 @@ public class DashboardService {
             dashboardDtos.add(dashboard.toDto());
         }
         return dashboardDtos;
+    }
+
+    /* Dashboard 하나 조회 */
+    public DashboardDto findOne(Long id) {
+        Dashboard dashboard = dashboardRepository.getOne(id);
+        return dashboard.toDto();
+    }
+
+    /* Dashboard 수정 */
+    @Transactional
+    public void updateDashboard(DashboardDto dto) {
+        Dashboard dashboard = dashboardRepository.getOne(dto.getId());
+        dashboard.update(dto.getTitle(), dto.getContent());
+    }
+
+    /* Dashboard 삭제 */
+    @Transactional
+    public void deleteDashboard(Long id) {
+        dashboardRepository.deleteById(id);
     }
 }

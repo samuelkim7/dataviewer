@@ -67,4 +67,11 @@ public class Dashboard {
         dto.setOrderTitle(this.order.getTitle());
         return dto;
     }
+
+    /* Dashboard 수정 */
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }
