@@ -36,11 +36,12 @@ public class OrderController {
     }
 
     @PostMapping("/order/new")
-    public String createOrder(Principal principal,
-                              @Valid OrderDto orderDto,
-                              List<MultipartFile> files,
-                              BindingResult result) {
-
+    public String createOrder(
+            Principal principal,
+            @Valid OrderDto orderDto,
+            List<MultipartFile> files,
+            BindingResult result
+    ) {
         if (result.hasErrors()) {
             return "order/createOrderForm";
         }
@@ -114,7 +115,7 @@ public class OrderController {
             HttpServletRequest request
     ) {
         try {
-            fileService.deleteFile(fileId);
+            fileService.delete(fileId);
         } catch (IOException e) {
             //
         }

@@ -18,14 +18,22 @@
             <nav th:replace="fragments/adminNav"/>
 
             <div class="container-fluid">
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                </div>
+
 
                 <form th:action="@{/admin/dashboard/update}" th:object="${dashboardDto}" method="post">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <div class="float-right">
+                            <button type="submit" class="btn btn-primary mr-2 mb-2">수정하기</button>
+                            <a class="btn btn-danger mr-2 mb-2 confirmCancel"
+                               th:href="@{'/admin/dashboard/delete/' + *{id}}">삭제하기</a>
+                            <a class="btn btn-primary mr-2 mb-2" href="/admin/dashboards">Dashboard 목록</a>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-xl-5 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-100">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -38,7 +46,7 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -53,12 +61,13 @@
                     </div>
                     <div class="row">
                         <div class="col-xl-9 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card border-left-info shadow h-100">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="h6 font-weight-bold text-info mb-2">내용</div>
-                                            <textarea th:field="*{content}" cols="30" rows="3" class="form-control"></textarea>
+                                            <textarea th:field="*{content}" cols="30" rows="3"
+                                                      class="form-control"></textarea>
                                             <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                                         </div>
                                     </div>
@@ -68,14 +77,69 @@
                     </div>
 
                     <input type="hidden" th:field="*{id}">
-
-                    <div class="row">
-                        <button type="submit" class="btn btn-primary mr-2 mb-3">수정하기</button>
-                        <a class="btn btn-danger mr-2 mb-3 confirmCancel"
-                           th:href="@{'/admin/dashboard/delete/' + *{id}}">삭제하기</a>
-                        <a class="btn btn-primary mr-2 mb-3" href="/admin/dashboards">Dashboard 목록</a>
-                    </div>
                 </form>
+
+                <div class="row">
+
+                    <!-- Area Chart -->
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">그래프 첨부</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">그래프 첨부</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="chart-area">
+                                    <canvas id="myAreaChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
             </div>
         </div>
     </div>

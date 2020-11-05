@@ -28,10 +28,19 @@ public class FileService {
     private final FileRepository fileRepository;
     private final OrderRepository orderRepository;
 
-    /* 분석 file 저장 */
+    /* 분석 file 업로드 */
+    public void uploadFile(MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        String originalFileName = file.getOriginalFilename();
+        String fileName = getFileName(originalFileName);
+        Path path = Paths.get("src/main/resources/static/file/" + fileName);
+        Files.write(path, bytes);
+    }
+
+    /* 분석 file 업로드 및 info 저장 */
     @Transactional
     public void saveFile(Long orderId, List<MultipartFile> files) throws IOException {
-        for (MultipartFile file: files) {
+        for (MultipartFile file : files) {
             // 파일 저장
             byte[] bytes = file.getBytes();
             String originalFileName = file.getOriginalFilename();
@@ -68,9 +77,16 @@ public class FileService {
         return fileDtos;
     }
 
-    /* 파일 삭제 */
-    @Transactional
+    /* file 삭제 */
     public void deleteFile(Long id) throws IOException {
+        File file = fileRepository.getOne(id);
+        Path path = Paths.get(file.getFilePath());
+        Files.delete(path);
+    }
+
+    /* file 삭제 및 info 삭제 */
+    @Transactional
+    public void delete(Long id) throws IOException {
         File file = fileRepository.getOne(id);
         Path path = Paths.get(file.getFilePath());
         Files.delete(path);
