@@ -57,11 +57,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<File> files = new ArrayList<>();
 
-    /* 연관관계 메서드 */
-    public void setMember(Member member) {
-        this.member = member;
-        member.getOrders().add(this);
-    }
+    @OneToOne(mappedBy = "order", fetch = LAZY)
+    private Dashboard dashboard;
 
     /* 생성 메서드 */
     public static Order createOrder(
@@ -74,6 +71,16 @@ public class Order {
         order.content = content;
         order.status = OrderStatus.WAIT;
         return order;
+    }
+
+    /* 연관관계 메서드 */
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+
+    public void setDashBoard(Dashboard dashBoard) {
+        this.dashBoard = dashBoard;
     }
 
     /* 의뢰 취소 */

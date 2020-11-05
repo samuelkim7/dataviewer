@@ -18,19 +18,28 @@
             <nav th:replace="fragments/adminNav"/>
 
             <div class="container-fluid">
-
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Dashboard 생성</h1>
-                </div>
-
                 <div class="row">
-                    <div class="col-xl-5 col-md-6 mb-4">
+                    <div class="col"></div>
+                    <div class="col-8">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard 생성</h1>
+                        </div>
+
                         <form th:action="@{/admin/dashboard/new}" th:object="${dashboardDto}" method="post">
+                            <div class="form-group">
+                                <label th:if="${orders}" for="orders">해당 의뢰 선택</label>
+                                <select name="orderId" th:if="${orders}" id="orders" class="form-control">
+                                    <option value="">선택</option>
+                                    <option  th:each="order : ${orders}" th:value="${order.id}" th:text="${order.title}"/>
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label th:for="title">제목</label>
                                 <input type="text" th:field="*{title}" class="form-control">
                                 <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
                             </div>
+
                             <div class="form-group">
                                 <label th:for="content">내용</label>
                                 <textarea th:field="*{content}" cols="30" rows="15" class="form-control"
@@ -41,10 +50,12 @@
                             <button type="submit" class="btn btn-primary mb-5">생성하기</button>
                         </form>
                     </div>
+                    <div class="col"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <div th:replace="fragments/footer"/>

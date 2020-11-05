@@ -47,7 +47,7 @@
                                 <label th:for="fileDtos">분석 대상 파일 리스트</label>
                                 <ul>
                                     <li th:each="file : ${fileDtos}">
-                                        <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span>
+                                        <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span> &nbsp
                                         <a th:href="@{'/admin/order/downloadFile/' + ${file.originalFileName}}">다운로드</a>
                                     </li>
                                 </ul>

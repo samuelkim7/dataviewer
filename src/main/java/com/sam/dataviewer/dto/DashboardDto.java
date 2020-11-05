@@ -18,4 +18,6 @@ public class DashboardDto {
     private String content;
 
     private LocalDateTime createdAt;
+
+    private String orderTitle;
 }

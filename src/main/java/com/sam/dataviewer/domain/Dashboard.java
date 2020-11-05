@@ -1,5 +1,6 @@
 package com.sam.dataviewer.domain;
 
+import com.sam.dataviewer.dto.DashboardDto;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -33,13 +36,35 @@ public class Dashboard {
     @OneToMany(mappedBy = "dashboard")
     private List<Figure> figures = new ArrayList<>();
 
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     /* 생성 메서드 */
     public static Dashboard createDashboard(
-            String title, String content
+            Order order, String title, String content
     ) {
         Dashboard dashboard = new Dashboard();
+        dashboard.setOrder(order);
         dashboard.title = title;
         dashboard.content = content;
         return dashboard;
+    }
+
+    /* 연관관계 메서드 */
+    public void setOrder(Order order) {
+        this.order = order;
+        order.setDashBoard(this);
+    }
+
+    /* dto Object로 변환 */
+    public DashboardDto toDto() {
+        DashboardDto dto = new DashboardDto();
+        dto.setId(this.getId());
+        dto.setTitle(this.getTitle());
+        dto.setContent(this.getContent());
+        dto.setCreatedAt(this.getCreatedAt());
+        dto.setOrderTitle(this.order.getTitle());
+        return dto;
     }
 }
