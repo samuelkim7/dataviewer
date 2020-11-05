@@ -43,6 +43,16 @@
                                 <textarea th:field="*{content}" cols="30" rows="15" class="form-control" id="textareaReadOnly"></textarea>
                             </div>
 
+                            <div class="form-group">
+                                <label th:for="fileDtos">분석 대상 파일 리스트</label>
+                                <ul>
+                                    <li th:each="file : ${fileDtos}">
+                                        <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span>
+                                        <a th:href="@{'/admin/order/downloadFile/' + ${file.id}}">다운로드</a>
+                                    </li>
+                                </ul>
+                            </div>
+
                             <a class="btn btn-primary mr-2 mb-5"
                                th:if="*{status.name() == 'WAIT'}"
                                th:href="@{'/admin/estimate/newWithOrderId/' + ${orderDto.id}}">견적 작성</a>

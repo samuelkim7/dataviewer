@@ -70,6 +70,7 @@ public class File {
     /* dto Object로 변환 */
     public FileDto toDto() {
         FileDto dto = new FileDto();
+        dto.setId(this.getId());
         dto.setOriginalFileName(this.getOriginalFileName());
         dto.setFileName(this.getFileName());
         dto.setFileSize(this.getFileSize());

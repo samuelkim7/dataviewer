@@ -88,10 +88,10 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @GetMapping("/order/deleteFile/{fileName}")
-    public String deleteUploadedFile(@PathVariable String fileName) {
+    @GetMapping("/order/deleteFile/{fileId}")
+    public String deleteFile(@PathVariable Long fileId) {
         try {
-            fileService.deleteFile(fileName);
+            fileService.deleteFile(fileId);
         } catch (IOException e) {
             //
         }

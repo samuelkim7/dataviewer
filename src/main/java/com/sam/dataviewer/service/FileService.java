@@ -6,6 +6,7 @@ import com.sam.dataviewer.dto.FileDto;
 import com.sam.dataviewer.repository.FileRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -70,11 +69,22 @@ public class FileService {
 
     /* 파일 삭제 */
     @Transactional
-    public void deleteFile(String fileName) throws IOException {
-        File file = fileRepository.findByFileName(fileName);
+    public void deleteFile(Long id) throws IOException {
+        File file = fileRepository.getOne(id);
         Path path = Paths.get(file.getFilePath());
         Files.delete(path);
 
         fileRepository.delete(file);
+    }
+
+    /* 파일 다운로드 */
+    public Map<String, Object> downloadFile(Long id) throws IOException {
+        File file = fileRepository.getOne(id);
+        Path path = Paths.get(file.getFilePath());
+        InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+        Map<String, Object> map = new HashMap<>();
+        map.put("resource", resource);
+        map.put("originalFileName", file.getOriginalFileName());
+        return map;
     }
 }
