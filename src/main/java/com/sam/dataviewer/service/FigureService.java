@@ -41,4 +41,10 @@ public class FigureService {
         }
         return figureDtos;
     }
+
+    /* Figure 한건 조회 */
+    public FigureDto findOne(Long id) {
+        Figure figure = figureRepository.getOne(id);
+        return figure.toDto();
+    }
 }

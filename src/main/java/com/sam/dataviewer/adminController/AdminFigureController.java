@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -68,5 +65,12 @@ public class AdminFigureController {
         List<FigureDto> figureDtos = figureService.findAll();
         model.addAttribute("figureDtos", figureDtos);
         return "admin/figure/figureList";
+    }
+
+    @GetMapping("/figure/figureDetail/{id}")
+    public String figureDetail(@PathVariable Long id, Model model) {
+        FigureDto figureDto = figureService.findOne(id);
+        model.addAttribute("figureDto", figureDto);
+        return "admin/figure/figureDetail";
     }
 }
