@@ -61,6 +61,8 @@ public class AdminFigureController {
 
     @GetMapping("/figures")
     public String figureList(Model model) {
-        figureService.findAll();
+        List<FigureDto> figureDtos = figureService.findAll();
+        model.addAttribute("figureDtos", figureDtos);
+        return "admin/figure/figureList";
     }
 }

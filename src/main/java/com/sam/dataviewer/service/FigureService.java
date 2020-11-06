@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +34,11 @@ public class FigureService {
 
     /* Figure 전체 조회 for ADMIN */
     public List<FigureDto> findAll() {
-//        figureRepository.findAllGroupByDashboardId
+        List<Figure> figures = figureRepository.findGroupByDashboard();
+        List<FigureDto> figureDtos = new ArrayList<>();
+        for (Figure figure : figures) {
+            figureDtos.add(figure.toDto());
+        }
+        return figureDtos;
     }
 }

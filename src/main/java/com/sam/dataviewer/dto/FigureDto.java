@@ -19,7 +19,5 @@ public class FigureDto {
 
     private String originalFileName;
 
-    private String fileName;
-
     private LocalDateTime createdAt;
 }

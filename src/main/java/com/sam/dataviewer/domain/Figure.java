@@ -1,5 +1,6 @@
 package com.sam.dataviewer.domain;
 
+import com.sam.dataviewer.dto.FigureDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,5 +59,16 @@ public class Figure {
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
         dashboard.getFigures().add(this);
+    }
+
+    /* dto Object로 변환 */
+    public FigureDto toDto() {
+        FigureDto dto = new FigureDto();
+        dto.setId(this.getId());
+        dto.setTitle(this.getTitle());
+        dto.setDescription(this.getDescription());
+        dto.setOriginalFileName(this.getOriginalFileName());
+        dto.setCreatedAt(this.getCreatedAt());
+        return dto;
     }
 }
