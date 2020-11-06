@@ -68,6 +68,7 @@ public class Figure {
         dto.setTitle(this.getTitle());
         dto.setDescription(this.getDescription());
         dto.setOriginalFileName(this.getOriginalFileName());
+        dto.setDashboardTitle(this.getDashboard().getTitle());
         dto.setCreatedAt(this.getCreatedAt());
         return dto;
     }

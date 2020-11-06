@@ -25,7 +25,7 @@ public class FigureService {
         Dashboard dashboard = dashboardRepository.getOne(dashboardId);
         Figure figure = Figure.createFigure(
                 dashboard, dto.getTitle(),
-                dto.getDescription(), dto.getOriginalFileName()
+                dto.getDescription(), originalFileName
         );
 
         figureRepository.save(figure);

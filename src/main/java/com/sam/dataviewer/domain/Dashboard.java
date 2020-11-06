@@ -64,7 +64,7 @@ public class Dashboard {
         dto.setTitle(this.getTitle());
         dto.setContent(this.getContent());
         dto.setCreatedAt(this.getCreatedAt());
-        dto.setOrderTitle(this.order.getTitle());
+        dto.setOrderTitle(this.getOrder().getTitle());
         return dto;
     }
 

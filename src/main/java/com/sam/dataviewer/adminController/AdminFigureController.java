@@ -47,7 +47,11 @@ public class AdminFigureController {
             return "admin/figure/createFigureForm";
         }
 
-        figureService.create(dashboardId, figureDto, file.getOriginalFilename());
+        if (!file.isEmpty()) {
+            figureService.create(dashboardId, figureDto, file.getOriginalFilename());
+        } else {
+            figureService.create(dashboardId, figureDto, null);
+        }
 
         try {
             if (!file.isEmpty()) {
@@ -56,7 +60,7 @@ public class AdminFigureController {
         } catch (IOException e) {
             result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
         }
-        return "redirect:/figures";
+        return "redirect:/admin/figures";
     }
 
     @GetMapping("/figures")
