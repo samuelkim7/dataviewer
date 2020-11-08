@@ -25,7 +25,7 @@
                             <h1 class="h3 mb-0 text-gray-800">Figure 상세보기</h1>
                         </div>
 
-                        <form th:action="@{/figure/update}" th:object="${figureDto}" method="post" enctype="multipart/form-data">
+                        <form th:action="@{/admin/figure/update}" th:object="${figureDto}" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label th:for="title">제목</label>
                                 <input type="text" th:field="*{title}" class="form-control">
@@ -45,7 +45,7 @@
                                 <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
                             </div>
                             <div class="form-group">
-                                <label for="file">첨부 파일 수정</label>
+                                <label for="file">파일 바꾸기</label>
                                 <input type="file" class="form-control" name="file" id="file">
                             </div>
 
@@ -55,12 +55,13 @@
                                     <li>
                                         <span th:text="${figureDto.originalFileName}" id="currentFile"></span> &nbsp
                                         <a th:href="@{'/admin/figure/downloadFile/' + *{originalFileName}}">다운로드</a> &nbsp
-                                        <a th:href="@{'/admin/figure/deleteFile/' + *{originalFileName}}">삭제</a>
                                     </li>
                                 </ul>
                             </div>
 
                             <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{originalFileName}">
+                            <input type="hidden" th:field="*{fileName}">
 
                             <button type="submit" class="btn btn-primary mr-2 mb-4">수정하기</button>
                             <a class="btn btn-danger mr-2  mb-4 confirmCancel"

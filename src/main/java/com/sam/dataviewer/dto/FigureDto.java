@@ -19,6 +19,8 @@ public class FigureDto {
 
     private String originalFileName;
 
+    private String fileName;
+
     private String dashboardTitle;
 
     private LocalDateTime createdAt;

@@ -29,12 +29,12 @@
                             <div class="form-group">
                                 <label th:for="title">제목</label>
                                 <input type="text" th:field="*{title}" class="form-control">
-                                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                                <p class="errorMsg" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
                             </div>
                             <div class="form-group">
                                 <label th:for="content">의뢰 사항</label>
                                 <textarea th:field="*{content}" cols="30" rows="15" class="form-control" id="textarea"></textarea>
-                                <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+                                <p class="errorMsg" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                             </div>
                             <div class="form-group">
                                 <label for="file">분석 대상 파일 업로드</label>

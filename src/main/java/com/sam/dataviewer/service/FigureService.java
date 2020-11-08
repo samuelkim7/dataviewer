@@ -21,11 +21,13 @@ public class FigureService {
     private final DashboardRepository dashboardRepository;
 
     @Transactional
-    public Long create(Long dashboardId, FigureDto dto, String originalFileName) {
+    public Long create(Long dashboardId, FigureDto dto,
+                       String originalFileName, String fileName) {
         Dashboard dashboard = dashboardRepository.getOne(dashboardId);
         Figure figure = Figure.createFigure(
                 dashboard, dto.getTitle(),
-                dto.getDescription(), originalFileName
+                dto.getDescription(), originalFileName,
+                fileName
         );
 
         figureRepository.save(figure);
@@ -46,5 +48,14 @@ public class FigureService {
     public FigureDto findOne(Long id) {
         Figure figure = figureRepository.getOne(id);
         return figure.toDto();
+    }
+
+    /* Figure 수정 */
+    @Transactional
+    public void update(FigureDto dto, String originalFilename, String fileName) {
+        Figure figure = figureRepository.getOne(dto.getId());
+        figure.update(
+                dto.getTitle(), dto.getDescription(),
+                originalFilename, fileName);
     }
 }

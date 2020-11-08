@@ -34,6 +34,9 @@ public class Figure {
     @Column(name = "original_file_name")
     private String originalFileName;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -45,13 +48,15 @@ public class Figure {
     /* 생성 메서드 */
     public static Figure createFigure(
             Dashboard dashboard, String title,
-            String description, String originalFileName
+            String description, String originalFileName,
+            String fileName
     ) {
         Figure figure = new Figure();
         figure.setDashboard(dashboard);
         figure.title = title;
         figure.description = description;
         figure.originalFileName = originalFileName;
+        figure.fileName = fileName;
         return figure;
     }
 
@@ -71,5 +76,16 @@ public class Figure {
         dto.setDashboardTitle(this.getDashboard().getTitle());
         dto.setCreatedAt(this.getCreatedAt());
         return dto;
+    }
+
+    /* Figure 수정 */
+    public void update(
+            String title, String description,
+            String originalFilename, String fileName
+    ) {
+        this.title = title;
+        this.description = description;
+        this.originalFileName = originalFilename;
+        this.fileName = fileName;
     }
 }

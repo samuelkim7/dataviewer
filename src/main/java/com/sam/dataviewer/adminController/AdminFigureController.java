@@ -6,6 +6,10 @@ import com.sam.dataviewer.service.DashboardService;
 import com.sam.dataviewer.service.FigureService;
 import com.sam.dataviewer.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,19 +48,23 @@ public class AdminFigureController {
             return "admin/figure/createFigureForm";
         }
 
-        if (!file.isEmpty()) {
-            figureService.create(dashboardId, figureDto, file.getOriginalFilename());
-        } else {
-            figureService.create(dashboardId, figureDto, null);
-        }
-
+        //파일 업로드
+        String fileName = null;
         try {
             if (!file.isEmpty()) {
-                fileService.uploadFile(file);
+                fileName = fileService.uploadFile(file);
             }
         } catch (IOException e) {
-            result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
+            result.rejectValue("file", "IOException", "파일을 다시 한번 확인해보세요.");
         }
+
+        //figure Entity 생성 및 저장
+        if (!file.isEmpty()) {
+            figureService.create(dashboardId, figureDto, file.getOriginalFilename(), fileName);
+        } else {
+            figureService.create(dashboardId, figureDto, null, null);
+        }
+
         return "redirect:/admin/figures";
     }
 
@@ -72,5 +80,53 @@ public class AdminFigureController {
         FigureDto figureDto = figureService.findOne(id);
         model.addAttribute("figureDto", figureDto);
         return "admin/figure/figureDetail";
+    }
+
+    @PostMapping("/figure/update")
+    public String updateFigure(
+            @Valid FigureDto figureDto,
+            MultipartFile file,
+            BindingResult result
+    ){
+        if (result.hasErrors()) {
+            return "admin/figure/figureDetail";
+        }
+
+        // 현재 파일 삭제 및 새 파일 업로드
+        String fileName = null;
+        try {
+            if (!file.isEmpty()) {
+                fileService.deleteFile(figureDto.getFileName());
+                fileName = fileService.uploadFile(file);
+            }
+        } catch (IOException e) {
+            result.rejectValue("file", "IOException", "파일을 다시 한번 확인해보세요.");
+        }
+
+        // figure Entity 수정
+        if (!file.isEmpty()) {
+            figureService.update(figureDto, file.getOriginalFilename(), fileName);
+        } else {
+            figureService.update(
+                    figureDto, figureDto.getOriginalFileName(),
+                    figureDto.getFileName()
+            );
+        }
+
+        return "redirect:/admin/figures";
+    }
+
+    @GetMapping("/figure/downloadFile/{originalFileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String originalFileName) {
+        Resource resource = null;
+        try {
+            resource = fileService.downloadFile(originalFileName);
+        } catch (IOException e) {
+            //
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFileName + "\"")
+                .body(resource);
     }
 }
