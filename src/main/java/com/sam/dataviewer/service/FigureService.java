@@ -64,4 +64,14 @@ public class FigureService {
     public void deleteFigure(Long id) {
         figureRepository.deleteById(id);
     }
+
+    /* Dashboard에 해당하는 figure 조회 */
+    public List<FigureDto> findByDashboard(Long dashboardId) {
+        List<Figure> figures = figureRepository.findByDashboardId(dashboardId);
+        List<FigureDto> figureDtos = new ArrayList<>();
+        for (Figure figure : figures) {
+            figureDtos.add(figure.toDto());
+        }
+        return figureDtos;
+    }
 }

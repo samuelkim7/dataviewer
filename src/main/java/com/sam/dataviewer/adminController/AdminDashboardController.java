@@ -1,8 +1,10 @@
 package com.sam.dataviewer.adminController;
 
 import com.sam.dataviewer.dto.DashboardDto;
+import com.sam.dataviewer.dto.FigureDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.service.DashboardService;
+import com.sam.dataviewer.service.FigureService;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ public class AdminDashboardController {
 
     private final DashboardService dashboardService;
     private final OrderService orderService;
+    private final FigureService figureService;
 
     @GetMapping("/dashboard/new")
     public String createForm(Model model) {
@@ -52,7 +55,9 @@ public class AdminDashboardController {
     @GetMapping("/dashboard/dashboardDetail/{id}")
     public String dashboardDetail(@PathVariable Long id, Model model) {
         DashboardDto dashboardDto = dashboardService.findOne(id);
+        List<FigureDto> figureDtos = figureService.findByDashboard(id);
         model.addAttribute("dashboardDto", dashboardDto);
+        model.addAttribute("figureDtos", figureDtos);
         return "admin/dashboard/dashboardDetail";
     }
 
