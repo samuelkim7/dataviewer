@@ -131,7 +131,8 @@ public class AdminFigureController {
     }
 
     @GetMapping("/figure/delete/{id}/{fileName}")
-    public String deleteFigure(@PathVariable Long id, @PathVariable String fileName) {
+    public String deleteFigure(@PathVariable Long id,
+                               @PathVariable(required = false) String fileName) {
         //첨부 파일 삭제
         try {
             if (fileName != null) {
