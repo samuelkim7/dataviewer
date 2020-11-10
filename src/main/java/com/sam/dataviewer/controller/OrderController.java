@@ -94,17 +94,17 @@ public class OrderController {
         return "redirect:/orders";
     }
 
-    @GetMapping("/order/downloadFile/{originalFileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String originalFileName) {
+    @GetMapping("/order/downloadFile/{fileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
         Resource resource = null;
         try {
-            resource = fileService.downloadFile(originalFileName);
+            resource = fileService.downloadFile(fileName);
         } catch (IOException e) {
             //
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFileName + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .body(resource);
     }
 

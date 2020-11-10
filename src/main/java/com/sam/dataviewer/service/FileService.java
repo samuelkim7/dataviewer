@@ -95,9 +95,8 @@ public class FileService {
     }
 
     /* 파일 다운로드 */
-    public Resource downloadFile(String originalFileName) throws IOException {
-        File file = fileRepository.findByOriginalFileName(originalFileName);
-        Path path = Paths.get(file.getFilePath());
+    public Resource downloadFile(String fileName) throws IOException {
+        Path path = Paths.get("src/main/resources/static/file/" + fileName);
         InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
         return resource;
     }

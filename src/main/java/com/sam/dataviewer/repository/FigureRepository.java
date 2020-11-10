@@ -10,7 +10,6 @@ public interface FigureRepository extends JpaRepository<Figure, Long> {
 
     @Query("SELECT f FROM Figure as f" +
             " join f.dashboard as d" +
-            " GROUP BY d.id" +
             " ORDER BY d.id DESC")
-    List<Figure> findGroupByDashboard();
+    List<Figure> findOrderByDashboard();
 }

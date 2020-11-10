@@ -50,7 +50,7 @@
                                 <ul>
                                     <li th:each="file : ${fileDtos}">
                                         <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span> &nbsp
-                                        <a th:href="@{'/order/downloadFile/' + ${file.originalFileName}}">다운로드</a> &nbsp
+                                        <a th:href="@{'/order/downloadFile/' + ${file.fileName}}">다운로드</a> &nbsp
                                         <a th:href="@{'/order/deleteFile/' + ${file.id}}">삭제</a>
                                     </li>
                                 </ul>

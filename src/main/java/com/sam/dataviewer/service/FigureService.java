@@ -36,7 +36,7 @@ public class FigureService {
 
     /* Figure 전체 조회 for ADMIN */
     public List<FigureDto> findAll() {
-        List<Figure> figures = figureRepository.findGroupByDashboard();
+        List<Figure> figures = figureRepository.findOrderByDashboard();
         List<FigureDto> figureDtos = new ArrayList<>();
         for (Figure figure : figures) {
             figureDtos.add(figure.toDto());
@@ -57,5 +57,11 @@ public class FigureService {
         figure.update(
                 dto.getTitle(), dto.getDescription(),
                 originalFilename, fileName);
+    }
+
+    /* Figure 삭제 */
+    @Transactional
+    public void deleteFigure(Long id) {
+        figureRepository.deleteById(id);
     }
 }

@@ -52,9 +52,9 @@
                             <div class="form-group">
                                 <label th:for="currentFile">현재 파일</label>
                                 <ul>
-                                    <li>
+                                    <li th:if="*{originalFileName != ''}">
                                         <span th:text="${figureDto.originalFileName}" id="currentFile"></span> &nbsp
-                                        <a th:href="@{'/admin/figure/downloadFile/' + *{originalFileName}}">다운로드</a> &nbsp
+                                        <a th:href="@{'/admin/figure/downloadFile/' + *{fileName}}">다운로드</a> &nbsp
                                     </li>
                                 </ul>
                             </div>
@@ -65,7 +65,7 @@
 
                             <button type="submit" class="btn btn-primary mr-2 mb-4">수정하기</button>
                             <a class="btn btn-danger mr-2  mb-4 confirmCancel"
-                               th:href="@{'/admin/figure/delete/' + *{id}}">Figure 삭제</a>
+                               th:href="@{'/admin/figure/delete/' + *{id} + '/' + *{fileName}}">Figure 삭제</a>
                             <a class="btn btn-primary mr-2 mb-4" href="/admin/figures">Figure 목록</a>
                         </form>
                     </div>
