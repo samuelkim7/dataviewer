@@ -57,6 +57,7 @@
                                         <a th:href="@{'/admin/figure/downloadFile/' + *{fileName}}">다운로드</a> &nbsp
                                     </li>
                                 </ul>
+                                <img class="mt-2" th:src="@{'/file/' + *{fileName}}" width="50%"/>
                             </div>
 
                             <input type="hidden" th:field="*{id}">
