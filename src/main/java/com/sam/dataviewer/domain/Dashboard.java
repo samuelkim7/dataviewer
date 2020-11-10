@@ -36,7 +36,7 @@ public class Dashboard {
     @OneToMany(mappedBy = "dashboard")
     private List<Figure> figures = new ArrayList<>();
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 

@@ -8,14 +8,14 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <ul th:replace="fragments/adminSidebar"/>
+    <ul th:replace="fragments/sidebar"/>
 
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
         <div id="content">
 
-            <nav th:replace="fragments/adminNav"/>
+            <nav th:replace="fragments/nav"/>
 
             <div class="container-fluid">
 
@@ -23,10 +23,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                         <div class="float-right">
-                            <button type="submit" class="btn btn-primary mr-2 mb-2">수정하기</button>
-                            <a class="btn btn-danger mr-2 mb-2 confirmCancel"
-                               th:href="@{'/admin/dashboard/delete/' + *{id}}">삭제하기</a>
-                            <a class="btn btn-primary mr-2 mb-2" href="/admin/dashboards">Dashboard 목록</a>
+                            <a class="btn btn-primary mr-2 mb-2" href="/dashboards">Dashboard 목록</a>
                         </div>
                     </div>
 
@@ -37,8 +34,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="h6 font-weight-bold text-primary mb-2">제목</div>
-                                            <input type="text" class="h6 mb-0 form-control" th:field="*{title}">
-                                            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+                                            <span class="h5 mb-0 text-gray-800"
+                                                  th:text="${dashboardDto.title}"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -66,8 +63,7 @@
                                         <div class="col mr-2">
                                             <div class="h6 font-weight-bold text-warning mb-2">내용</div>
                                             <textarea th:field="*{content}" cols="30" rows="3"
-                                                      class="form-control"></textarea>
-                                            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+                                                      class="form-control" readonly></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +71,6 @@
                         </div>
                     </div>
 
-                    <input type="hidden" th:field="*{id}">
                 </form>
 
                 <div class="row">

@@ -58,4 +58,14 @@ public class DashboardService {
     public void deleteDashboard(Long id) {
         dashboardRepository.deleteById(id);
     }
+
+    /* 회원명으로 조회 for Member */
+    public List<DashboardDto> findByUsername(String username) {
+        List<Dashboard> dashboards = dashboardRepository.findByUsername(username);
+        List<DashboardDto> dashboardDtos = new ArrayList<>();
+        for (Dashboard dashboard: dashboards) {
+            dashboardDtos.add(dashboard.toDto());
+        }
+        return dashboardDtos;
+    }
 }

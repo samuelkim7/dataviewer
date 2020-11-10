@@ -57,8 +57,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<File> files = new ArrayList<>();
 
-    @OneToOne(mappedBy = "order", fetch = LAZY)
-    private Dashboard dashboard;
+    @OneToMany(mappedBy = "order", fetch = LAZY)
+    private List<Dashboard> dashboards = new ArrayList<>();
 
     /* 생성 메서드 */
     public static Order createOrder(
