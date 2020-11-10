@@ -80,8 +80,10 @@ public class FileService {
 
     /* file 삭제 */
     public void deleteFile(String fileName) throws IOException {
-        Path path = Paths.get("src/main/resources/static/file/" + fileName);
-        Files.delete(path);
+        if (fileName != null) {
+            Path path = Paths.get("src/main/resources/static/file/" + fileName);
+            Files.delete(path);
+        }
     }
 
     /* file 삭제 및 info 삭제 */

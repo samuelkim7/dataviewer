@@ -55,7 +55,7 @@ public class AdminFigureController {
                 fileName = fileService.uploadFile(file);
             }
         } catch (IOException e) {
-            result.rejectValue("file", "IOException", "파일을 다시 한번 확인해보세요.");
+            //
         }
 
         //figure Entity 생성 및 저장
@@ -92,15 +92,15 @@ public class AdminFigureController {
             return "admin/figure/figureDetail";
         }
 
-        // 현재 파일 삭제 및 새 파일 업로드
+        // 파일 업로드 및 현재 파일 삭제
         String fileName = null;
         try {
             if (!file.isEmpty()) {
-                fileService.deleteFile(figureDto.getFileName());
                 fileName = fileService.uploadFile(file);
+                fileService.deleteFile(figureDto.getFileName());
             }
         } catch (IOException e) {
-            result.rejectValue("file", "IOException", "파일을 다시 한번 확인해보세요.");
+            //
         }
 
         // figure Entity 수정

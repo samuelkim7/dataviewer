@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label th:for="currentFile">현재 파일</label>
                                 <ul>
-                                    <li th:if="*{originalFileName != ''}">
+                                    <li th:if="*{originalFileName}">
                                         <span th:text="${figureDto.originalFileName}" id="currentFile"></span> &nbsp
                                         <a th:href="@{'/admin/figure/downloadFile/' + *{fileName}}">다운로드</a> &nbsp
                                     </li>
