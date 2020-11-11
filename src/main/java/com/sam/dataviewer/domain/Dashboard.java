@@ -33,7 +33,7 @@ public class Dashboard {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "dashboard")
+    @OneToMany(mappedBy = "dashboard", cascade = CascadeType.ALL)
     private List<Figure> figures = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
@@ -54,7 +54,7 @@ public class Dashboard {
     /* 연관관계 메서드 */
     public void setOrder(Order order) {
         this.order = order;
-        order.setDashBoard(this);
+        order.getDashboards().add(this);
     }
 
     /* dto Object로 변환 */

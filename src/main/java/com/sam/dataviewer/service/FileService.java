@@ -26,7 +26,7 @@ public class FileService {
     private final FileRepository fileRepository;
     private final OrderRepository orderRepository;
 
-    /* 분석 file 업로드 */
+    /* file 업로드 */
     public String uploadFile(MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
         String originalFileName = file.getOriginalFilename();
@@ -36,7 +36,7 @@ public class FileService {
         return fileName;
     }
 
-    /* 분석 file 업로드 및 info 저장 */
+    /* file 업로드 및 info 저장 */
     @Transactional
     public void saveFile(Long orderId, List<MultipartFile> files) throws IOException {
         for (MultipartFile file : files) {

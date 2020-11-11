@@ -28,7 +28,7 @@
 
                             <div class="form-group text-left">
                                 <label th:for="username">아이디</label>
-                                <input type="text" th:field="*{username}" class="form-control">
+                                <input type="text" th:field="*{username}" class="form-control" autofocus>
                                 <p class="errorMsg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                             </div>
 

@@ -47,17 +47,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;   // WAIT, ORDER, CANCEL
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "dashboard_id")
-    private Dashboard dashBoard;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Estimate> estimates = new ArrayList<>();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<File> files = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", fetch = LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Dashboard> dashboards = new ArrayList<>();
 
     /* 생성 메서드 */
@@ -77,10 +73,6 @@ public class Order {
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
-    }
-
-    public void setDashBoard(Dashboard dashBoard) {
-        this.dashBoard = dashBoard;
     }
 
     /* 의뢰 취소 */
