@@ -20,6 +20,7 @@ class OrderTest {
 
         //then
         assertThat(member).isEqualTo(order.getMember());
+        assertThat(order).isEqualTo(member.getOrders().get(0));
         assertThat(title).isEqualTo(order.getTitle());
         assertThat(content).isEqualTo(order.getContent());
     }

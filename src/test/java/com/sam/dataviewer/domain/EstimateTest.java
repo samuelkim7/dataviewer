@@ -24,6 +24,7 @@ class EstimateTest {
 
         //then
         assertThat(order).isEqualTo(estimate.getOrder());
+        assertThat(estimate).isEqualTo(order.getEstimates().get(0));
         assertThat(title).isEqualTo(estimate.getTitle());
         assertThat(price).isEqualTo(estimate.getPrice());
     }
@@ -107,17 +108,15 @@ class EstimateTest {
     }
 
     private Member getMember() {
-        Member member = Member.createMember(
+        return Member.createMember(
                 "kim", null,
                 null, null, null,
                 null, null
         );
-        return member;
     }
 
     private Order getOrder(Member member) {
-        Order order = Order.createOrder(member, "의뢰", "내용");
-        return order;
+        return Order.createOrder(member, "의뢰", "내용");
     }
 
 }
