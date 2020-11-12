@@ -59,7 +59,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public String orderList(Principal principal, Model model) {
-        List<OrderDto> orderDtos = orderService.findOrdersByUsername(principal.getName());
+        List<OrderDto> orderDtos = orderService.findByUsername(principal.getName());
         model.addAttribute("orderDtos", orderDtos);
         return "order/orderList";
     }

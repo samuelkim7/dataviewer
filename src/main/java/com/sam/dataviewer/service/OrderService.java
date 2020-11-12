@@ -52,8 +52,8 @@ public class OrderService {
         return order.toDto();
     }
 
-    /* 회원 아이디 별 의뢰 전체 조회 for USER */
-    public List<OrderDto> findOrdersByUsername(String username) {
+    /* 회원 아이디별 의뢰 전체 조회 for USER */
+    public List<OrderDto> findByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
         List<Order> orders = orderRepository.findByMemberOrderByIdDesc(member);
         List<OrderDto> orderDtos = new ArrayList<>();
