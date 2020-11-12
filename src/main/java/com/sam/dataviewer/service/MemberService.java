@@ -66,13 +66,9 @@ public class MemberService {
     /* 회원 정보 수정 */
     @Transactional
     public void updateMember(MemberDto dto) {
-        //password 암호화
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
-
         Member member = memberRepository.findByUsername(dto.getUsername());
         member.update(
-                encodedPassword, dto.getName(),
-                dto.getEmail(), dto.getPhoneNumber(),
+                dto.getName(), dto.getEmail(), dto.getPhoneNumber(),
                 dto.getBirthDate(), dto.getAddress()
         );
     }

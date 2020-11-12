@@ -105,11 +105,9 @@ public class Member implements UserDetails {
 
     /* 회원 정보 수정 */
     public void update(
-            String encodedPassword, String name,
-            String email, String phoneNumber,
+            String name, String email, String phoneNumber,
             LocalDate birthDate, String address
     ) {
-        this.password = encodedPassword;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
