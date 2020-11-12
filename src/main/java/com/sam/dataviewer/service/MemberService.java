@@ -22,7 +22,7 @@ public class MemberService {
 
     /* 회원 가입 */
     @Transactional
-    public Long join(MemberDto dto) {
+    public Member join(MemberDto dto) {
         //회원 아이디 중복 확인
         validateUsername(dto.getUsername());
 
@@ -36,7 +36,7 @@ public class MemberService {
                 dto.getAddress()
         );
         memberRepository.save(member);
-        return member.getId();
+        return member;
     }
 
     /* 아이디 중복 검증 */

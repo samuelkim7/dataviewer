@@ -96,7 +96,7 @@ public class Member implements UserDetails {
         MemberDto dto = new MemberDto();
         dto.setUsername(this.getUsername());
         dto.setName(this.getName());
-        dto.setEmail(this.email);
+        dto.setEmail(this.getEmail());
         dto.setPhoneNumber(this.getPhoneNumber());
         dto.setBirthDate(this.getBirthDate());
         dto.setAddress(this.getAddress());

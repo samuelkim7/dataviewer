@@ -32,4 +32,5 @@ public class MemberDto {
     private LocalDate birthDate;
 
     private String address;
+
 }
