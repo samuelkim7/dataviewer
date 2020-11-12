@@ -66,8 +66,7 @@ class MemberTest {
 
         //when
         member.update(
-                null, null,
-                newEmail, newPhoneNumber,
+                null, newEmail, newPhoneNumber,
                 null, newAddress
         );
 
@@ -75,6 +74,24 @@ class MemberTest {
         assertThat(newEmail).isEqualTo(member.getEmail());
         assertThat(newPhoneNumber).isEqualTo(member.getPhoneNumber());
         assertThat(newAddress).isEqualTo(member.getAddress());
+    }
+
+    @Test
+    public void updatePassword() throws Exception {
+        //given
+        Member member = Member.createMember(
+                "kim", "1111",
+                null, null, null,
+                null, null
+        );
+
+        String newPassword = "2222";
+
+        //when
+        member.updatePassword(newPassword);
+
+        //then
+        assertThat(newPassword).isEqualTo(member.getPassword());
     }
 
 }
