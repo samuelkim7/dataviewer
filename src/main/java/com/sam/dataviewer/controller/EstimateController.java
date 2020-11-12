@@ -25,7 +25,7 @@ public class EstimateController {
 
     @GetMapping("/estimates")
     public String estimateList(Principal principal, Model model) {
-        List<EstimateDto> estimateDtos = estimateService.findEstimatesByUsername(principal.getName());
+        List<EstimateDto> estimateDtos = estimateService.findByUsername(principal.getName());
         model.addAttribute("estimateDtos", estimateDtos);
         return "estimate/estimateList";
     }

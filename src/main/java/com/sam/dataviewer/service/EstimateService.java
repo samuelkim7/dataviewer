@@ -22,7 +22,6 @@ public class EstimateService {
 
     private final EstimateRepository estimateRepository;
     private final OrderRepository orderRepository;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public Long request(Long orderId, EstimateDto dto) {
@@ -75,7 +74,7 @@ public class EstimateService {
     }
 
     /* 회원 아이디별 견적 전체 조회 for USER */
-    public List<EstimateDto> findEstimatesByUsername(String username) {
+    public List<EstimateDto> findByUsername(String username) {
         List<Estimate> estimates = estimateRepository.findByUsername(username);
         List<EstimateDto> estimateDtos = new ArrayList<>();
         for (Estimate estimate : estimates) {

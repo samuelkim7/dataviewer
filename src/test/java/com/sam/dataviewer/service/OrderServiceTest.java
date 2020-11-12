@@ -4,7 +4,6 @@ import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.OrderStatus;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
-import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +21,11 @@ class OrderServiceTest {
     @Autowired OrderService orderService;
     @Autowired MemberService memberService;
     @Autowired OrderRepository orderRepository;
-    @Autowired MemberRepository memberRepository;
 
     @Test
     public void 의뢰_신청() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        Member member = memberService.join(memberDto);
+        Member member = getMember();
 
         OrderDto orderDto = new OrderDto();
         orderDto.setTitle("새 의뢰");
@@ -46,10 +41,7 @@ class OrderServiceTest {
     @Test
     public void 회원_아이디별_의뢰_전체_조회() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        Member member = memberService.join(memberDto);
+        Member member = getMember();
 
         OrderDto orderDto1 = new OrderDto();
         orderDto1.setTitle("의뢰1");
@@ -63,6 +55,7 @@ class OrderServiceTest {
         List<OrderDto> orderDtos = orderService.findByUsername(member.getUsername());
 
         //then
+        assertThat(2).isEqualTo(orderDtos.size());
         assertThat(orderDto2.getTitle())
                 .isEqualTo(orderDtos.get(0).getTitle());
         assertThat(orderDto1.getTitle())
@@ -72,10 +65,7 @@ class OrderServiceTest {
     @Test
     public void 의뢰_취소() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        Member member = memberService.join(memberDto);
+        Member member = getMember();
 
         OrderDto orderDto = new OrderDto();
         orderDto.setTitle("새 의뢰");
@@ -92,10 +82,7 @@ class OrderServiceTest {
     @Test
     public void 의뢰_수정() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        Member member = memberService.join(memberDto);
+        Member member = getMember();
 
         OrderDto orderDto1 = new OrderDto();
         orderDto1.setTitle("웹사이트 분석");
@@ -116,10 +103,7 @@ class OrderServiceTest {
     @Test
     public void 의뢰_시작() throws Exception {
         //given
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        Member member = memberService.join(memberDto);
+        Member member = getMember();
 
         OrderDto orderDto = new OrderDto();
         orderDto.setTitle("새 의뢰");
@@ -131,5 +115,12 @@ class OrderServiceTest {
         //then
         assertThat(OrderStatus.ORDER)
                 .isEqualTo(orderRepository.getOne(orderId).getStatus());
+    }
+
+    private Member getMember() {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUsername("kim");
+        memberDto.setPassword("1234");
+        return memberService.join(memberDto);
     }
 }

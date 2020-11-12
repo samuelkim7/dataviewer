@@ -13,7 +13,8 @@ public interface EstimateRepository extends JpaRepository<Estimate, Long> {
     @Query("SELECT e FROM Estimate as e" +
             " join e.order as o" +
             " join o.member as m" +
-            " WHERE m.username = :username")
+            " WHERE m.username = :username" +
+            " ORDER BY e.id DESC")
     List<Estimate> findByUsername(@Param("username") String username);
 
     List<Estimate> findByOrderByIdDesc();
