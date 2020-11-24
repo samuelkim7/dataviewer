@@ -80,6 +80,7 @@ public class Figure {
         dto.setFileName(this.getFileName());
         dto.setIframeTag(this.getIframeTag());
         dto.setDashboardTitle(this.getDashboard().getTitle());
+        dto.setDashboardId(this.getDashboard().getId());
         dto.setCreatedAt(this.getCreatedAt());
         return dto;
     }

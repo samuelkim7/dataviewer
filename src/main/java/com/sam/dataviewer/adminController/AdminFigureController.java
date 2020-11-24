@@ -82,6 +82,13 @@ public class AdminFigureController {
         return "admin/figure/figureDetail";
     }
 
+    @GetMapping("/figure/figureView/{id}")
+    public String figureView(@PathVariable Long id, Model model) {
+        FigureDto figureDto = figureService.findOne(id);
+        model.addAttribute("figureDto", figureDto);
+        return "admin/figure/figureView";
+    }
+
     @PostMapping("/figure/update")
     public String updateFigure(
             @Valid FigureDto figureDto,

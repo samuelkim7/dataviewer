@@ -23,6 +23,8 @@ public class FigureDto {
 
     private String iframeTag;
 
+    private Long dashboardId;
+
     private String dashboardTitle;
 
     private LocalDateTime createdAt;
