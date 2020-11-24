@@ -92,11 +92,7 @@
                             <!-- Card Body -->
                             <div class="card-body">
                                 <div class="chart-area">
-                                    <img class="mt-2" th:src="@{'/file/' + ${figure.fileName}}" height="90%"/>
-                                    <div class="mt-2">
-                                        <span class="text-success mr-2">설명:</span>
-                                        <span th:utext="${figure.description}" readonly></span>
-                                    </div>
+                                    <img th:src="@{'/file/' + ${figure.fileName}}" height="100%"/>
                                 </div>
                             </div>
                         </div>

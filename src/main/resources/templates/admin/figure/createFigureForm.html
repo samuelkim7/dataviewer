@@ -42,7 +42,7 @@
                             </div>
                             <div class="form-group">
                                 <label th:for="description">설명</label>
-                                <textarea th:field="*{description}" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea th:field="*{description}" cols="30" rows="3" class="form-control"></textarea>
                                 <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
                             </div>
                             <div class="form-group">

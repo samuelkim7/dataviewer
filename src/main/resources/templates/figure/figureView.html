@@ -8,20 +8,19 @@
 <!-- Page Wrapper -->
 <div id="wrapper">
 
-    <ul th:replace="fragments/adminSidebar"/>
+    <ul th:replace="fragments/sidebar"/>
 
     <div id="content-wrapper" class="d-flex flex-column">
 
         <!-- Main Content -->
         <div id="content">
 
-            <nav th:replace="fragments/adminNav"/>
+            <nav th:replace="fragments/nav"/>
 
             <div class="container-fluid">
                 <div class="row">
                     <div class="col"></div>
                     <div class="col-8">
-
                         <form th:object="${figureDto}">
                             <h3 class="mb-4 font-weight-bold text-success" th:text="*{title}"></h3>
 
@@ -31,7 +30,7 @@
                                       readonly></textarea>
 
                             <a class="btn btn-primary mr-2 mb-4"
-                               th:href="@{'/admin/dashboard/dashboardDetail/' + *{dashboardId}}">Dashboard로 돌아가기</a>
+                               th:href="@{'/dashboard/dashboardDetail/' + *{dashboardId}}">Dashboard로 돌아가기</a>
                         </form>
                     </div>
                     <div class="col"></div>
