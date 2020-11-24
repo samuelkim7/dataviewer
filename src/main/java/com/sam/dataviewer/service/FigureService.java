@@ -27,7 +27,7 @@ public class FigureService {
         Figure figure = Figure.createFigure(
                 dashboard, dto.getTitle(),
                 dto.getDescription(), originalFileName,
-                fileName
+                fileName, dto.getIframeTag()
         );
 
         figureRepository.save(figure);
@@ -56,7 +56,7 @@ public class FigureService {
         Figure figure = figureRepository.getOne(dto.getId());
         figure.update(
                 dto.getTitle(), dto.getDescription(),
-                originalFilename, fileName);
+                originalFilename, fileName, dto.getIframeTag());
     }
 
     /* Figure 삭제 */
