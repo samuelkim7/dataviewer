@@ -31,7 +31,7 @@ public class FileService {
         byte[] bytes = file.getBytes();
         String originalFileName = file.getOriginalFilename();
         String fileName = getFileName(originalFileName);
-        Path path = Paths.get("src/main/resources/static/file/" + fileName);
+        Path path = Paths.get("src/main/resources/file/" + fileName);
         Files.write(path, bytes);
         return fileName;
     }
@@ -44,7 +44,7 @@ public class FileService {
             byte[] bytes = file.getBytes();
             String originalFileName = file.getOriginalFilename();
             String fileName = getFileName(originalFileName);
-            Path path = Paths.get("src/main/resources/static/file/" + fileName);
+            Path path = Paths.get("src/main/resources/file/" + fileName);
             Files.write(path, bytes);
 
             //파일 정보 DB에 저장
@@ -79,7 +79,7 @@ public class FileService {
     /* file 삭제 */
     public void deleteFile(String fileName) throws IOException {
         if (fileName != null) {
-            Path path = Paths.get("src/main/resources/static/file/" + fileName);
+            Path path = Paths.get("src/main/resources/file/" + fileName);
             Files.delete(path);
         }
     }
@@ -96,7 +96,7 @@ public class FileService {
 
     /* 파일 다운로드 */
     public Resource downloadFile(String fileName) throws IOException {
-        Path path = Paths.get("src/main/resources/static/file/" + fileName);
+        Path path = Paths.get("src/main/resources/file/" + fileName);
         InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
         return resource;
     }
