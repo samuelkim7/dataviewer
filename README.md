@@ -13,4 +13,6 @@
 
 ### 테이블 설계 &nbsp;&nbsp; [Link](https://github.com/samuelkim7/dataviewer/blob/master/tables.png)
 
+### 프로젝트 시현 영상 &nbsp;&nbsp; Link
+
 ### 프로젝트 일지 &nbsp;&nbsp; [Link](https://github.com/samuelkim7/dataviewer/blob/master/progress.md)
