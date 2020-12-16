@@ -9,7 +9,7 @@
 - 프론트엔드: HTML, CSS, JS, Bootstrap, Thymeleaf
 - 데이터 분석 및 시각화: pyspark, D3
 
-### Application 요구 사항 및 기능 목록
+### Application 요구 사항 [Link](https://github.com/samuelkim7/dataviewer/edit/master/requirement.md)
 
 ### 테이블 설계 및 연관관계 매핑 분석
 
