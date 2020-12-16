@@ -6,7 +6,7 @@
 
 ### 사용한 기술
 - 백엔드: Java 11, SpringBoot, Spring DATA JPA, MySQL / IDE: intelliJ
-- 프론트엔드: HTML, CSS, JS, Bootstrap, Thmyeleaf
+- 프론트엔드: HTML, CSS, JS, Bootstrap, Thymeleaf
 - 데이터 분석 및 시각화: pyspark, D3
 
 ### Application 요구 사항 및 기능 목록
