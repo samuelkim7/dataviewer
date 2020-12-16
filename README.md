@@ -11,6 +11,6 @@
 
 ### Application 요구 사항 &nbsp;&nbsp; [Link](https://github.com/samuelkim7/dataviewer/edit/master/requirement.md)
 
-### 테이블 설계
+### 테이블 설계 &nbsp;&nbsp; [Link](https://github.com/samuelkim7/dataviewer/edit/master/tables.png)
 
 ### 프로젝트 일지
