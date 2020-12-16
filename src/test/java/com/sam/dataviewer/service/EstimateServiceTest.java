@@ -25,7 +25,7 @@ class EstimateServiceTest {
     @Autowired EstimateRepository estimateRepository;
 
     @Test
-    public void 견적_신청() throws Exception {
+    public void requestTest() throws Exception {
         //given
         Member member = getMember();
         Long orderId = getOrder(member);
@@ -42,7 +42,7 @@ class EstimateServiceTest {
     }
 
     @Test
-    public void 회원_아이디별_견적_전체_조회() throws Exception {
+    public void findByUsernameTest() throws Exception {
         //given
         Member member = getMember();
         Long orderId = getOrder(member);
@@ -67,7 +67,7 @@ class EstimateServiceTest {
     }
 
     @Test
-    public void 견적_취소() throws Exception {
+    public void cancelEstimateTest() throws Exception {
         //given
         Member member = getMember();
         Long orderId = getOrder(member);
@@ -85,7 +85,7 @@ class EstimateServiceTest {
     }
 
     @Test
-    public void 견적_수정() throws Exception {
+    public void updateEstimateTest() throws Exception {
         //given
         Member member = getMember();
         Long orderId = getOrder(member);
@@ -107,7 +107,7 @@ class EstimateServiceTest {
     }
 
     @Test
-    public void 견적_승낙() throws Exception {
+    public void acceptEstimateTest() throws Exception {
         //given
         Member member = getMember();
         Long orderId = getOrder(member);

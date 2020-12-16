@@ -66,7 +66,7 @@ class FigureTest {
         //when
         figure.update(
                 newTitle, null,
-                newOriginalFileName, null
+                newOriginalFileName, null, null
         );
 
         //then

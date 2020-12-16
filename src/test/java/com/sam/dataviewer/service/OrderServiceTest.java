@@ -23,7 +23,7 @@ class OrderServiceTest {
     @Autowired OrderRepository orderRepository;
 
     @Test
-    public void 의뢰_신청() throws Exception {
+    public void orderTest() throws Exception {
         //given
         Member member = getMember();
 
@@ -39,7 +39,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void 회원_아이디별_의뢰_전체_조회() throws Exception {
+    public void findByUsernameTest() throws Exception {
         //given
         Member member = getMember();
 
@@ -63,7 +63,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void 의뢰_취소() throws Exception {
+    public void cancelOrderTest() throws Exception {
         //given
         Member member = getMember();
 
@@ -80,7 +80,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void 의뢰_수정() throws Exception {
+    public void updateOrderTest() throws Exception {
         //given
         Member member = getMember();
 
@@ -101,7 +101,7 @@ class OrderServiceTest {
     }
 
     @Test
-    public void 의뢰_시작() throws Exception {
+    public void startOrderTest() throws Exception {
         //given
         Member member = getMember();
 

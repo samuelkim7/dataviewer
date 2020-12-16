@@ -19,7 +19,7 @@ class MemberServiceTest {
     @Autowired MemberRepository memberRepository;
 
     @Test
-    public void 회원_가입() throws Exception {
+    public void joinTest() throws Exception {
         //given
         MemberDto dto = new MemberDto();
         dto.setUsername("kim");
@@ -33,7 +33,7 @@ class MemberServiceTest {
     }
 
     @Test
-    public void 중복_회원_예외() throws Exception {
+    public void validateUsernameTest() throws Exception {
         //given
         MemberDto dto1 = new MemberDto();
         dto1.setUsername("kim");
@@ -54,7 +54,7 @@ class MemberServiceTest {
     }
 
     @Test
-    public void 회원_정보_수정() throws Exception {
+    public void updateMemberTest() throws Exception {
         //given
         MemberDto dto1 = new MemberDto();
         dto1.setUsername("kim");
@@ -76,7 +76,7 @@ class MemberServiceTest {
     }
 
     @Test
-    public void 비밀번호_변경_기존_비밀번호_검증() throws Exception {
+    public void validateCurrentPasswordTest() throws Exception {
         //given
         MemberDto memberDto = new MemberDto();
         memberDto.setUsername("kim");
@@ -96,7 +96,7 @@ class MemberServiceTest {
     }
 
     @Test
-    public void 비밀번호_변경_비밀번호_재확인_검증() throws Exception {
+    public void validateConfirmPasswordTest() throws Exception {
         //given
         MemberDto memberDto = new MemberDto();
         memberDto.setUsername("kim");
