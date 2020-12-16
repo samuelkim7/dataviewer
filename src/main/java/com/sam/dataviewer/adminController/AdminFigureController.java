@@ -107,7 +107,6 @@ public class AdminFigureController {
                 fileService.deleteFile(figureDto.getFileName());
             }
         } catch (IOException e) {
-            //
         }
 
         // figure Entity 수정
