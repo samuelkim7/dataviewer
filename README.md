@@ -11,6 +11,6 @@
 
 ### Application 요구 사항 &nbsp;&nbsp; [Link](https://github.com/samuelkim7/dataviewer/edit/master/requirement.md)
 
-### 테이블 설계 및 연관관계 매핑 분석
+### 테이블 설계
 
 ### 프로젝트 일지
