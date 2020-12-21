@@ -1,41 +1,63 @@
 package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Member;
+import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.domain.OrderStatus;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
-    @Autowired OrderService orderService;
-    @Autowired MemberService memberService;
-    @Autowired OrderRepository orderRepository;
+    @InjectMocks
+    private MemberService memberService;
+    @InjectMocks
+    private OrderService orderService;
+    @Mock
+    private MemberRepository memberRepository;
+    @Mock
+    private OrderRepository orderRepository;
+    @Captor
+    private ArgumentCaptor<Order> argumentCaptor;
 
     @Test
+    @DisplayName("의뢰 요청")
     public void orderTest() throws Exception {
         //given
         Member member = getMember();
 
         OrderDto orderDto = new OrderDto();
         orderDto.setTitle("새 의뢰");
+        given(memberRepository.findByUsername(member.getUsername())).willReturn(member);
 
         //when
         Long orderId = orderService.order(member.getUsername(), orderDto);
 
         //then
-        assertThat(orderDto.getTitle())
-                .isEqualTo(orderRepository.getOne(orderId).getTitle());
+        verify(orderRepository, times(1)).save(argumentCaptor.capture());
+        then(argumentCaptor.getValue()).isNotNull();
+        then(argumentCaptor.getValue().getTitle()).isEqualTo("새 의뢰");
+
+//        assertThat(orderDto.getTitle())
+//                .isEqualTo(orderRepository.getOne(orderId).getTitle());
     }
 
     @Test

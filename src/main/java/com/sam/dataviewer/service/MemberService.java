@@ -40,7 +40,7 @@ public class MemberService {
     }
 
     /* 아이디 중복 검증 */
-    private void validateUsername(String username) {
+    public void validateUsername(String username) {
         Member existingMember = memberRepository.findByUsername(username);
         if (existingMember != null) {
             throw new IllegalStateException("아이디 중복");
