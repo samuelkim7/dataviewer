@@ -28,7 +28,7 @@ class EstimateRepositoryTest {
     @DisplayName("id 내림차순 조회")
     public void findByOrderByIdDescTest() throws Exception {
         //given
-        Member member = getMember();
+        Member member = getMember("kim");
         testEntityManager.persist(member);
         Order order = getOrder(member);
         testEntityManager.persist(order);
@@ -57,14 +57,29 @@ class EstimateRepositoryTest {
     @DisplayName("회원명으로 조회")
     public void findByUsernameTest() throws Exception {
         //given
-        Member member = getMember();
-        testEntityManager.persist(member);
-        Order order = getOrder(member);
-        testEntityManager.persist(order);
+        Member member1 = getMember("kim");
+        testEntityManager.persist(member1);
+        Order order1 = getOrder(member1);
+        testEntityManager.persist(order1);
+
+        Member member2 = getMember("park");
+        testEntityManager.persist(member2);
+        Order order2 = getOrder(member2);
+        testEntityManager.persist(order2);
 
         IntStream.range(0, 5).forEach(i -> {
                     Estimate estimate = Estimate.createEstimate(
-                            order, "estimate", null, null, null);
+                            order1, "estimate", null, null, null);
+
+                    testEntityManager.persist(estimate);
+                    testEntityManager.flush();
+                    testEntityManager.clear();
+                }
+        );
+
+        IntStream.range(0, 5).forEach(i -> {
+                    Estimate estimate = Estimate.createEstimate(
+                            order2, "estimate", null, null, null);
 
                     testEntityManager.persist(estimate);
                     testEntityManager.flush();
@@ -73,7 +88,7 @@ class EstimateRepositoryTest {
         );
 
         //when
-        List<Estimate> estimates = estimateRepository.findByUsername(member.getUsername());
+        List<Estimate> estimates = estimateRepository.findByUsername(member1.getUsername());
 
         //then
         then(estimates).hasSize(5);
@@ -84,9 +99,9 @@ class EstimateRepositoryTest {
         return Order.createOrder(member, "order", "content");
     }
 
-    private Member getMember() {
+    private Member getMember(String username) {
         return Member.createMember(
-                "kim", null, null,
+                username, null, null,
                 null, null, null, null);
     }
 
