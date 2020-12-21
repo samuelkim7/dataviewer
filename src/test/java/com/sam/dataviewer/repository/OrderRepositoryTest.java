@@ -70,10 +70,8 @@ class OrderRepositoryTest {
         List<Order> orders = orderRepository.findByOrderByIdDesc();
 
         //then
-        // member의 id가 1L, order의 id는 2L부터 6L까지로 설정됨
         then(orders).hasSize(5);
-        then(orders.get(0).getId()).isEqualTo(6L);
-        then(orders.get(4).getId()).isEqualTo(2L);
+        then(orders.get(0).getId() - orders.get(4).getId()).isEqualTo(4L);
     }
 
     @Test
