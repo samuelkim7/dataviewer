@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,11 +40,7 @@ public class OrderService {
     /* 의뢰 전체 조회 for ADMIN */
     public List<OrderDto> findAll() {
         List<Order> orders = orderRepository.findByOrderByIdDesc();
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            orderDtos.add(order.toDto());
-        }
-        return orderDtos;
+        return orders.stream().map(o -> o.toDto()).collect(Collectors.toList());
     }
 
     /* 의뢰 한 건 조회 */
@@ -56,11 +53,7 @@ public class OrderService {
     public List<OrderDto> findByUsername(String username) {
         Member member = memberRepository.findByUsername(username);
         List<Order> orders = orderRepository.findByMemberOrderByIdDesc(member);
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orders) {
-            orderDtos.add(order.toDto());
-        }
-        return orderDtos;
+        return orders.stream().map(o -> o.toDto()).collect(Collectors.toList());
     }
 
     /* 의뢰 취소 */

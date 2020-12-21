@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,11 +38,7 @@ public class FigureService {
     /* Figure 전체 조회 for ADMIN */
     public List<FigureDto> findAll() {
         List<Figure> figures = figureRepository.findOrderByDashboard();
-        List<FigureDto> figureDtos = new ArrayList<>();
-        for (Figure figure : figures) {
-            figureDtos.add(figure.toDto());
-        }
-        return figureDtos;
+        return figures.stream().map(f -> f.toDto()).collect(Collectors.toList());
     }
 
     /* Figure 한건 조회 */
@@ -68,10 +65,6 @@ public class FigureService {
     /* Dashboard에 해당하는 figure 조회 */
     public List<FigureDto> findByDashboard(Long dashboardId) {
         List<Figure> figures = figureRepository.findByDashboardId(dashboardId);
-        List<FigureDto> figureDtos = new ArrayList<>();
-        for (Figure figure : figures) {
-            figureDtos.add(figure.toDto());
-        }
-        return figureDtos;
+        return figures.stream().map(f -> f.toDto()).collect(Collectors.toList());
     }
 }

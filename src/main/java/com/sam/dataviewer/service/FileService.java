@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -69,11 +70,7 @@ public class FileService {
     public List<FileDto> findByOrderId(Long id) {
         Order order = orderRepository.getOne(id);
         List<File> files = fileRepository.findByOrderOrderByIdDesc(order);
-        List<FileDto> fileDtos = new ArrayList<>();
-        for (File file : files) {
-            fileDtos.add(file.toDto());
-        }
-        return fileDtos;
+        return files.stream().map(f -> f.toDto()).collect(Collectors.toList());
     }
 
     /* file 삭제 */

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,11 +40,7 @@ public class EstimateService {
     /* 견적 전체 조회 for ADMIN */
     public List<EstimateDto> findAll() {
         List<Estimate> estimates = estimateRepository.findByOrderByIdDesc();
-        List<EstimateDto> estimateDtos = new ArrayList<>();
-        for (Estimate estimate : estimates) {
-            estimateDtos.add(estimate.toDto());
-        }
-        return estimateDtos;
+        return estimates.stream().map(e -> e.toDto()).collect(Collectors.toList());
     }
 
     /* 견적 한 건 조회 */
@@ -76,11 +73,7 @@ public class EstimateService {
     /* 회원 아이디별 견적 전체 조회 for USER */
     public List<EstimateDto> findByUsername(String username) {
         List<Estimate> estimates = estimateRepository.findByUsername(username);
-        List<EstimateDto> estimateDtos = new ArrayList<>();
-        for (Estimate estimate : estimates) {
-            estimateDtos.add(estimate.toDto());
-        }
-        return estimateDtos;
+        return estimates.stream().map(e -> e.toDto()).collect(Collectors.toList());
     }
 
 }

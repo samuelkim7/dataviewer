@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,11 +34,7 @@ public class DashboardService {
     /* Dashboard 전체 조회 for ADMIN */
     public List<DashboardDto> findAll() {
         List<Dashboard> dashboards = dashboardRepository.findByOrderByIdDesc();
-        List<DashboardDto> dashboardDtos = new ArrayList<>();
-        for (Dashboard dashboard: dashboards) {
-            dashboardDtos.add(dashboard.toDto());
-        }
-        return dashboardDtos;
+        return dashboards.stream().map(d -> d.toDto()).collect(Collectors.toList());
     }
 
     /* Dashboard 하나 조회 */
@@ -62,10 +59,6 @@ public class DashboardService {
     /* 회원명으로 조회 for Member */
     public List<DashboardDto> findByUsername(String username) {
         List<Dashboard> dashboards = dashboardRepository.findByUsername(username);
-        List<DashboardDto> dashboardDtos = new ArrayList<>();
-        for (Dashboard dashboard: dashboards) {
-            dashboardDtos.add(dashboard.toDto());
-        }
-        return dashboardDtos;
+        return dashboards.stream().map(d -> d.toDto()).collect(Collectors.toList());
     }
 }
