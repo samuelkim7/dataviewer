@@ -25,7 +25,7 @@ class DashboardRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    @DisplayName("id로 내림차순 정렬하여 조회")
+    @DisplayName("id 내림차순 조회")
     public void findByOrderByIdDescTest() throws Exception {
         //given
         Member member = getMember("kim");

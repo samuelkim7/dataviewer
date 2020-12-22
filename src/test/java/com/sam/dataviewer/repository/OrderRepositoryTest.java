@@ -25,7 +25,7 @@ class OrderRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    @DisplayName("회원으로 조회시 테스트")
+    @DisplayName("회원으로 조회 (id로 내림차순 정렬)")
     public void findByMemberOrderByIdDescTest() throws Exception {
         //given
         Member member = getMember();
