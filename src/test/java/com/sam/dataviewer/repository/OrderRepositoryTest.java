@@ -91,12 +91,12 @@ class OrderRepositoryTest {
         testEntityManager.clear();
 
         //when
-        Order orderGot = orderRepository.findByEstimateId(estimate.getId());
+        Order orderFound = orderRepository.findByEstimateId(estimate.getId());
 
         //then
-        then(orderGot.getTitle()).isEqualTo("order");
-        then(orderGot.getEstimates().size()).isEqualTo(1);
-        then(orderGot.getEstimates().get(0).getTitle()).isEqualTo("estimate");
+        then(orderFound.getTitle()).isEqualTo("order");
+        then(orderFound.getEstimates().size()).isEqualTo(1);
+        then(orderFound.getEstimates().get(0).getTitle()).isEqualTo("estimate");
     }
 
     private Estimate getEstimate(Order order) {
