@@ -32,7 +32,7 @@ class OrderRepositoryTest {
         testEntityManager.persist(member);
 
         IntStream.range(0, 5).forEach(i -> {
-            Order order = Order.createOrder(member, "order", "content");
+            Order order = getOrder(member);
 
             testEntityManager.persist(order);
             testEntityManager.flush();
@@ -58,7 +58,7 @@ class OrderRepositoryTest {
         testEntityManager.persist(member);
 
         IntStream.range(0, 5).forEach(i -> {
-            Order order = Order.createOrder(member, "order", "content");
+            Order order = getOrder(member);
 
             testEntityManager.persist(order);
             testEntityManager.flush();
@@ -81,7 +81,7 @@ class OrderRepositoryTest {
         Member member = getMember();
         testEntityManager.persist(member);
 
-        Order order = Order.createOrder(member, "order", "content");
+        Order order = getOrder(member);
         testEntityManager.persist(order);
 
         Estimate estimate = getEstimate(order);
@@ -97,6 +97,10 @@ class OrderRepositoryTest {
         then(orderFound.getTitle()).isEqualTo("order");
         then(orderFound.getEstimates().size()).isEqualTo(1);
         then(orderFound.getEstimates().get(0).getTitle()).isEqualTo("estimate");
+    }
+
+    private Order getOrder(Member member) {
+        return Order.createOrder(member, "order", "content");
     }
 
     private Estimate getEstimate(Order order) {
