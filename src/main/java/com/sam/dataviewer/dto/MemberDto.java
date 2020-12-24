@@ -33,4 +33,16 @@ public class MemberDto {
 
     private String address;
 
+    public MemberDto() {
+    }
+
+    public MemberDto(@NotEmpty(message = "필수 정보입니다.") String username, @Size(min = 4, message = "비밀번호는 4자리 이상이어야 합니다.") String password, @NotEmpty(message = "필수 정보입니다.") String name, @NotEmpty(message = "필수 정보입니다.") @Email(message = "이메일 형식을 맞춰서 입력해주세요.") String email, @NotEmpty(message = "필수 정보입니다.") String phoneNumber, LocalDate birthDate, String address) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.birthDate = birthDate;
+        this.address = address;
+    }
 }
