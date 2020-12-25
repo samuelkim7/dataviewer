@@ -4,6 +4,7 @@ import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.PasswordDto;
 import com.sam.dataviewer.repository.MemberRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -11,12 +12,11 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,6 +34,7 @@ class MemberServiceTest {
     PasswordEncoder passwordEncoder;
 
     @Test
+    @DisplayName("회원 가입")
     public void joinTest() throws Exception {
         //given
         MemberDto dto = new MemberDto();
@@ -52,6 +53,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("아이디 중복 검증")
     public void validateUsernameTest() {
         //given
         MemberDto dto = new MemberDto();
@@ -61,9 +63,9 @@ class MemberServiceTest {
 
         //when
         Member member = memberService.join(dto);
+        given(memberRepository.findByUsername(dto.getUsername())).willReturn(member);
 
         //then
-        given(memberRepository.findByUsername(dto.getUsername())).willReturn(member);
         assertThatThrownBy(() -> {
             memberService.validateUsername(member.getUsername());
         }).isInstanceOf(IllegalStateException.class)
@@ -71,6 +73,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("회원 정보 수정")
     public void updateMemberTest() throws Exception {
         //given
         MemberDto dto1 = new MemberDto();
@@ -85,10 +88,11 @@ class MemberServiceTest {
         dto2.setName("단무지");
 
         //when
+        given(memberRepository.findByUsername(any())).willReturn(member);
         memberService.updateMember(dto2);
 
         //then
-        verify(memberRepository, times(1)).save(argumentCaptor.capture());
+        verify(memberRepository, times(1)).(argumentCaptor.capture());
         then(argumentCaptor.getValue()).isNotNull();
         then(argumentCaptor.getValue().getUsername()).isEqualTo("kim");
         then(argumentCaptor.getValue().getPassword()).isEqualTo("1234");
@@ -97,6 +101,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("기존 비밀번호 검증")
     public void validateCurrentPasswordTest() throws Exception {
         //given
         MemberDto memberDto = new MemberDto();
@@ -117,6 +122,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @DisplayName("비밀번호 재확인 검증")
     public void validateConfirmPasswordTest() throws Exception {
         //given
         MemberDto memberDto = new MemberDto();
