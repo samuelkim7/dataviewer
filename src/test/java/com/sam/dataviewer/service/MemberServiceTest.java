@@ -53,7 +53,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("아이디 중복 검증")
+    @DisplayName("아이디 중복 검증시 중복된 경우")
     public void validateUsernameTest() {
         //given
         MemberDto dto1 = new MemberDto();
@@ -121,7 +121,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("비밀번호 재확인 검증")
+    @DisplayName("비밀번호 재확인 검증시 틀린 경우")
     public void validateConfirmPasswordTest() throws Exception {
         //given
         MemberDto memberDto = new MemberDto();

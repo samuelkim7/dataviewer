@@ -3,7 +3,6 @@ package com.sam.dataviewer.service;
 import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.domain.OrderStatus;
-import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
@@ -16,10 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,8 +26,6 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
-    @InjectMocks
-    private MemberService memberService;
     @InjectMocks
     private OrderService orderService;
     @Mock
@@ -45,104 +42,100 @@ class OrderServiceTest {
         Member member = getMember();
 
         OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("새 의뢰");
+        orderDto.setTitle("order");
+        orderDto.setContent("content");
         given(memberRepository.findByUsername(member.getUsername())).willReturn(member);
 
         //when
-        Long orderId = orderService.order(member.getUsername(), orderDto);
+        orderService.order(member.getUsername(), orderDto);
 
         //then
         verify(orderRepository, times(1)).save(argumentCaptor.capture());
         then(argumentCaptor.getValue()).isNotNull();
-        then(argumentCaptor.getValue().getTitle()).isEqualTo("새 의뢰");
-
-//        assertThat(orderDto.getTitle())
-//                .isEqualTo(orderRepository.getOne(orderId).getTitle());
+        then(argumentCaptor.getValue().getTitle()).isEqualTo("order");
+        then(argumentCaptor.getValue().getContent()).isEqualTo("content");
     }
 
     @Test
+    @DisplayName("회원명으로 조회")
     public void findByUsernameTest() throws Exception {
         //given
         Member member = getMember();
-
-        OrderDto orderDto1 = new OrderDto();
-        orderDto1.setTitle("의뢰1");
-        orderService.order(member.getUsername(), orderDto1);
-
-        OrderDto orderDto2 = new OrderDto();
-        orderDto2.setTitle("의뢰2");
-        orderService.order(member.getUsername(), orderDto2);
+        Order order1 = getOrder(member, "order1");
+        Order order2 = getOrder(member, "order2");
+        List<Order> orders = new ArrayList<>();
+        orders.add(order1);
+        orders.add(order2);
+        given(memberRepository.findByUsername(member.getUsername())).willReturn(member);
+        given(orderRepository.findByMemberOrderByIdDesc(member)).willReturn(orders);
 
         //when
         List<OrderDto> orderDtos = orderService.findByUsername(member.getUsername());
 
         //then
-        assertThat(2).isEqualTo(orderDtos.size());
-        assertThat(orderDto2.getTitle())
-                .isEqualTo(orderDtos.get(0).getTitle());
-        assertThat(orderDto1.getTitle())
-                .isEqualTo(orderDtos.get(1).getTitle());
+        then(2).isEqualTo(orderDtos.size());
+        then("order1").isEqualTo(orderDtos.get(0).getTitle());
+        then("order2").isEqualTo(orderDtos.get(1).getTitle());
     }
 
     @Test
+    @DisplayName("의뢰 취소")
     public void cancelOrderTest() throws Exception {
         //given
         Member member = getMember();
-
-        OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("새 의뢰");
-        Long orderId = orderService.order(member.getUsername(), orderDto);
+        Order order = getOrder(member, "order");
+        given(orderRepository.getOne(order.getId())).willReturn(order);
 
         //when
-        orderService.cancelOrder(orderId);
+        orderService.cancelOrder(order.getId());
 
         //then
-        assertThat(OrderStatus.CANCEL)
-                .isEqualTo(orderRepository.getOne(orderId).getStatus());
+        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
     }
 
     @Test
+    @DisplayName("의뢰 수정")
     public void updateOrderTest() throws Exception {
         //given
         Member member = getMember();
+        Order order = getOrder(member, "order1");
 
-        OrderDto orderDto1 = new OrderDto();
-        orderDto1.setTitle("웹사이트 분석");
-        Long orderId = orderService.order(member.getUsername(), orderDto1);
-
-        OrderDto orderDto2 = new OrderDto();
-        orderDto2.setId(orderId);
-        orderDto2.setTitle("로그 분석");
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(order.getId());
+        orderDto.setTitle("order2");
+        orderDto.setContent("content2");
+        given(orderRepository.getOne(orderDto.getId())).willReturn(order);
 
         //when
-        orderService.updateOrder(orderDto2);
+        orderService.updateOrder(orderDto);
 
         //then
-        assertThat(orderDto2.getTitle())
-                .isEqualTo(orderRepository.getOne(orderId).getTitle());
+        then("order2").isEqualTo(order.getTitle());
+        then("content2").isEqualTo(order.getContent());
     }
 
     @Test
+    @DisplayName("의뢰에 따른 분석 시작")
     public void startOrderTest() throws Exception {
         //given
         Member member = getMember();
-
-        OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("새 의뢰");
-        Long orderId = orderService.order(member.getUsername(), orderDto);
+        Order order = getOrder(member, "order");
+        given(orderRepository.getOne(order.getId())).willReturn(order);
 
         //when
-        orderService.startOrder(orderId);
+        orderService.startOrder(order.getId());
 
         //then
-        assertThat(OrderStatus.ORDER)
-                .isEqualTo(orderRepository.getOne(orderId).getStatus());
+        then(OrderStatus.ORDER).isEqualTo(order.getStatus());
+    }
+
+    private Order getOrder(Member member, String title) {
+        return Order.createOrder(member, title, "content");
     }
 
     private Member getMember() {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        return memberService.join(memberDto);
+        return Member.createMember(
+                "kim", "1234", null,
+                null, null, null, null);
     }
 }
