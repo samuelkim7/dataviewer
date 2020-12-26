@@ -3,7 +3,7 @@ package com.sam.dataviewer.domain;
 import com.sam.dataviewer.dto.EstimateDto;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class EstimateTest {
 
@@ -23,10 +23,10 @@ class EstimateTest {
         );
 
         //then
-        assertThat(order).isEqualTo(estimate.getOrder());
-        assertThat(estimate).isEqualTo(order.getEstimates().get(0));
-        assertThat(title).isEqualTo(estimate.getTitle());
-        assertThat(price).isEqualTo(estimate.getPrice());
+        then(order).isEqualTo(estimate.getOrder());
+        then(estimate).isEqualTo(order.getEstimates().get(0));
+        then(title).isEqualTo(estimate.getTitle());
+        then(price).isEqualTo(estimate.getPrice());
     }
 
     @Test
@@ -44,9 +44,9 @@ class EstimateTest {
         EstimateDto dto = estimate.toDto();
 
         //then
-        assertThat(estimate.getTitle()).isEqualTo(dto.getTitle());
-        assertThat(estimate.getContent()).isEqualTo(dto.getContent());
-        assertThat(estimate.getDuration()).isEqualTo(dto.getDuration());
+        then(estimate.getTitle()).isEqualTo(dto.getTitle());
+        then(estimate.getContent()).isEqualTo(dto.getContent());
+        then(estimate.getDuration()).isEqualTo(dto.getDuration());
     }
 
     @Test
@@ -69,8 +69,8 @@ class EstimateTest {
         );
 
         //then
-        assertThat(newTitle).isEqualTo(estimate.getTitle());
-        assertThat(newPrice).isEqualTo(estimate.getPrice());
+        then(newTitle).isEqualTo(estimate.getTitle());
+        then(newPrice).isEqualTo(estimate.getPrice());
     }
 
     @Test
@@ -87,7 +87,7 @@ class EstimateTest {
         estimate.cancel();
 
         //then
-        assertThat(EstimateStatus.CANCEL).isEqualTo(estimate.getStatus());
+        then(EstimateStatus.CANCEL).isEqualTo(estimate.getStatus());
     }
 
     @Test
@@ -104,7 +104,7 @@ class EstimateTest {
         estimate.accept();
 
         //then
-        assertThat(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
+        then(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
     }
 
     private Member getMember() {

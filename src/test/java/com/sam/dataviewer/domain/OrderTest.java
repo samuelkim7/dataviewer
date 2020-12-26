@@ -3,7 +3,7 @@ package com.sam.dataviewer.domain;
 import com.sam.dataviewer.dto.OrderDto;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class OrderTest {
 
@@ -19,10 +19,10 @@ class OrderTest {
         Order order = Order.createOrder(member, title, content);
 
         //then
-        assertThat(member).isEqualTo(order.getMember());
-        assertThat(order).isEqualTo(member.getOrders().get(0));
-        assertThat(title).isEqualTo(order.getTitle());
-        assertThat(content).isEqualTo(order.getContent());
+        then(member).isEqualTo(order.getMember());
+        then(order).isEqualTo(member.getOrders().get(0));
+        then(title).isEqualTo(order.getTitle());
+        then(content).isEqualTo(order.getContent());
     }
 
     @Test
@@ -35,8 +35,8 @@ class OrderTest {
         OrderDto dto = order.toDto();
 
         //then
-        assertThat(order.getTitle()).isEqualTo(dto.getTitle());
-        assertThat(order.getContent()).isEqualTo(dto.getContent());
+        then(order.getTitle()).isEqualTo(dto.getTitle());
+        then(order.getContent()).isEqualTo(dto.getContent());
     }
 
     @Test
@@ -52,8 +52,8 @@ class OrderTest {
         order.update(newTitle, newContent);
 
         //then
-        assertThat(newTitle).isEqualTo(order.getTitle());
-        assertThat(newContent).isEqualTo(order.getContent());
+        then(newTitle).isEqualTo(order.getTitle());
+        then(newContent).isEqualTo(order.getContent());
     }
 
     @Test
@@ -66,7 +66,7 @@ class OrderTest {
         order.cancel();
 
         //then
-        assertThat(OrderStatus.CANCEL).isEqualTo(order.getStatus());
+        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
     }
 
     @Test
@@ -79,7 +79,7 @@ class OrderTest {
         order.start();
 
         //then
-        assertThat(OrderStatus.ORDER).isEqualTo(order.getStatus());
+        then(OrderStatus.ORDER).isEqualTo(order.getStatus());
     }
 
     private Member getMember() {

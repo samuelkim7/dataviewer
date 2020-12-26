@@ -3,7 +3,7 @@ package com.sam.dataviewer.domain;
 import com.sam.dataviewer.dto.FigureDto;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class FigureTest {
 
@@ -24,10 +24,10 @@ class FigureTest {
         );
 
         //then
-        assertThat(dashboard).isEqualTo(figure.getDashboard());
-        assertThat(figure).isEqualTo(dashboard.getFigures().get(0));
-        assertThat(title).isEqualTo(figure.getTitle());
-        assertThat(originalFileName).isEqualTo(figure.getOriginalFileName());
+        then(dashboard).isEqualTo(figure.getDashboard());
+        then(figure).isEqualTo(dashboard.getFigures().get(0));
+        then(title).isEqualTo(figure.getTitle());
+        then(originalFileName).isEqualTo(figure.getOriginalFileName());
     }
 
     @Test
@@ -45,8 +45,8 @@ class FigureTest {
         FigureDto dto = figure.toDto();
 
         //then
-        assertThat(figure.getTitle()).isEqualTo(dto.getTitle());
-        assertThat(figure.getDescription()).isEqualTo(dto.getDescription());
+        then(figure.getTitle()).isEqualTo(dto.getTitle());
+        then(figure.getDescription()).isEqualTo(dto.getDescription());
     }
 
     @Test
@@ -70,8 +70,8 @@ class FigureTest {
         );
 
         //then
-        assertThat(newTitle).isEqualTo(figure.getTitle());
-        assertThat(newOriginalFileName).isEqualTo(figure.getOriginalFileName());
+        then(newTitle).isEqualTo(figure.getTitle());
+        then(newOriginalFileName).isEqualTo(figure.getOriginalFileName());
     }
 
     private Member getMember() {

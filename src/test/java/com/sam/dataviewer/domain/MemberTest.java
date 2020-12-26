@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class MemberTest {
 
@@ -24,10 +24,10 @@ class MemberTest {
                 birthDate, null);
 
         //then
-        assertThat(username).isEqualTo(member.getUsername());
-        assertThat(password).isEqualTo(member.getPassword());
-        assertThat(name).isEqualTo(member.getName());
-        assertThat(birthDate).isEqualTo(member.getBirthDate());
+        then(username).isEqualTo(member.getUsername());
+        then(password).isEqualTo(member.getPassword());
+        then(name).isEqualTo(member.getName());
+        then(birthDate).isEqualTo(member.getBirthDate());
     }
 
     @Test
@@ -44,10 +44,10 @@ class MemberTest {
         MemberDto dto = member.toDto();
 
         //then
-        assertThat(member.getUsername()).isEqualTo(dto.getUsername());
-        assertThat(member.getEmail()).isEqualTo(dto.getEmail());
-        assertThat(member.getPhoneNumber()).isEqualTo(dto.getPhoneNumber());
-        assertThat(member.getAddress()).isEqualTo(dto.getAddress());
+        then(member.getUsername()).isEqualTo(dto.getUsername());
+        then(member.getEmail()).isEqualTo(dto.getEmail());
+        then(member.getPhoneNumber()).isEqualTo(dto.getPhoneNumber());
+        then(member.getAddress()).isEqualTo(dto.getAddress());
     }
 
     @Test
@@ -71,9 +71,9 @@ class MemberTest {
         );
 
         //then
-        assertThat(newEmail).isEqualTo(member.getEmail());
-        assertThat(newPhoneNumber).isEqualTo(member.getPhoneNumber());
-        assertThat(newAddress).isEqualTo(member.getAddress());
+        then(newEmail).isEqualTo(member.getEmail());
+        then(newPhoneNumber).isEqualTo(member.getPhoneNumber());
+        then(newAddress).isEqualTo(member.getAddress());
     }
 
     @Test
@@ -91,7 +91,7 @@ class MemberTest {
         member.updatePassword(newPassword);
 
         //then
-        assertThat(newPassword).isEqualTo(member.getPassword());
+        then(newPassword).isEqualTo(member.getPassword());
     }
 
 }

@@ -3,7 +3,7 @@ package com.sam.dataviewer.domain;
 import com.sam.dataviewer.dto.DashboardDto;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class DashboardTest {
 
@@ -20,10 +20,10 @@ class DashboardTest {
         Dashboard dashboard = Dashboard.createDashboard(order, title, content);
 
         //then
-        assertThat(order).isEqualTo(dashboard.getOrder());
-        assertThat(dashboard).isEqualTo(order.getDashboards().get(0));
-        assertThat(title).isEqualTo(dashboard.getTitle());
-        assertThat(content).isEqualTo(dashboard.getContent());
+        then(order).isEqualTo(dashboard.getOrder());
+        then(dashboard).isEqualTo(order.getDashboards().get(0));
+        then(title).isEqualTo(dashboard.getTitle());
+        then(content).isEqualTo(dashboard.getContent());
     }
 
     @Test
@@ -39,8 +39,8 @@ class DashboardTest {
         DashboardDto dto = dashboard.toDto();
 
         //then
-        assertThat(dashboard.getTitle()).isEqualTo(dto.getTitle());
-        assertThat(dashboard.getContent()).isEqualTo(dto.getContent());
+        then(dashboard.getTitle()).isEqualTo(dto.getTitle());
+        then(dashboard.getContent()).isEqualTo(dto.getContent());
     }
 
     @Test
@@ -59,8 +59,8 @@ class DashboardTest {
         dashboard.update(newTitle, newContent);
 
         //then
-        assertThat(newTitle).isEqualTo(dashboard.getTitle());
-        assertThat(newContent).isEqualTo(dashboard.getContent());
+        then(newTitle).isEqualTo(dashboard.getTitle());
+        then(newContent).isEqualTo(dashboard.getContent());
     }
 
     private Member getMember() {

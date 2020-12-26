@@ -3,7 +3,7 @@ package com.sam.dataviewer.domain;
 import com.sam.dataviewer.dto.FileDto;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
 
 class FileTest {
 
@@ -23,10 +23,10 @@ class FileTest {
         );
 
         //then
-        assertThat(order).isEqualTo(file.getOrder());
-        assertThat(file).isEqualTo(order.getFiles().get(0));
-        assertThat(originalFileName).isEqualTo(file.getOriginalFileName());
-        assertThat(fileSize).isEqualTo(file.getFileSize());
+        then(order).isEqualTo(file.getOrder());
+        then(file).isEqualTo(order.getFiles().get(0));
+        then(originalFileName).isEqualTo(file.getOriginalFileName());
+        then(fileSize).isEqualTo(file.getFileSize());
     }
 
     @Test
@@ -43,8 +43,8 @@ class FileTest {
         FileDto dto = file.toDto();
 
         //then
-        assertThat(file.getOriginalFileName()).isEqualTo(dto.getOriginalFileName());
-        assertThat(file.getFileName()).isEqualTo(dto.getFileName());
+        then(file.getOriginalFileName()).isEqualTo(dto.getOriginalFileName());
+        then(file.getFileName()).isEqualTo(dto.getFileName());
     }
 
     private Member getMember() {
