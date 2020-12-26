@@ -32,6 +32,10 @@ class DashboardServiceTest {
     private DashboardRepository dashboardRepository;
     @Mock
     private OrderRepository orderRepository;
+    @Mock
+    private Member member;
+    @Mock
+    private Order order;
     @Captor
     private ArgumentCaptor<Dashboard> argumentCaptor;
 
@@ -39,8 +43,6 @@ class DashboardServiceTest {
     @DisplayName("대시보드 생성")
     public void createTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard");
         dashboardDto.setContent("content");
@@ -60,8 +62,6 @@ class DashboardServiceTest {
     @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Dashboard dashboard1 = getDashboard(order, "dashboard1");
         Dashboard dashboard2 = getDashboard(order, "dashboard2");
         List<Dashboard> dashboards = new ArrayList<>();
@@ -83,8 +83,6 @@ class DashboardServiceTest {
     @DisplayName("대시보드 수정")
     public void updateDashboardTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Dashboard dashboard = getDashboard(order, "dashboard1");
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard2");
@@ -104,8 +102,6 @@ class DashboardServiceTest {
     @DisplayName("대시보드 삭제")
     public void deleteDashboardTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Dashboard dashboard = getDashboard(order, "dashboard");
 
         //when
@@ -121,14 +117,4 @@ class DashboardServiceTest {
         );
     }
 
-
-    private Order getOrder(Member member) {
-        return Order.createOrder(member, "order", "content");
-    }
-
-    private Member getMember() {
-        return Member.createMember(
-                "kim", "1234", null,
-                null, null, null, null);
-    }
 }

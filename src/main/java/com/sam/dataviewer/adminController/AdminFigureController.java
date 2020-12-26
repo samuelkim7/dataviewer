@@ -111,9 +111,9 @@ public class AdminFigureController {
 
         // figure Entity 수정
         if (!file.isEmpty()) {
-            figureService.update(figureDto, file.getOriginalFilename(), fileName);
+            figureService.updateFigure(figureDto, file.getOriginalFilename(), fileName);
         } else {
-            figureService.update(
+            figureService.updateFigure(
                     figureDto, figureDto.getOriginalFileName(),
                     figureDto.getFileName()
             );

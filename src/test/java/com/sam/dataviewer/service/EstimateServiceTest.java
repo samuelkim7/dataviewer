@@ -29,13 +29,17 @@ import static org.mockito.Mockito.verify;
 class EstimateServiceTest {
 
     @InjectMocks
-    EstimateService estimateService;
+    private EstimateService estimateService;
     @Mock
-    OrderService orderService;
+    private OrderService orderService;
     @Mock
-    EstimateRepository estimateRepository;
+    private EstimateRepository estimateRepository;
     @Mock
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
+    @Mock
+    private Member member;
+    @Mock
+    private Order order;
     @Captor
     private ArgumentCaptor<Estimate> argumentCaptor;
 
@@ -43,8 +47,6 @@ class EstimateServiceTest {
     @DisplayName("견적 요청")
     public void requestTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         EstimateDto estimateDto = new EstimateDto();
         estimateDto.setTitle("estimate");
         estimateDto.setPrice(100000L);
@@ -64,8 +66,6 @@ class EstimateServiceTest {
     @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Estimate estimate1 = getEstimate(order, "estimate1");
         Estimate estimate2 = getEstimate(order, "estimate2");
         List<Estimate> estimates = new ArrayList<>();
@@ -87,13 +87,11 @@ class EstimateServiceTest {
     @DisplayName("견적 수정")
     public void updateEstimateTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Estimate estimate = getEstimate(order, "estimate1");
 
         EstimateDto estimateDto = new EstimateDto();
         estimateDto.setTitle("estimate2");
-        given(estimateRepository.getOne(order.getId())).willReturn(estimate);
+        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
         //when
         estimateService.updateEstimate(estimateDto);
@@ -106,8 +104,6 @@ class EstimateServiceTest {
     @DisplayName("견적 취소")
     public void cancelEstimateTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Estimate estimate = getEstimate(order, "estimate");
         given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
@@ -122,8 +118,6 @@ class EstimateServiceTest {
     @DisplayName("견적 승낙")
     public void acceptEstimateTest() throws Exception {
         //given
-        Member member = getMember();
-        Order order = getOrder(member);
         Estimate estimate = getEstimate(order, "estimate");
         given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
@@ -140,14 +134,4 @@ class EstimateServiceTest {
                 );
     }
 
-    private Member getMember() {
-        return Member.createMember(
-                "kim", "1234", null,
-                null, null, null, null
-        );
-    }
-
-    private Order getOrder(Member member) {
-        return Order.createOrder(member, "order", "content");
-    }
 }

@@ -48,7 +48,7 @@ public class FigureService {
 
     /* Figure 수정 */
     @Transactional
-    public void update(FigureDto dto, String originalFilename, String fileName) {
+    public void updateFigure(FigureDto dto, String originalFilename, String fileName) {
         Figure figure = figureRepository.getOne(dto.getId());
         figure.update(
                 dto.getTitle(), dto.getDescription(),
