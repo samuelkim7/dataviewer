@@ -90,14 +90,14 @@ public class MemberService {
     }
 
     /* 기존 비밀번호 검증 */
-    private void validateCurrentPassword(String currentPassword, String encodedPassword) {
+    public void validateCurrentPassword(String currentPassword, String encodedPassword) {
         if(!passwordEncoder.matches(currentPassword, encodedPassword)) {
             throw new IllegalStateException("비밀번호 틀림");
         }
     }
 
     /* 비밀번호 재확인 검증 */
-    private void validateConfirmPassword(String newPassword, String confirmPassword) {
+    public void validateConfirmPassword(String newPassword, String confirmPassword) {
         if(!newPassword.equals(confirmPassword)) {
             throw new IllegalArgumentException("비밀번호 재확인 실패");
         }
