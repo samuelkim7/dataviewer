@@ -1,139 +1,153 @@
 package com.sam.dataviewer.service;
 
+import com.sam.dataviewer.domain.Estimate;
 import com.sam.dataviewer.domain.EstimateStatus;
 import com.sam.dataviewer.domain.Member;
+import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.EstimateDto;
-import com.sam.dataviewer.dto.MemberDto;
-import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.EstimateRepository;
+import com.sam.dataviewer.repository.OrderRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@Transactional
+
+@ExtendWith(MockitoExtension.class)
 class EstimateServiceTest {
 
-    @Autowired EstimateService estimateService;
-    @Autowired OrderService orderService;
-    @Autowired MemberService memberService;
-    @Autowired EstimateRepository estimateRepository;
+    @InjectMocks
+    EstimateService estimateService;
+    @Mock
+    OrderService orderService;
+    @Mock
+    EstimateRepository estimateRepository;
+    @Mock
+    OrderRepository orderRepository;
+    @Captor
+    private ArgumentCaptor<Estimate> argumentCaptor;
 
     @Test
+    @DisplayName("견적 요청")
     public void requestTest() throws Exception {
         //given
         Member member = getMember();
-        Long orderId = getOrder(member);
-
+        Order order = getOrder(member);
         EstimateDto estimateDto = new EstimateDto();
-        estimateDto.setTitle("새 견적");
+        estimateDto.setTitle("estimate");
+        estimateDto.setPrice(100000L);
+        given(orderRepository.getOne(order.getId())).willReturn(order);
 
         //when
-        Long estimateId = estimateService.request(orderId, estimateDto);
+        estimateService.request(order.getId(), estimateDto);
 
         //then
-        assertThat(estimateDto.getTitle())
-                .isEqualTo(estimateRepository.getOne(estimateId).getTitle());
+        verify(estimateRepository, times(1)).save(argumentCaptor.capture());
+        then(argumentCaptor.getValue()).isNotNull();
+        then(argumentCaptor.getValue().getTitle()).isEqualTo("estimate");
+        then(argumentCaptor.getValue().getPrice()).isEqualTo(100000L);
     }
 
     @Test
+    @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
         Member member = getMember();
-        Long orderId = getOrder(member);
-
-        EstimateDto estimateDto1 = new EstimateDto();
-        estimateDto1.setTitle("견적1");
-        estimateService.request(orderId, estimateDto1);
-
-        EstimateDto estimateDto2 = new EstimateDto();
-        estimateDto2.setTitle("견적2");
-        estimateService.request(orderId, estimateDto2);
+        Order order = getOrder(member);
+        Estimate estimate1 = getEstimate(order, "estimate1");
+        Estimate estimate2 = getEstimate(order, "estimate2");
+        List<Estimate> estimates = new ArrayList<>();
+        estimates.add(estimate1);
+        estimates.add(estimate2);
+        given(estimateRepository.findByUsername(member.getUsername()))
+                .willReturn(estimates);
 
         //when
         List<EstimateDto> estimateDtos = estimateService.findByUsername(member.getUsername());
 
         //then
-        assertThat(2).isEqualTo(estimateDtos.size());
-        assertThat(estimateDto2.getTitle())
-                .isEqualTo(estimateDtos.get(0).getTitle());
-        assertThat(estimateDto1.getTitle())
-                .isEqualTo(estimateDtos.get(1).getTitle());
+        then(2).isEqualTo(estimateDtos.size());
+        then("estimate1").isEqualTo(estimateDtos.get(0).getTitle());
+        then("estimate2").isEqualTo(estimateDtos.get(1).getTitle());
     }
 
     @Test
-    public void cancelEstimateTest() throws Exception {
-        //given
-        Member member = getMember();
-        Long orderId = getOrder(member);
-
-        EstimateDto estimateDto = new EstimateDto();
-        estimateDto.setTitle("새 견적");
-        Long estimateId = estimateService.request(orderId, estimateDto);
-
-        //when
-        estimateService.cancelEstimate(estimateId);
-
-        //then
-        assertThat(EstimateStatus.CANCEL)
-                .isEqualTo(estimateRepository.getOne(estimateId).getStatus());
-    }
-
-    @Test
+    @DisplayName("견적 수정")
     public void updateEstimateTest() throws Exception {
         //given
         Member member = getMember();
-        Long orderId = getOrder(member);
+        Order order = getOrder(member);
+        Estimate estimate = getEstimate(order, "estimate1");
 
-        EstimateDto estimateDto1 = new EstimateDto();
-        estimateDto1.setTitle("새 견적");
-        Long estimateId = estimateService.request(orderId, estimateDto1);
-
-        EstimateDto estimateDto2 = new EstimateDto();
-        estimateDto2.setId(estimateId);
-        estimateDto2.setTitle("수정된 견적");
+        EstimateDto estimateDto = new EstimateDto();
+        estimateDto.setTitle("estimate2");
+        given(estimateRepository.getOne(order.getId())).willReturn(estimate);
 
         //when
-        estimateService.updateEstimate(estimateDto2);
+        estimateService.updateEstimate(estimateDto);
 
         //then
-        assertThat(estimateDto2.getTitle())
-                .isEqualTo(estimateRepository.getOne(estimateId).getTitle());
+        then("estimate2").isEqualTo(estimate.getTitle());
     }
 
     @Test
+    @DisplayName("견적 취소")
+    public void cancelEstimateTest() throws Exception {
+        //given
+        Member member = getMember();
+        Order order = getOrder(member);
+        Estimate estimate = getEstimate(order, "estimate");
+        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
+
+        //when
+        estimateService.cancelEstimate(estimate.getId());
+
+        //then
+        then(EstimateStatus.CANCEL).isEqualTo(estimate.getStatus());
+    }
+
+    @Test
+    @DisplayName("견적 승낙")
     public void acceptEstimateTest() throws Exception {
         //given
         Member member = getMember();
-        Long orderId = getOrder(member);
-
-        EstimateDto estimateDto = new EstimateDto();
-        estimateDto.setTitle("새 견적");
-        Long estimateId = estimateService.request(orderId, estimateDto);
+        Order order = getOrder(member);
+        Estimate estimate = getEstimate(order, "estimate");
+        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
         //when
-        estimateService.acceptEstimate(estimateId);
+        estimateService.acceptEstimate(estimate.getId());
 
         //then
-        assertThat(EstimateStatus.ACCEPT)
-                .isEqualTo(estimateRepository.getOne(estimateId).getStatus());
+        then(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
+    }
+
+    private Estimate getEstimate(Order order, String title) {
+        return Estimate.createEstimate(
+                order, title, null, null, null
+                );
     }
 
     private Member getMember() {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        return memberService.join(memberDto);
+        return Member.createMember(
+                "kim", "1234", null,
+                null, null, null, null
+        );
     }
 
-    private Long getOrder(Member member) {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("새 의뢰");
-        return orderService.order(member.getUsername(), orderDto);
+    private Order getOrder(Member member) {
+        return Order.createOrder(member, "order", "content");
     }
 }

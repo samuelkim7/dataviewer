@@ -57,7 +57,7 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("회원명으로 조회")
+    @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
         Member member = getMember();
@@ -79,21 +79,6 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("의뢰 취소")
-    public void cancelOrderTest() throws Exception {
-        //given
-        Member member = getMember();
-        Order order = getOrder(member, "order");
-        given(orderRepository.getOne(order.getId())).willReturn(order);
-
-        //when
-        orderService.cancelOrder(order.getId());
-
-        //then
-        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
-    }
-
-    @Test
     @DisplayName("의뢰 수정")
     public void updateOrderTest() throws Exception {
         //given
@@ -112,6 +97,21 @@ class OrderServiceTest {
         //then
         then("order2").isEqualTo(order.getTitle());
         then("content2").isEqualTo(order.getContent());
+    }
+
+    @Test
+    @DisplayName("의뢰 취소")
+    public void cancelOrderTest() throws Exception {
+        //given
+        Member member = getMember();
+        Order order = getOrder(member, "order");
+        given(orderRepository.getOne(order.getId())).willReturn(order);
+
+        //when
+        orderService.cancelOrder(order.getId());
+
+        //then
+        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
     }
 
     @Test

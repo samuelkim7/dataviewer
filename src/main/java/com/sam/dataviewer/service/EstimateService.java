@@ -1,18 +1,14 @@
 package com.sam.dataviewer.service;
 
 import com.sam.dataviewer.domain.Estimate;
-import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.EstimateDto;
-import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.EstimateRepository;
-import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
