@@ -19,7 +19,6 @@ import java.util.List;
 public class DashboardController {
 
     private final DashboardService dashboardService;
-    private final OrderService orderService;
     private final FigureService figureService;
 
     @GetMapping("/dashboards")
