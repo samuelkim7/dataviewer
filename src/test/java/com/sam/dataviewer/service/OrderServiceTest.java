@@ -32,8 +32,6 @@ class OrderServiceTest {
     private MemberRepository memberRepository;
     @Mock
     private OrderRepository orderRepository;
-    @Mock
-    private Member member;
     @Captor
     private ArgumentCaptor<Order> argumentCaptor;
 
@@ -41,6 +39,7 @@ class OrderServiceTest {
     @DisplayName("의뢰 요청")
     public void orderTest() throws Exception {
         //given
+        Member member = getMember();
         OrderDto orderDto = new OrderDto();
         orderDto.setTitle("order");
         orderDto.setContent("content");
@@ -60,6 +59,7 @@ class OrderServiceTest {
     @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
+        Member member = getMember();
         Order order1 = getOrder(member, "order1");
         Order order2 = getOrder(member, "order2");
         List<Order> orders = new ArrayList<>();
@@ -81,6 +81,7 @@ class OrderServiceTest {
     @DisplayName("의뢰 수정")
     public void updateOrderTest() throws Exception {
         //given
+        Member member = getMember();
         Order order = getOrder(member, "order1");
 
         OrderDto orderDto = new OrderDto();
@@ -101,6 +102,7 @@ class OrderServiceTest {
     @DisplayName("의뢰 취소")
     public void cancelOrderTest() throws Exception {
         //given
+        Member member = getMember();
         Order order = getOrder(member, "order");
         given(orderRepository.getOne(order.getId())).willReturn(order);
 
@@ -115,6 +117,7 @@ class OrderServiceTest {
     @DisplayName("의뢰에 따른 분석 시작")
     public void startOrderTest() throws Exception {
         //given
+        Member member = getMember();
         Order order = getOrder(member, "order");
         given(orderRepository.getOne(order.getId())).willReturn(order);
 
@@ -123,6 +126,12 @@ class OrderServiceTest {
 
         //then
         then(OrderStatus.ORDER).isEqualTo(order.getStatus());
+    }
+
+    private Member getMember() {
+        return Member.createMember(
+                "kim", "1234", null, null,
+                null, null, null);
     }
 
     private Order getOrder(Member member, String title) {

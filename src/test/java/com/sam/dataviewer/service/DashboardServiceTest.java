@@ -34,8 +34,6 @@ class DashboardServiceTest {
     private OrderRepository orderRepository;
     @Mock
     private Member member;
-    @Mock
-    private Order order;
     @Captor
     private ArgumentCaptor<Dashboard> argumentCaptor;
 
@@ -43,6 +41,7 @@ class DashboardServiceTest {
     @DisplayName("대시보드 생성")
     public void createTest() throws Exception {
         //given
+        Order order = getOrder();
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard");
         dashboardDto.setContent("content");
@@ -62,6 +61,7 @@ class DashboardServiceTest {
     @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
+        Order order = getOrder();
         Dashboard dashboard1 = getDashboard(order, "dashboard1");
         Dashboard dashboard2 = getDashboard(order, "dashboard2");
         List<Dashboard> dashboards = new ArrayList<>();
@@ -83,6 +83,7 @@ class DashboardServiceTest {
     @DisplayName("대시보드 수정")
     public void updateDashboardTest() throws Exception {
         //given
+        Order order = getOrder();
         Dashboard dashboard = getDashboard(order, "dashboard1");
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard2");
@@ -102,6 +103,7 @@ class DashboardServiceTest {
     @DisplayName("대시보드 삭제")
     public void deleteDashboardTest() throws Exception {
         //given
+        Order order = getOrder();
         Dashboard dashboard = getDashboard(order, "dashboard");
 
         //when
@@ -109,6 +111,12 @@ class DashboardServiceTest {
 
         //then
         verify(dashboardRepository).deleteById(dashboard.getId());
+    }
+
+    private Order getOrder() {
+        return Order.createOrder(
+                member, "order", "content"
+        );
     }
 
     private Dashboard getDashboard(Order order, String title) {

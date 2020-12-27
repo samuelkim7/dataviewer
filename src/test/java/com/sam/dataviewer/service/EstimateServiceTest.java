@@ -38,8 +38,6 @@ class EstimateServiceTest {
     private OrderRepository orderRepository;
     @Mock
     private Member member;
-    @Mock
-    private Order order;
     @Captor
     private ArgumentCaptor<Estimate> argumentCaptor;
 
@@ -47,6 +45,7 @@ class EstimateServiceTest {
     @DisplayName("견적 요청")
     public void requestTest() throws Exception {
         //given
+        Order order = getOrder();
         EstimateDto estimateDto = new EstimateDto();
         estimateDto.setTitle("estimate");
         estimateDto.setPrice(100000L);
@@ -66,6 +65,7 @@ class EstimateServiceTest {
     @DisplayName("회원 아이디로 조회")
     public void findByUsernameTest() throws Exception {
         //given
+        Order order = getOrder();
         Estimate estimate1 = getEstimate(order, "estimate1");
         Estimate estimate2 = getEstimate(order, "estimate2");
         List<Estimate> estimates = new ArrayList<>();
@@ -87,6 +87,7 @@ class EstimateServiceTest {
     @DisplayName("견적 수정")
     public void updateEstimateTest() throws Exception {
         //given
+        Order order = getOrder();
         Estimate estimate = getEstimate(order, "estimate1");
 
         EstimateDto estimateDto = new EstimateDto();
@@ -104,6 +105,7 @@ class EstimateServiceTest {
     @DisplayName("견적 취소")
     public void cancelEstimateTest() throws Exception {
         //given
+        Order order = getOrder();
         Estimate estimate = getEstimate(order, "estimate");
         given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
@@ -118,6 +120,7 @@ class EstimateServiceTest {
     @DisplayName("견적 승낙")
     public void acceptEstimateTest() throws Exception {
         //given
+        Order order = getOrder();
         Estimate estimate = getEstimate(order, "estimate");
         given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
 
@@ -126,6 +129,12 @@ class EstimateServiceTest {
 
         //then
         then(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
+    }
+
+    private Order getOrder() {
+        return Order.createOrder(
+                member, "order", "content"
+        );
     }
 
     private Estimate getEstimate(Order order, String title) {
