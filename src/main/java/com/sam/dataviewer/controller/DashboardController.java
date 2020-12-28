@@ -4,7 +4,6 @@ import com.sam.dataviewer.dto.DashboardDto;
 import com.sam.dataviewer.dto.FigureDto;
 import com.sam.dataviewer.service.DashboardService;
 import com.sam.dataviewer.service.FigureService;
-import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
