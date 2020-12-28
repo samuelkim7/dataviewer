@@ -13,20 +13,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
+@WithMockUser(username = "kim", password = "1234", roles = "USER")
 class OrderControllerTest {
 
     @Autowired
@@ -41,30 +43,67 @@ class OrderControllerTest {
     private OrderRepository orderRepository;
 
     @Test
+    @DisplayName("의뢰 신청 폼")
+    public void createFormTest() throws Exception {
+        mockMvc.perform(get("/order/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("order/createOrderForm"))
+                .andExpect(model().attributeExists("orderDto"));
+    }
+
+    @Test
+    @DisplayName("의뢰 신청")
+    public void createOrderTest() throws Exception {
+        getMember();
+        OrderDto dto = new OrderDto(
+                null, "의뢰", "내용",
+                null, null
+        );
+        mockMvc.perform(post("/order/new").with(csrf())
+                .param("title", dto.getTitle())
+                .param("content", dto.getContent()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/orders"));
+
+        Order order = orderRepository.findByTitle(dto.getTitle());
+        then(order.getTitle()).isEqualTo("의뢰");
+        then(order.getContent()).isEqualTo("내용");
+    }
+
+    @Test
     @DisplayName("의뢰 상세보기")
-    @WithMockUser(roles="USER")
     public void orderDetailTest() throws Exception {
         Member member = getMember();
         Order order = getOrder(member);
-        mockMvc.perform(get("/order/orderDetail/{id}", order.getId()))
+        MockHttpServletResponse response = mockMvc.perform(
+                get("/order/orderDetail/{id}", order.getId()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("order/orderDetail"))
-                .andExpect(model().attributeExists("orderDto", "fileDtos"));
+                .andExpect(model().attributeExists("orderDto", "fileDtos"))
+                .andReturn().getResponse();
+
+        then(response.getContentAsString())
+                .contains("의뢰", "내용");
     }
 
     @Test
     @DisplayName("의뢰 수정하기")
-    @WithMockUser(username = "kim", password = "1234", roles = "USER")
     public void updateOrderTest() throws Exception {
         Member member = getMember();
         Order order = getOrder(member);
-        OrderDto orderDto = new OrderDto();
-        orderDto.setId(order.getId());
-        orderDto.setTitle("order2");
-        orderDto.setContent("content2");
+        OrderDto dto = new OrderDto(
+                order.getId(), "의뢰2", "내용2",
+                null, null
+        );
         mockMvc.perform(post("/order/update").with(csrf())
-                .content(objectMapper.writeValueAsString(orderDto)))
-                .andExpect(status().isOk());
+                .param("id", dto.getId().toString())
+                .param("title", dto.getTitle())
+                .param("content", dto.getContent()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/orders"));
+
+        then(order.getTitle()).isEqualTo("의뢰2");
+        then(order.getContent()).isEqualTo("내용2");
     }
 
     private Member getMember() {
@@ -76,8 +115,8 @@ class OrderControllerTest {
 
     private Order getOrder(Member member) {
         OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("order");
-        orderDto.setContent("content");
+        orderDto.setTitle("의뢰");
+        orderDto.setContent("내용");
         Long id = orderService.order(member.getUsername(), orderDto);
         return orderRepository.getOne(id);
     }

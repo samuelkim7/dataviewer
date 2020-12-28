@@ -18,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Order findByEstimateId(@Param("id") Long estimateId);
 
     List<Order> findByOrderByIdDesc();
+
+    Order findByTitle(String title);
 }
