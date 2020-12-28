@@ -5,6 +5,7 @@ import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import com.sam.dataviewer.service.MemberService;
 import com.sam.dataviewer.service.OrderService;
@@ -41,10 +42,13 @@ class OrderControllerTest {
     private OrderService orderService;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
     @DisplayName("의뢰 신청 폼")
     public void createFormTest() throws Exception {
+        getMember();
         mockMvc.perform(get("/order/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("order/createOrderForm"))
@@ -107,16 +111,18 @@ class OrderControllerTest {
     }
 
     private Member getMember() {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
+        MemberDto memberDto = new MemberDto(
+                "kim", "1234", "Sam", "abc@gmail.com",
+                "01011110000", null, null
+        );
         return memberService.join(memberDto);
     }
 
     private Order getOrder(Member member) {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setTitle("의뢰");
-        orderDto.setContent("내용");
+        OrderDto orderDto = new OrderDto(
+                null, "의뢰", "내용",
+                null, null
+        );
         Long id = orderService.order(member.getUsername(), orderDto);
         return orderRepository.getOne(id);
     }

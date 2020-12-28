@@ -158,11 +158,10 @@ class MemberControllerTest {
     }
 
     private Member getMember() {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setUsername("kim");
-        memberDto.setPassword("1234");
-        memberDto.setName("Sam");
-        memberDto.setEmail("abc@gmail.com");
+        MemberDto memberDto = new MemberDto(
+                "kim", "1234", "Sam", "abc@gmail.com",
+                "01011110000", null, null
+        );
         return memberService.join(memberDto);
     }
 

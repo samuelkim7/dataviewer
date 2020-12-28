@@ -2,18 +2,19 @@ package com.sam.dataviewer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sam.dataviewer.domain.Dashboard;
+import com.sam.dataviewer.domain.Figure;
 import com.sam.dataviewer.domain.Member;
 import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.DashboardDto;
+import com.sam.dataviewer.dto.FigureDto;
 import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.DashboardRepository;
-import com.sam.dataviewer.repository.MemberRepository;
-import com.sam.dataviewer.repository.OrderRepository;
+import com.sam.dataviewer.repository.FigureRepository;
 import com.sam.dataviewer.service.DashboardService;
+import com.sam.dataviewer.service.FigureService;
 import com.sam.dataviewer.service.MemberService;
 import com.sam.dataviewer.service.OrderService;
-import org.hibernate.Session;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,58 +28,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
 @WithMockUser(username = "kim", password = "1234", roles = "USER")
-class DashboardControllerTest {
+class FigureControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;
     @Autowired
-    private DashboardService dashboardService;
+    private FigureService figureService;
     @Autowired
-    private DashboardRepository dashboardRepository;
+    private FigureRepository figureRepository;
     @Autowired
     private MemberService memberService;
     @Autowired
     private OrderService orderService;
-
-
-    @Test
-    @DisplayName("대시보드 리스트 보기")
-    public void estimateListTest() throws Exception {
-        Long orderId = getOrder();
-        getDashboard(orderId, "대시보드1");
-        getDashboard(orderId, "대시보드2");
-        MockHttpServletResponse response = mockMvc.perform(get("/dashboards"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("dashboard/dashboardList"))
-                .andExpect(model().attributeExists("dashboardDtos"))
-                .andReturn().getResponse();
-
-        then(response.getContentAsString())
-                .contains("의뢰", "대시보드1", "대시보드2");
-    }
+    @Autowired
+    private DashboardService dashboardService;
 
     @Test
-    @DisplayName("대시보드 상세보기")
-    public void dashboardDetailTest() throws Exception {
+    @DisplayName("figure 상세보기")
+    public void figureViewTest() throws Exception {
         Long orderId = getOrder();
-        Dashboard dashboard = getDashboard(orderId, "대시보드");
+        Figure figure = getFigure(orderId);
         MockHttpServletResponse response = mockMvc.perform(
-                get("/dashboard/dashboardDetail/{id}", dashboard.getId()))
+                get("/figure/figureView/{id}", figure.getId()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("dashboard/dashboardDetail"))
-                .andExpect(model().attributeExists("dashboardDto", "figureDtos"))
+                .andExpect(view().name("figure/figureView"))
+                .andExpect(model().attributeExists("figureDto"))
+                .andDo(print())
                 .andReturn().getResponse();
 
         then(response.getContentAsString())
-                .contains("의뢰", "대시보드", "내용");
+                .contains("figure", "설명");
     }
 
     private Long getOrder() {
@@ -95,13 +83,21 @@ class DashboardControllerTest {
         return orderService.order(member.getUsername(), orderDto);
     }
 
-    private Dashboard getDashboard(Long orderId, String title) {
+    private Figure getFigure(Long orderId) {
         DashboardDto dashboardDto = new DashboardDto(
-                null, title, "내용",
+                null, "대시보드", "내용",
                 null, null
         );
-        Long id = dashboardService.create(orderId, dashboardDto);
-        return dashboardRepository.getOne(id);
-    }
+        Long dashboardId = dashboardService.create(orderId, dashboardDto);
 
+        FigureDto figureDto = new FigureDto(
+                null, "figure", "설명",
+                null, null, null,
+                null, null, null
+        );
+        Long id = figureService.create(
+                dashboardId, figureDto, null, null
+        );
+        return figureRepository.getOne(id);
+    }
 }
