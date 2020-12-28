@@ -29,4 +29,22 @@ public class EstimateDto {
 
     private EstimateStatus status;
 
+    public EstimateDto() {
+    }
+
+    public EstimateDto(
+            Long id, @NotEmpty(message = "제목을 기입해주세요.") String title,
+            @NotEmpty(message = "견적 사항을 기입해주세요.") String content,
+            @NotNull(message = "견적 금액을 기입해주세요.") Long price,
+            @NotEmpty(message = "예상 소요 일자를 기입해주세요.") String duration,
+            LocalDateTime createdAt, EstimateStatus status
+    ) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.price = price;
+        this.duration = duration;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
 }

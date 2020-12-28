@@ -71,9 +71,9 @@ class MemberTest {
         );
 
         //then
-        then(newEmail).isEqualTo(member.getEmail());
-        then(newPhoneNumber).isEqualTo(member.getPhoneNumber());
-        then(newAddress).isEqualTo(member.getAddress());
+        then(member.getEmail()).isEqualTo(newEmail);
+        then(member.getPhoneNumber()).isEqualTo(newPhoneNumber);
+        then(member.getAddress()).isEqualTo(newAddress);
     }
 
     @Test
@@ -91,7 +91,7 @@ class MemberTest {
         member.updatePassword(newPassword);
 
         //then
-        then(newPassword).isEqualTo(member.getPassword());
+        then(member.getPassword()).isEqualTo(newPassword);
     }
 
 }

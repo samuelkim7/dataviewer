@@ -74,9 +74,9 @@ class DashboardServiceTest {
         List<DashboardDto> dashboardDtos = dashboardService.findByUsername(member.getUsername());
 
         //then
-        then(2).isEqualTo(dashboardDtos.size());
-        then("dashboard1").isEqualTo(dashboardDtos.get(0).getTitle());
-        then("dashboard2").isEqualTo(dashboardDtos.get(1).getTitle());
+        then(dashboardDtos.size()).isEqualTo(2);
+        then(dashboardDtos.get(0).getTitle()).isEqualTo("dashboard1");
+        then(dashboardDtos.get(1).getTitle()).isEqualTo("dashboard2");
     }
 
     @Test
@@ -95,8 +95,8 @@ class DashboardServiceTest {
         dashboardService.updateDashboard(dashboardDto);
 
         //then
-        then("dashboard2").isEqualTo(dashboard.getTitle());
-        then("content2").isEqualTo(dashboard.getContent());
+        then(dashboard.getTitle()).isEqualTo("dashboard2");
+        then(dashboard.getContent()).isEqualTo("content2");
     }
 
     @Test

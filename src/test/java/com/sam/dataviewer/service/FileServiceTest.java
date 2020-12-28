@@ -52,15 +52,14 @@ class FileServiceTest {
 
         //when
         String fileName = fileService.uploadFile(file);
+        Path path = Path.of("C:/spring/dataviewer_files/" + fileName);
 
         //then
         then(fileName).contains(file.getOriginalFilename());
-        then(true).isEqualTo(
-                Files.exists(Path.of("C:/spring/dataviewer_files/" + fileName))
-        );
+        then(Files.exists(path)).isEqualTo(true);
 
         //업로드된 파일 삭제
-        Files.delete(Path.of("C:/spring/dataviewer_files/" + fileName));
+        Files.delete(path);
     }
 
     @Test
@@ -83,9 +82,7 @@ class FileServiceTest {
         then(argumentCaptor.getValue().getFileName()).contains("sample.txt");
         then(argumentCaptor.getValue().getOrder()).isEqualTo(order);
         String filePath = argumentCaptor.getValue().getFilePath();
-        then(true).isEqualTo(
-                Files.exists(Path.of(filePath))
-        );
+        then(Files.exists(Path.of(filePath))).isEqualTo(true);
 
         //업로드된 파일 삭제
         Files.delete(Path.of(filePath));
@@ -109,9 +106,9 @@ class FileServiceTest {
         List<FileDto> fileDtos = fileService.findByOrderId(order.getId());
 
         //then
-        then(2).isEqualTo(fileDtos.size());
-        then("sample1.txt").isEqualTo(fileDtos.get(0).getOriginalFileName());
-        then("sample2.txt").isEqualTo(fileDtos.get(1).getOriginalFileName());
+        then(fileDtos.size()).isEqualTo(2);
+        then(fileDtos.get(0).getOriginalFileName()).isEqualTo("sample1.txt");
+        then(fileDtos.get(1).getOriginalFileName()).isEqualTo("sample2.txt");
     }
 
     @Test
@@ -144,10 +141,7 @@ class FileServiceTest {
         fileService.delete(fileDB.getId());
 
         //then
-        then(false).isEqualTo(Files.exists(
-                Path.of(fileDB.getFilePath())
-            )
-        );
+        then(Files.exists(Path.of(fileDB.getFilePath()))).isEqualTo(false);
         verify(fileRepository).delete(fileDB);
     }
 

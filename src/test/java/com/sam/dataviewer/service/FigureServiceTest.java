@@ -76,10 +76,10 @@ class FigureServiceTest {
         List<FigureDto> figureDtos = figureService.findByDashboard(dashboard.getId());
 
         //then
-        then(2).isEqualTo(figureDtos.size());
-        then("dashboard").isEqualTo(figureDtos.get(0).getDashboardTitle());
-        then("figure1").isEqualTo(figureDtos.get(0).getTitle());
-        then("figure2").isEqualTo(figureDtos.get(1).getTitle());
+        then(figureDtos.size()).isEqualTo(2);
+        then(figureDtos.get(0).getDashboardTitle()).isEqualTo("dashboard");
+        then(figureDtos.get(0).getTitle()).isEqualTo("figure1");
+        then(figureDtos.get(1).getTitle()).isEqualTo("figure2");
     }
 
     @Test
@@ -100,8 +100,8 @@ class FigureServiceTest {
         );
 
         //then
-        then("figure2").isEqualTo(figure.getTitle());
-        then("description2").isEqualTo(figure.getDescription());
+        then(figure.getTitle()).isEqualTo("figure2");
+        then(figure.getDescription()).isEqualTo("description2");
     }
 
     @Test

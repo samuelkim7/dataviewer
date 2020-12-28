@@ -24,10 +24,10 @@ class FigureTest {
         );
 
         //then
-        then(dashboard).isEqualTo(figure.getDashboard());
-        then(figure).isEqualTo(dashboard.getFigures().get(0));
-        then(title).isEqualTo(figure.getTitle());
-        then(originalFileName).isEqualTo(figure.getOriginalFileName());
+        then(figure.getDashboard()).isEqualTo(dashboard);
+        then(dashboard.getFigures().get(0)).isEqualTo(figure);
+        then(figure.getTitle()).isEqualTo(title);
+        then(figure.getOriginalFileName()).isEqualTo(originalFileName);
     }
 
     @Test
@@ -70,8 +70,8 @@ class FigureTest {
         );
 
         //then
-        then(newTitle).isEqualTo(figure.getTitle());
-        then(newOriginalFileName).isEqualTo(figure.getOriginalFileName());
+        then(figure.getTitle()).isEqualTo(newTitle);
+        then(figure.getOriginalFileName()).isEqualTo(newOriginalFileName);
     }
 
     private Member getMember() {

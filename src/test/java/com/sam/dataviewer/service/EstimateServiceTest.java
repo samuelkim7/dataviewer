@@ -78,9 +78,9 @@ class EstimateServiceTest {
         List<EstimateDto> estimateDtos = estimateService.findByUsername(member.getUsername());
 
         //then
-        then(2).isEqualTo(estimateDtos.size());
-        then("estimate1").isEqualTo(estimateDtos.get(0).getTitle());
-        then("estimate2").isEqualTo(estimateDtos.get(1).getTitle());
+        then(estimateDtos.size()).isEqualTo(2);
+        then(estimateDtos.get(0).getTitle()).isEqualTo("estimate1");
+        then(estimateDtos.get(1).getTitle()).isEqualTo("estimate2");
     }
 
     @Test
@@ -98,7 +98,7 @@ class EstimateServiceTest {
         estimateService.updateEstimate(estimateDto);
 
         //then
-        then("estimate2").isEqualTo(estimate.getTitle());
+        then(estimate.getTitle()).isEqualTo("estimate2");
     }
 
     @Test
@@ -113,7 +113,7 @@ class EstimateServiceTest {
         estimateService.cancelEstimate(estimate.getId());
 
         //then
-        then(EstimateStatus.CANCEL).isEqualTo(estimate.getStatus());
+        then(estimate.getStatus()).isEqualTo(EstimateStatus.CANCEL);
     }
 
     @Test
@@ -128,7 +128,7 @@ class EstimateServiceTest {
         estimateService.acceptEstimate(estimate.getId());
 
         //then
-        then(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
+        then(estimate.getStatus()).isEqualTo(EstimateStatus.ACCEPT);
     }
 
     private Order getOrder() {

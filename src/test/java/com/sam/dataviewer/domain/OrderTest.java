@@ -19,10 +19,10 @@ class OrderTest {
         Order order = Order.createOrder(member, title, content);
 
         //then
-        then(member).isEqualTo(order.getMember());
-        then(order).isEqualTo(member.getOrders().get(0));
-        then(title).isEqualTo(order.getTitle());
-        then(content).isEqualTo(order.getContent());
+        then(order.getMember()).isEqualTo(member);
+        then(member.getOrders().get(0)).isEqualTo(order);
+        then(order.getTitle()).isEqualTo(title);
+        then(order.getContent()).isEqualTo(content);
     }
 
     @Test
@@ -52,8 +52,8 @@ class OrderTest {
         order.update(newTitle, newContent);
 
         //then
-        then(newTitle).isEqualTo(order.getTitle());
-        then(newContent).isEqualTo(order.getContent());
+        then(order.getTitle()).isEqualTo(newTitle);
+        then(order.getContent()).isEqualTo(newContent);
     }
 
     @Test
@@ -66,7 +66,7 @@ class OrderTest {
         order.cancel();
 
         //then
-        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
+        then(order.getStatus()).isEqualTo(OrderStatus.CANCEL);
     }
 
     @Test
@@ -79,7 +79,7 @@ class OrderTest {
         order.start();
 
         //then
-        then(OrderStatus.ORDER).isEqualTo(order.getStatus());
+        then(order.getStatus()).isEqualTo(OrderStatus.ORDER);
     }
 
     private Member getMember() {

@@ -72,9 +72,9 @@ class OrderServiceTest {
         List<OrderDto> orderDtos = orderService.findByUsername(member.getUsername());
 
         //then
-        then(2).isEqualTo(orderDtos.size());
-        then("order1").isEqualTo(orderDtos.get(0).getTitle());
-        then("order2").isEqualTo(orderDtos.get(1).getTitle());
+        then(orderDtos.size()).isEqualTo(2);
+        then(orderDtos.get(0).getTitle()).isEqualTo("order1");
+        then(orderDtos.get(1).getTitle()).isEqualTo("order2");
     }
 
     @Test
@@ -94,8 +94,8 @@ class OrderServiceTest {
         orderService.updateOrder(orderDto);
 
         //then
-        then("order2").isEqualTo(order.getTitle());
-        then("content2").isEqualTo(order.getContent());
+        then(order.getTitle()).isEqualTo("order2");
+        then(order.getContent()).isEqualTo("content2");
     }
 
     @Test
@@ -110,7 +110,7 @@ class OrderServiceTest {
         orderService.cancelOrder(order.getId());
 
         //then
-        then(OrderStatus.CANCEL).isEqualTo(order.getStatus());
+        then(order.getStatus()).isEqualTo(OrderStatus.CANCEL);
     }
 
     @Test
@@ -125,7 +125,7 @@ class OrderServiceTest {
         orderService.startOrder(order.getId());
 
         //then
-        then(OrderStatus.ORDER).isEqualTo(order.getStatus());
+        then(order.getStatus()).isEqualTo(OrderStatus.ORDER);
     }
 
     private Member getMember() {

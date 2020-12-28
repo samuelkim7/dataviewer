@@ -13,4 +13,16 @@ public class FileDto {
     private String fileName;
 
     private Long fileSize;
+
+    public FileDto() {
+    }
+
+    public FileDto(
+            Long id, String originalFileName, String fileName, Long fileSize
+    ) {
+        this.id = id;
+        this.originalFileName = originalFileName;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+    }
 }

@@ -69,8 +69,8 @@ class EstimateTest {
         );
 
         //then
-        then(newTitle).isEqualTo(estimate.getTitle());
-        then(newPrice).isEqualTo(estimate.getPrice());
+        then(estimate.getTitle()).isEqualTo(newTitle);
+        then(estimate.getPrice()).isEqualTo(newPrice);
     }
 
     @Test
@@ -87,7 +87,7 @@ class EstimateTest {
         estimate.cancel();
 
         //then
-        then(EstimateStatus.CANCEL).isEqualTo(estimate.getStatus());
+        then(estimate.getStatus()).isEqualTo(EstimateStatus.CANCEL);
     }
 
     @Test
@@ -104,7 +104,7 @@ class EstimateTest {
         estimate.accept();
 
         //then
-        then(EstimateStatus.ACCEPT).isEqualTo(estimate.getStatus());
+        then(estimate.getStatus()).isEqualTo(EstimateStatus.ACCEPT);
     }
 
     private Member getMember() {

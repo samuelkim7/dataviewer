@@ -23,10 +23,10 @@ class FileTest {
         );
 
         //then
-        then(order).isEqualTo(file.getOrder());
-        then(file).isEqualTo(order.getFiles().get(0));
-        then(originalFileName).isEqualTo(file.getOriginalFileName());
-        then(fileSize).isEqualTo(file.getFileSize());
+        then(file.getOrder()).isEqualTo(order);
+        then(order.getFiles().get(0)).isEqualTo(file);
+        then(file.getOriginalFileName()).isEqualTo(originalFileName);
+        then(file.getFileSize()).isEqualTo(fileSize);
     }
 
     @Test

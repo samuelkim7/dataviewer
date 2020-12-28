@@ -20,4 +20,19 @@ public class DashboardDto {
     private LocalDateTime createdAt;
 
     private String orderTitle;
+
+    public DashboardDto() {
+    }
+
+    public DashboardDto(
+            Long id, @NotEmpty(message = "제목을 기입해주세요.") String title,
+            @NotEmpty(message = "내용을 기입해주세요.") String content,
+            LocalDateTime createdAt, String orderTitle
+    ) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.orderTitle = orderTitle;
+    }
 }
