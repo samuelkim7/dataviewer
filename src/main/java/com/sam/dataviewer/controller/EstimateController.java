@@ -40,18 +40,17 @@ public class EstimateController {
     }
 
     @PostMapping("/estimate/accept")
-    public String updateOrder(
+    public String acceptEstimate(
             @RequestParam("orderDtoId") Long orderId,
             @RequestParam("id") Long estimateId
             ) {
-        System.out.println(orderId);
         orderService.startOrder(orderId);
         estimateService.acceptEstimate(estimateId);
         return "redirect:/estimates";
     }
 
     @GetMapping("/estimate/cancel/{id}")
-    public String cancelOrder(@PathVariable Long id) {
+    public String cancelEstimate(@PathVariable Long id) {
         estimateService.cancelEstimate(id);
         return "redirect:/estimates";
     }
