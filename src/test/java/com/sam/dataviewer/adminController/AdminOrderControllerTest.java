@@ -7,6 +7,7 @@ import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
+import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.MemberService;
 import com.sam.dataviewer.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,6 +46,8 @@ class AdminOrderControllerTest {
     private OrderRepository orderRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private FileService fileService;
 
     @Test
     @DisplayName("의뢰 리스트 보기")
@@ -73,6 +80,32 @@ class AdminOrderControllerTest {
 
         then(response.getContentAsString())
                 .contains("의뢰", "내용");
+    }
+
+    @Test
+    @DisplayName("파일 다운로드")
+    public void downloadFileTest() throws Exception {
+        MockMultipartFile file = getMultipartFile("sample.txt");
+        Path path = Path.of("C:/spring/dataviewer_files/" + file.getOriginalFilename());
+        Files.write(path, file.getBytes());
+
+        MockHttpServletResponse response = mockMvc.perform(
+                get("/order/downloadFile/{originalFileName}"
+                        , file.getOriginalFilename()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+
+        then(response.getContentType()).isEqualTo("application/octet-stream");
+        then(response.getContentAsString()).isEqualTo("sample.txt");
+
+        //파일 삭제
+        Files.delete(path);
+    }
+
+    private MockMultipartFile getMultipartFile(String originalFileName) {
+        return new MockMultipartFile(
+                "data", originalFileName,
+                "text/plain", originalFileName.getBytes());
     }
 
     private Member getMember() {
