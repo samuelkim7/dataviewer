@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sam.dataviewer.domain.Dashboard;
 import com.sam.dataviewer.domain.Figure;
 import com.sam.dataviewer.domain.Member;
-import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.DashboardDto;
 import com.sam.dataviewer.dto.FigureDto;
 import com.sam.dataviewer.dto.MemberDto;
@@ -59,8 +58,6 @@ class AdminFigureControllerTest {
     private MemberService memberService;
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private OrderRepository orderRepository;
 
     @Test
     @DisplayName("figure 생성 폼")
