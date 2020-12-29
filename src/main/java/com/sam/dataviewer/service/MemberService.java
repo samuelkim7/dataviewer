@@ -54,7 +54,7 @@ public class MemberService {
 
     /* 회원 한 명 조회 */
     public Member findOne(Long memberId){
-        return memberRepository.getOne(memberId);
+        return memberRepository.findById(memberId).orElse(null);
     }
 
     /* 회원 아이디로 조회 */

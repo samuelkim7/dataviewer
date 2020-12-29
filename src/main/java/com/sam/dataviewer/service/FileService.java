@@ -49,7 +49,7 @@ public class FileService {
             Files.write(path, bytes);
 
             //파일 정보 DB에 저장
-            Order order = orderRepository.getOne(orderId);
+            Order order = orderRepository.findById(orderId).orElse(null);
             File fileDB = File.createFile(
                     order, originalFileName, fileName,
                     path.toString(), file.getSize()
@@ -68,7 +68,7 @@ public class FileService {
 
     /* 의뢰 id로 file 전체 조회  */
     public List<FileDto> findByOrderId(Long id) {
-        Order order = orderRepository.getOne(id);
+        Order order = orderRepository.findById(id).orElse(null);
         List<File> files = fileRepository.findByOrderOrderByIdDesc(order);
         return files.stream().map(f -> f.toDto()).collect(Collectors.toList());
     }
@@ -84,11 +84,12 @@ public class FileService {
     /* file 삭제 및 info 삭제 */
     @Transactional
     public void delete(Long id) throws IOException {
-        File file = fileRepository.getOne(id);
-        Path path = Paths.get(file.getFilePath());
-        Files.delete(path);
-
-        fileRepository.delete(file);
+        File file = fileRepository.findById(id).orElse(null);
+        if (file != null) {
+            Path path = Paths.get(file.getFilePath());
+            Files.delete(path);
+            fileRepository.delete(file);
+        }
     }
 
     /* 파일 다운로드 */

@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -90,7 +89,7 @@ class AdminDashboardControllerTest {
 
     @Test
     @DisplayName("대시보드 리스트 보기")
-    public void estimateListTest() throws Exception {
+    public void dashboardListTest() throws Exception {
         Member member = getMember();
         Order order = getOrder(member, "의뢰");
         getDashboard(order.getId(), "대시보드1");

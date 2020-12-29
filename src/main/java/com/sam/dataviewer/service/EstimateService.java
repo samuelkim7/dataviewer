@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +23,7 @@ public class EstimateService {
 
     @Transactional
     public Long request(Long orderId, EstimateDto dto) {
-        Order order = orderRepository.getOne(orderId);
+        Order order = orderRepository.findById(orderId).orElse(null);
 
         Estimate estimate = Estimate.createEstimate(
                 order, dto.getTitle(), dto.getContent(),
@@ -41,29 +42,35 @@ public class EstimateService {
 
     /* 견적 한 건 조회 */
     public EstimateDto findOne(Long id) {
-        Estimate estimate = estimateRepository.getOne(id);
-        return estimate.toDto();
+        Optional<Estimate> optional = estimateRepository.findById(id);
+        return optional.map(e -> e.toDto()).orElse(new EstimateDto());
     }
 
     /* 견적 수정 */
     @Transactional
     public void updateEstimate(EstimateDto dto) {
-        Estimate estimate = estimateRepository.getOne(dto.getId());
-        estimate.update(dto.getTitle(), dto.getContent(), dto.getPrice(), dto.getDuration());
+        Estimate estimate = estimateRepository.findById(dto.getId()).orElse(null);
+        if (estimate != null) {
+            estimate.update(dto.getTitle(), dto.getContent(), dto.getPrice(), dto.getDuration());
+        }
     }
 
     /* 견적 취소 */
     @Transactional
     public void cancelEstimate(Long id) {
-        Estimate estimate = estimateRepository.getOne(id);
-        estimate.cancel();
+        Estimate estimate = estimateRepository.findById(id).orElse(null);
+        if (estimate != null) {
+            estimate.cancel();
+        }
     }
 
     /* 견적 승낙 */
     @Transactional
     public void acceptEstimate(Long id) {
-        Estimate estimate = estimateRepository.getOne(id);
-        estimate.accept();
+        Estimate estimate = estimateRepository.findById(id).orElse(null);
+        if (estimate != null) {
+            estimate.accept();
+        }
     }
 
     /* 회원 아이디별 견적 전체 조회 for USER */

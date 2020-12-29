@@ -51,7 +51,7 @@ public class AdminFigureController {
         //파일 업로드
         String fileName = null;
         try {
-            if (!file.isEmpty()) {
+            if (file != null && !file.isEmpty()) {
                 fileName = fileService.uploadFile(file);
             }
         } catch (IOException e) {
@@ -59,7 +59,7 @@ public class AdminFigureController {
         }
 
         //figure Entity 생성 및 저장
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             figureService.create(dashboardId, figureDto, file.getOriginalFilename(), fileName);
         } else {
             figureService.create(dashboardId, figureDto, null, null);
@@ -102,7 +102,7 @@ public class AdminFigureController {
         // 파일 업로드 및 현재 파일 삭제
         String fileName = null;
         try {
-            if (!file.isEmpty()) {
+            if (file != null && !file.isEmpty()) {
                 fileName = fileService.uploadFile(file);
                 fileService.deleteFile(figureDto.getFileName());
             }
@@ -110,7 +110,7 @@ public class AdminFigureController {
         }
 
         // figure Entity 수정
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             figureService.updateFigure(figureDto, file.getOriginalFilename(), fileName);
         } else {
             figureService.updateFigure(
@@ -128,7 +128,6 @@ public class AdminFigureController {
         try {
             resource = fileService.downloadFile(fileName);
         } catch (IOException e) {
-            //
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
@@ -136,7 +135,7 @@ public class AdminFigureController {
                 .body(resource);
     }
 
-    @GetMapping("/figure/delete/{id}/{fileName}")
+    @GetMapping({"/figure/delete/{id}", "/figure/delete/{id}/{fileName}"})
     public String deleteFigure(@PathVariable Long id,
                                @PathVariable(required = false) String fileName) {
         //첨부 파일 삭제
@@ -145,7 +144,6 @@ public class AdminFigureController {
                 fileService.deleteFile(fileName);
             }
         } catch (IOException e) {
-            //
         }
 
         figureService.deleteFigure(id);

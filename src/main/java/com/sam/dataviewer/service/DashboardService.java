@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +23,7 @@ public class DashboardService {
 
     @Transactional
     public Long create(Long orderId, DashboardDto dto) {
-        Order order = orderRepository.getOne(orderId);
+        Order order = orderRepository.findById(orderId).orElse(null);
         Dashboard dashboard = Dashboard.createDashboard(
                 order, dto.getTitle(), dto.getContent()
         );
@@ -38,15 +39,17 @@ public class DashboardService {
 
     /* Dashboard 하나 조회 */
     public DashboardDto findOne(Long id) {
-        Dashboard dashboard = dashboardRepository.getOne(id);
-        return dashboard.toDto();
+        Optional<Dashboard> optional = dashboardRepository.findById(id);
+        return optional.map(d -> d.toDto()).orElse(new DashboardDto());
     }
 
     /* Dashboard 수정 */
     @Transactional
     public void updateDashboard(DashboardDto dto) {
-        Dashboard dashboard = dashboardRepository.getOne(dto.getId());
-        dashboard.update(dto.getTitle(), dto.getContent());
+        Dashboard dashboard = dashboardRepository.findById(dto.getId()).orElse(null);
+        if (dashboard != null) {
+            dashboard.update(dto.getTitle(), dto.getContent());
+        }
     }
 
     /* Dashboard 삭제 */

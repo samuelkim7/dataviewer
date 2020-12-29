@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -42,8 +43,9 @@ class FigureServiceTest {
     public void createTest() throws Exception {
         //given
         Dashboard dashboard = getDashboard(order);
-        given(dashboardRepository.getOne(dashboard.getId()))
-                .willReturn(dashboard);
+        Optional<Dashboard> optional = Optional.of(dashboard);
+        given(dashboardRepository.findById(dashboard.getId()))
+                .willReturn(optional);
         FigureDto figureDto = new FigureDto();
         figureDto.setTitle("figure");
 
@@ -91,8 +93,9 @@ class FigureServiceTest {
         FigureDto figureDto = new FigureDto();
         figureDto.setTitle("figure2");
         figureDto.setDescription("description2");
-        given(figureRepository.getOne(figureDto.getId()))
-                .willReturn(figure);
+        Optional<Figure> optional = Optional.of(figure);
+        given(figureRepository.findById(figureDto.getId()))
+                .willReturn(optional);
 
         //when
         figureService.updateFigure(

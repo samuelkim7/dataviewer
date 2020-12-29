@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -70,7 +71,8 @@ class FileServiceTest {
         MockMultipartFile file = getMultipartFile("sample.txt");
         List<MultipartFile> files = new ArrayList<>();
         files.add(file);
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         fileService.saveFile(order.getId(), files);
@@ -98,7 +100,8 @@ class FileServiceTest {
         List<File> files = new ArrayList<>();
         files.add(file1);
         files.add(file2);
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
         given(fileRepository.findByOrderOrderByIdDesc(order))
                 .willReturn(files);
 
@@ -135,7 +138,8 @@ class FileServiceTest {
         MockMultipartFile file = getMultipartFile("sample.txt");
         Path path = Path.of("C:/spring/dataviewer_files/" + file.getOriginalFilename());
         Files.write(path, file.getBytes());
-        given(fileRepository.getOne(fileDB.getId())).willReturn(fileDB);
+        Optional<File> optional = Optional.of(fileDB);
+        given(fileRepository.findById(fileDB.getId())).willReturn(optional);
 
         //when
         fileService.delete(fileDB.getId());

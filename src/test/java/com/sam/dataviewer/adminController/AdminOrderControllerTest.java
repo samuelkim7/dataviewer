@@ -85,7 +85,7 @@ class AdminOrderControllerTest {
         Files.write(path, file.getBytes());
 
         MockHttpServletResponse response = mockMvc.perform(
-                get("/order/downloadFile/{originalFileName}"
+                get("/admin/order/downloadFile/{originalFileName}"
                         , file.getOriginalFilename()))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();

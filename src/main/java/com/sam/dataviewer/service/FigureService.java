@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,7 @@ public class FigureService {
     @Transactional
     public Long create(Long dashboardId, FigureDto dto,
                        String originalFileName, String fileName) {
-        Dashboard dashboard = dashboardRepository.getOne(dashboardId);
+        Dashboard dashboard = dashboardRepository.findById(dashboardId).orElse(null);
         Figure figure = Figure.createFigure(
                 dashboard, dto.getTitle(),
                 dto.getDescription(), originalFileName,
@@ -42,17 +43,19 @@ public class FigureService {
 
     /* Figure 한건 조회 */
     public FigureDto findOne(Long id) {
-        Figure figure = figureRepository.getOne(id);
-        return figure.toDto();
+        Optional<Figure> optional = figureRepository.findById(id);
+        return optional.map(f -> f.toDto()).orElse(new FigureDto());
     }
 
     /* Figure 수정 */
     @Transactional
     public void updateFigure(FigureDto dto, String originalFilename, String fileName) {
-        Figure figure = figureRepository.getOne(dto.getId());
-        figure.update(
-                dto.getTitle(), dto.getDescription(),
-                originalFilename, fileName, dto.getIframeTag());
+        Figure figure = figureRepository.findById(dto.getId()).orElse(null);
+        if (figure != null) {
+            figure.update(
+                    dto.getTitle(), dto.getDescription(),
+                    originalFilename, fileName, dto.getIframeTag());
+        }
     }
 
     /* Figure 삭제 */

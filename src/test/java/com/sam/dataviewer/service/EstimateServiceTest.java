@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -49,7 +50,8 @@ class EstimateServiceTest {
         EstimateDto estimateDto = new EstimateDto();
         estimateDto.setTitle("estimate");
         estimateDto.setPrice(100000L);
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         estimateService.request(order.getId(), estimateDto);
@@ -92,7 +94,8 @@ class EstimateServiceTest {
 
         EstimateDto estimateDto = new EstimateDto();
         estimateDto.setTitle("estimate2");
-        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
+        Optional<Estimate> optional = Optional.of(estimate);
+        given(estimateRepository.findById(estimate.getId())).willReturn(optional);
 
         //when
         estimateService.updateEstimate(estimateDto);
@@ -107,7 +110,8 @@ class EstimateServiceTest {
         //given
         Order order = getOrder();
         Estimate estimate = getEstimate(order, "estimate");
-        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
+        Optional<Estimate> optional = Optional.of(estimate);
+        given(estimateRepository.findById(estimate.getId())).willReturn(optional);
 
         //when
         estimateService.cancelEstimate(estimate.getId());
@@ -122,7 +126,8 @@ class EstimateServiceTest {
         //given
         Order order = getOrder();
         Estimate estimate = getEstimate(order, "estimate");
-        given(estimateRepository.getOne(estimate.getId())).willReturn(estimate);
+        Optional<Estimate> optional = Optional.of(estimate);
+        given(estimateRepository.findById(estimate.getId())).willReturn(optional);
 
         //when
         estimateService.acceptEstimate(estimate.getId());

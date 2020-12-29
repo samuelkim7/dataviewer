@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,8 +46,8 @@ public class OrderService {
 
     /* 의뢰 한 건 조회 */
     public OrderDto findOne(Long id){
-        Order order = orderRepository.getOne(id);
-        return order.toDto();
+        Optional<Order> optional = orderRepository.findById(id);
+        return optional.map(o -> o.toDto()).orElse(new OrderDto());
     }
 
     /* 회원 아이디별 의뢰 전체 조회 for USER */
@@ -59,15 +60,19 @@ public class OrderService {
     /* 의뢰 취소 */
     @Transactional
     public void cancelOrder(Long id) {
-        Order order = orderRepository.getOne(id);
-        order.cancel();
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null) {
+            order.cancel();
+        }
     }
 
     /* 의뢰 수정 */
     @Transactional
     public void updateOrder(OrderDto dto) {
-        Order order = orderRepository.getOne(dto.getId());
-        order.update(dto.getTitle(), dto.getContent());
+        Order order = orderRepository.findById(dto.getId()).orElse(null);
+        if (order != null) {
+            order.update(dto.getTitle(), dto.getContent());
+        }
     }
 
     public OrderDto findOrderByEstimateId(Long estimateId) {
@@ -78,7 +83,9 @@ public class OrderService {
     /* 의뢰 시작 */
     @Transactional
     public void startOrder(Long id) {
-        Order order = orderRepository.getOne(id);
-        order.start();
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null) {
+            order.start();
+        }
     }
 }

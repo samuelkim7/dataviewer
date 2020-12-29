@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -45,7 +46,8 @@ class DashboardServiceTest {
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard");
         dashboardDto.setContent("content");
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         dashboardService.create(order.getId(), dashboardDto);
@@ -88,8 +90,9 @@ class DashboardServiceTest {
         DashboardDto dashboardDto = new DashboardDto();
         dashboardDto.setTitle("dashboard2");
         dashboardDto.setContent("content2");
-        given(dashboardRepository.getOne(dashboardDto.getId()))
-                .willReturn(dashboard);
+        Optional<Dashboard> optional = Optional.of(dashboard);
+        given(dashboardRepository.findById(dashboardDto.getId()))
+                .willReturn(optional);
 
         //when
         dashboardService.updateDashboard(dashboardDto);

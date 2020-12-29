@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.BDDMockito.given;
@@ -88,7 +89,8 @@ class OrderServiceTest {
         orderDto.setId(order.getId());
         orderDto.setTitle("order2");
         orderDto.setContent("content2");
-        given(orderRepository.getOne(orderDto.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         orderService.updateOrder(orderDto);
@@ -104,7 +106,8 @@ class OrderServiceTest {
         //given
         Member member = getMember();
         Order order = getOrder(member, "order");
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         orderService.cancelOrder(order.getId());
@@ -119,7 +122,8 @@ class OrderServiceTest {
         //given
         Member member = getMember();
         Order order = getOrder(member, "order");
-        given(orderRepository.getOne(order.getId())).willReturn(order);
+        Optional<Order> optional = Optional.of(order);
+        given(orderRepository.findById(order.getId())).willReturn(optional);
 
         //when
         orderService.startOrder(order.getId());
