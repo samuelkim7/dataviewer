@@ -49,7 +49,6 @@ class AdminEstimateControllerTest {
     @Autowired
     private OrderRepository orderRepository;
 
-
     @Test
     @DisplayName("견적 신청 폼")
     public void createFormTest() throws Exception {
@@ -127,8 +126,8 @@ class AdminEstimateControllerTest {
     }
 
     @Test
-    @DisplayName("의뢰 수정하기")
-    public void updateOrderTest() throws Exception {
+    @DisplayName("견적 수정하기")
+    public void updateEstimateTest() throws Exception {
         Member member = getMember();
         Order order = getOrder(member, "의뢰");
         Estimate estimate = getEstimate(order.getId(), "견적");
