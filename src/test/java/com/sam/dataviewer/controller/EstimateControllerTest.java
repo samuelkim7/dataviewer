@@ -91,6 +91,7 @@ class EstimateControllerTest {
         then(order.getStatus()).isEqualTo(OrderStatus.ORDER);
         then(estimate.getStatus()).isEqualTo(EstimateStatus.ACCEPT);
     }
+
     private Long getOrder() {
         MemberDto memberDto = new MemberDto(
                 "kim", "1234", "Sam", "abc@gmail.com",

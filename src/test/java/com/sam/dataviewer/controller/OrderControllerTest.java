@@ -20,6 +20,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -58,7 +60,7 @@ class OrderControllerTest {
     @Test
     @DisplayName("의뢰 신청")
     public void createOrderTest() throws Exception {
-        getMember();
+        Member member = getMember();
         OrderDto dto = new OrderDto(
                 null, "의뢰", "내용",
                 null, null
@@ -69,9 +71,10 @@ class OrderControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/orders"));
 
-        Order order = orderRepository.findByTitle(dto.getTitle());
-        then(order.getTitle()).isEqualTo("의뢰");
-        then(order.getContent()).isEqualTo("내용");
+        List<Order> orders = member.getOrders();
+        then(orders.get(0).getTitle()).isEqualTo("의뢰");
+        then(orders.get(0).getContent()).isEqualTo("내용");
+        then(orders.get(0).getMember()).isEqualTo(member);
     }
 
     @Test
@@ -86,8 +89,7 @@ class OrderControllerTest {
                 .andExpect(model().attributeExists("orderDto", "fileDtos"))
                 .andReturn().getResponse();
 
-        then(response.getContentAsString())
-                .contains("의뢰", "내용");
+        then(response.getContentAsString()).contains("의뢰", "내용");
     }
 
     @Test

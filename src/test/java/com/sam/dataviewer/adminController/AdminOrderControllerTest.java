@@ -7,7 +7,6 @@ import com.sam.dataviewer.dto.MemberDto;
 import com.sam.dataviewer.dto.OrderDto;
 import com.sam.dataviewer.repository.MemberRepository;
 import com.sam.dataviewer.repository.OrderRepository;
-import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.MemberService;
 import com.sam.dataviewer.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
@@ -44,10 +43,6 @@ class AdminOrderControllerTest {
     private OrderService orderService;
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private FileService fileService;
 
     @Test
     @DisplayName("의뢰 리스트 보기")
