@@ -4,6 +4,6 @@
 - 1차 완료 : 20.10.19 - 20.11.15  / 추가 수정 : 20.12.20 - 20.12.29
 
 ### Stack
-- back-end:  Java 11, Spring Boot, Spring DATA JPA, MySQL / IDE: intelliJ
+- back-end: Java 11, Spring Boot, Spring DATA JPA, MySQL / IDE: intelliJ
 - front-end: HTML/CSS, Javascript, Bootstrap, Thymeleaf
 - Data Analysis and Visualization: Spark, Plotly
