@@ -24,3 +24,17 @@
 p.fileName {
     font-weight: bold;
 }
+
+.opacity60 {
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+
+.big {
+    font-size: 2.0rem;
+}
+
+.about {
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
