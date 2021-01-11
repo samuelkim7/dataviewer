@@ -100,11 +100,14 @@ class AdminOrderControllerTest {
     @Test
     @DisplayName("파일 다운로드 실패")
     public void downloadFileFailTest() throws Exception {
-        mockMvc.perform(
+        MockHttpServletResponse response = mockMvc.perform(
                 get("/admin/order/downloadFile/{originalFileName}"
                         , "none"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(model().attributeExists("error"));
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("error"))
+                .andReturn().getResponse();
+
+        response.getContentAsString().contains("파일 다운로드가 실패했습니다.");
     }
 
     private MockMultipartFile getMultipartFile(String originalFileName) {
