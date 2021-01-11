@@ -124,11 +124,7 @@ public class AdminFigureController {
 
     @GetMapping("/figure/downloadFile/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        Resource resource = null;
-        try {
-            resource = fileService.downloadFile(fileName);
-        } catch (IOException e) {
-        }
+        Resource resource = fileService.downloadFile(fileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
@@ -139,13 +135,9 @@ public class AdminFigureController {
     public String deleteFigure(@PathVariable Long id,
                                @PathVariable(required = false) String fileName) {
         //첨부 파일 삭제
-        try {
-            if (fileName != null) {
-                fileService.deleteFile(fileName);
-            }
-        } catch (IOException e) {
+        if (fileName != null) {
+            fileService.deleteFile(fileName);
         }
-
         figureService.deleteFigure(id);
         return "redirect:/admin/figures";
     }

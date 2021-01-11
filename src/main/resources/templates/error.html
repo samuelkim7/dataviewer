@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head">
+
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <ul th:replace="fragments/sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="fragments/nav"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <br><br>
+                <div class="d-flex justify-content-left mt-5">
+                    <div th:text="${message}" class="mr-5 big text-dark font-weight-bold ml-5">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer"/>
+
+</body>
+
+</html>

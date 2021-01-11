@@ -3,6 +3,7 @@ package com.sam.dataviewer.service;
 import com.sam.dataviewer.domain.File;
 import com.sam.dataviewer.domain.Order;
 import com.sam.dataviewer.dto.FileDto;
+import com.sam.dataviewer.exception.CustomException;
 import com.sam.dataviewer.repository.FileRepository;
 import com.sam.dataviewer.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -74,28 +76,41 @@ public class FileService {
     }
 
     /* file 삭제 */
-    public void deleteFile(String fileName) throws IOException {
+    public void deleteFile(String fileName) {
         if (fileName != null) {
             Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
-            Files.delete(path);
+            try {
+                Files.delete(path);
+            } catch(IOException e) {
+                throw new CustomException("파일 삭제가 실패했습니다. 관리자에게 문의하세요.");
+            }
         }
     }
 
     /* file 삭제 및 info 삭제 */
     @Transactional
-    public void delete(Long id) throws IOException {
+    public void delete(Long id) {
         File file = fileRepository.findById(id).orElse(null);
         if (file != null) {
             Path path = Paths.get(file.getFilePath());
-            Files.delete(path);
+            try {
+                Files.delete(path);
+            } catch(IOException e) {
+                throw new CustomException("파일 삭제가 실패했습니다. 관리자에게 문의하세요.");
+            }
             fileRepository.delete(file);
         }
     }
 
     /* 파일 다운로드 */
-    public Resource downloadFile(String fileName) throws IOException {
+    public Resource downloadFile(String fileName) {
         Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
-        InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+        InputStreamResource resource = null;
+        try {
+             resource = new InputStreamResource(Files.newInputStream(path));
+        } catch(IOException e) {
+            throw new CustomException("파일 다운로드가 실패했습니다. 관리자에게 문의하세요.");
+        }
         return resource;
     }
 }

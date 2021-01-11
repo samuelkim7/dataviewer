@@ -96,12 +96,7 @@ public class OrderController {
 
     @GetMapping("/order/downloadFile/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        Resource resource = null;
-        try {
-            resource = fileService.downloadFile(fileName);
-        } catch (IOException e) {
-            //
-        }
+        Resource resource = fileService.downloadFile(fileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
@@ -112,12 +107,8 @@ public class OrderController {
     public String deleteFile(
             @PathVariable Long fileId,
             HttpServletRequest request
-    ) {
-        try {
-            fileService.delete(fileId);
-        } catch (IOException e) {
-            //
-        }
+    ) throws IOException {
+        fileService.delete(fileId);
         return "redirect:" + request.getHeader("Referer");
     }
 

@@ -97,6 +97,16 @@ class AdminOrderControllerTest {
         Files.delete(path);
     }
 
+    @Test
+    @DisplayName("파일 다운로드 실패")
+    public void downloadFileFailTest() throws Exception {
+        mockMvc.perform(
+                get("/admin/order/downloadFile/{originalFileName}"
+                        , "none"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attributeExists("error"));
+    }
+
     private MockMultipartFile getMultipartFile(String originalFileName) {
         return new MockMultipartFile(
                 "data", originalFileName,

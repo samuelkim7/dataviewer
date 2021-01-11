@@ -50,12 +50,7 @@ public class AdminOrderController {
 
     @GetMapping("/order/downloadFile/{originalFileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String originalFileName) {
-        Resource resource = null;
-        try {
-            resource = fileService.downloadFile(originalFileName);
-        } catch (IOException e) {
-            //
-        }
+        Resource resource = fileService.downloadFile(originalFileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFileName + "\"")
