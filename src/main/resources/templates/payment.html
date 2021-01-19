@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head">
+
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <ul th:replace="fragments/sidebar"/>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <nav th:replace="fragments/nav"/>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between ml-5">
+                    <h1 class="h3 text-gray-800 mb-5">DataViewer</h1>
+                </div>
+                <div class="mx-4 about text-dark mb-3">
+                    견적 승인 후 아래의 계좌로 금액을 송금해주시면 됩니다. 결제가 완료된 시점부터 분석 스케쥴이 시작됩니다. <br>
+                    결제 완료 여부는 고객님께 문자로 발송해드리며 견적 리스트의 "상태" 란에서도 확인 가능합니다. <br>
+                    결제나 분석 진행 상황에 대한 문의 사항이 있으시면 아래의 연락처로 전화주세요. 감사합니다.
+                </div>
+                <div class="d-flex justify-content-end mt-2 mr-4">
+                    <img th:src="@{/files/about1.jpg}" style="max-width:45%; height:auto;" class="opacity60">
+                </div>
+                <div class="text-dark text-left ml-4 mb-2">
+                    결제 계좌: 농협 111111-22-333333 <br>
+                    TEL: 010-1234-1234
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer"/>
+
+</body>
+
+</html>

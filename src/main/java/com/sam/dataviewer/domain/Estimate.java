@@ -15,14 +15,12 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Estimate {
 
     @Id
     @Column(name = "estimate_id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -38,7 +36,7 @@ public class Estimate {
     private String duration;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -46,7 +44,7 @@ public class Estimate {
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    private EstimateStatus status;
+    private EstimateStatus status;  // OFFER, ACCEPT, PAID, CANCEL
 
     /* 연관관계 메서드 */
     public void setOrder(Order order) {
@@ -95,8 +93,13 @@ public class Estimate {
         this.status = EstimateStatus.CANCEL;
     }
 
-    /* 견적 승낙 */
+    /* 견적 승인 */
     public void accept() {
         this.status = EstimateStatus.ACCEPT;
+    }
+
+    /* 결제 완료 */
+    public void paid() {
+        this.status = EstimateStatus.PAID;
     }
 }

@@ -4,6 +4,7 @@ import com.sam.dataviewer.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +18,14 @@ import java.util.List;
 
 @Entity
 @Getter
-// 기본 생성자 protected로 접근 제한
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member implements UserDetails {
     private static final long serialVersionUID = 1l;
 
     @Id
     @Column(name = "member_id")
-    @GeneratedValue
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String username;
 

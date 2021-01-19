@@ -30,33 +30,41 @@ public class FileService {
     private final OrderRepository orderRepository;
 
     /* file 업로드 */
-    public String uploadFile(MultipartFile file) throws IOException {
-        byte[] bytes = file.getBytes();
-        String originalFileName = file.getOriginalFilename();
-        String fileName = getFileName(originalFileName);
-        Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
-        Files.write(path, bytes);
-        return fileName;
-    }
-
-    /* file 업로드 및 info 저장 */
-    @Transactional
-    public void saveFile(Long orderId, List<MultipartFile> files) throws IOException {
-        for (MultipartFile file : files) {
-            // 파일 저장
+    public String uploadFile(MultipartFile file) {
+        try {
             byte[] bytes = file.getBytes();
             String originalFileName = file.getOriginalFilename();
             String fileName = getFileName(originalFileName);
             Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
             Files.write(path, bytes);
+            return fileName;
+        } catch(IOException e) {
+            throw new CustomException("파일 업로드가 실패했습니다. 관리자에게 문의하세요.");
+        }
+    }
 
-            //파일 정보 DB에 저장
-            Order order = orderRepository.findById(orderId).orElse(null);
-            File fileDB = File.createFile(
-                    order, originalFileName, fileName,
-                    path.toString(), file.getSize()
-            );
-            fileRepository.save(fileDB);
+    /* file 업로드 및 info 저장 */
+    @Transactional
+    public void saveFile(Long orderId, List<MultipartFile> files) {
+        for (MultipartFile file : files) {
+            try {
+                // 파일 저장
+                byte[] bytes = file.getBytes();
+                String originalFileName = file.getOriginalFilename();
+                String fileName = getFileName(originalFileName);
+                Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
+                Files.write(path, bytes);
+
+                //파일 정보 DB에 저장
+                Order order = orderRepository.findById(orderId).orElse(null);
+                File fileDB = File.createFile(
+                        order, originalFileName, fileName,
+                        path.toString(), file.getSize()
+                );
+                fileRepository.save(fileDB);
+            } catch(IOException e) {
+                throw new CustomException("파일 업로드가 실패했습니다. 관리자에게 문의하세요.");
+            }
         }
     }
 
@@ -105,12 +113,11 @@ public class FileService {
     /* 파일 다운로드 */
     public Resource downloadFile(String fileName) {
         Path path = Paths.get("C:/spring/dataviewer_files/" + fileName);
-        InputStreamResource resource = null;
         try {
-             resource = new InputStreamResource(Files.newInputStream(path));
+            InputStreamResource resource = new InputStreamResource(Files.newInputStream(path));
+            return resource;
         } catch(IOException e) {
             throw new CustomException("파일 다운로드가 실패했습니다. 관리자에게 문의하세요.");
         }
-        return resource;
     }
 }

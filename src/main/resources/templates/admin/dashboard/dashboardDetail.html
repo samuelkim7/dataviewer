@@ -65,7 +65,7 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="h6 font-weight-bold text-warning mb-2">내용</div>
-                                            <textarea th:field="*{content}" cols="30" rows="3"
+                                            <textarea th:field="*{content}" cols="30" rows="5"
                                                       class="form-control"></textarea>
                                             <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
                                         </div>

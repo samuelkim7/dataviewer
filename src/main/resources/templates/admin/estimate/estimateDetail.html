@@ -71,6 +71,9 @@
                             <a class="btn btn-danger mr-2 mb-3 confirmCancel"
                                th:if="*{status.name() == 'OFFER' || status.name() == 'ACCEPT'}"
                                th:href="@{'/admin/estimate/cancel/' + *{id}}">견적 취소</a>
+                            <a class="btn btn-info mr-2 mb-3"
+                               th:if="*{status.name() == 'ACCEPT'}"
+                               th:href="@{'/admin/estimate/paid/' + *{id}}">결제 완료</a>
                             <a class="btn btn-primary mr-2 mb-3" href="/admin/estimates">견적 목록</a>
                         </form>
                     </div>

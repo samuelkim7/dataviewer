@@ -13,4 +13,7 @@ public class HomeController {
 
     @GetMapping("/about")
     public String about() { return "about";}
+
+    @GetMapping("/payment")
+    public String payment() { return "payment";}
 }

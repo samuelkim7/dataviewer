@@ -123,7 +123,7 @@ class FigureServiceTest {
     private Figure getFigure(Dashboard dashboard, String title) {
         return Figure.createFigure(
                 dashboard, title, "description",
-                null, null, null
+                null, null
         );
     }
 

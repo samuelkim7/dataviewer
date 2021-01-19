@@ -24,7 +24,7 @@
                         <form th:object="${figureDto}">
                             <h3 class="mb-4 font-weight-bold text-success" th:text="*{title}"></h3>
 
-                            <div th:utext="*{iframeTag}" class="mb-4"></div>
+                            <img class="mb-4" th:src="@{'/files/' + *{fileName}}" height="200%"/>
 
                             <textarea th:field="*{description}" cols="30" rows="3" class="form-control mb-4"
                                       readonly></textarea>

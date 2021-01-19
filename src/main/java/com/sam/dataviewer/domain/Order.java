@@ -19,13 +19,12 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter
-@DynamicUpdate   // Dirty Checking 시 변경된 field만 update
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id
     @Column(name = "order_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -37,7 +36,7 @@ public class Order {
     private String content;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -45,7 +44,7 @@ public class Order {
     private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;   // WAIT, ORDER, CANCEL
+    private OrderStatus status;   // WAIT, ORDER, COMPLETE, CANCEL
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<Estimate> estimates = new ArrayList<>();

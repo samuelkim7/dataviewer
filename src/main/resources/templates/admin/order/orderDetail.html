@@ -48,7 +48,7 @@
                                 <ul>
                                     <li th:each="file : ${fileDtos}">
                                         <span th:text="${file.originalFileName} + ' (' + ${file.fileSize / 1000 } + 'kb)'"></span> &nbsp
-                                        <a th:href="@{'/admin/order/downloadFile/' + ${file.originalFileName}}">다운로드</a>
+                                        <a th:href="@{'/admin/order/downloadFile/' + ${file.fileName}}">다운로드</a>
                                     </li>
                                 </ul>
                             </div>

@@ -102,7 +102,7 @@ class FigureRepositoryTest {
     private Figure getFigure(Dashboard dashboard) {
         return Figure.createFigure(
                 dashboard, "figure", "description",
-                null, null, null);
+                null, null);
     }
 
     private Dashboard getDashboard(Order order, String title) {

@@ -64,12 +64,21 @@ public class EstimateService {
         }
     }
 
-    /* 견적 승낙 */
+    /* 견적 승인 */
     @Transactional
     public void acceptEstimate(Long id) {
         Estimate estimate = estimateRepository.findById(id).orElse(null);
         if (estimate != null) {
             estimate.accept();
+        }
+    }
+
+    /* 결제 완료 */
+    @Transactional
+    public void paidEstimate(Long id) {
+        Estimate estimate = estimateRepository.findById(id).orElse(null);
+        if (estimate != null) {
+            estimate.paid();
         }
     }
 

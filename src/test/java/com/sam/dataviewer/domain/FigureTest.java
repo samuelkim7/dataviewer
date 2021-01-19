@@ -20,7 +20,7 @@ class FigureTest {
         //when
         Figure figure = Figure.createFigure(
                 dashboard, title, null,
-                originalFileName, null, null
+                originalFileName, null
         );
 
         //then
@@ -38,7 +38,7 @@ class FigureTest {
         Dashboard dashboard = getDashboard(order);
         Figure figure = Figure.createFigure(
                 dashboard, "그래프", "내용",
-                null, null, null
+                null, null
         );
 
         //when
@@ -57,7 +57,7 @@ class FigureTest {
         Dashboard dashboard = getDashboard(order);
         Figure figure = Figure.createFigure(
                 dashboard, "그래프", null,
-                "graph", null, null
+                "graph", null
         );
 
         String newTitle = "수정된 그래프";
@@ -66,7 +66,7 @@ class FigureTest {
         //when
         figure.update(
                 newTitle, null,
-                newOriginalFileName, null, null
+                newOriginalFileName, null
         );
 
         //then

@@ -78,4 +78,10 @@ public class AdminEstimateController {
         return "redirect:/admin/estimates";
     }
 
+    @GetMapping("/estimate/paid/{id}")
+    public String paidEstimate(@PathVariable Long id) {
+        estimateService.paidEstimate(id);
+        return "redirect:/admin/estimates";
+    }
+
 }

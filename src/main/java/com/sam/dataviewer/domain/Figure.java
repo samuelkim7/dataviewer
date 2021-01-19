@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Figure {
 
     @Id
     @Column(name = "figure_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -37,11 +38,8 @@ public class Figure {
     @Column(name = "file_name")
     private String fileName;
 
-    @Column(name = "iframe_tag")
-    private String iframeTag;
-
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -52,7 +50,7 @@ public class Figure {
     public static Figure createFigure(
             Dashboard dashboard, String title,
             String description, String originalFileName,
-            String fileName, String iframeTag
+            String fileName
     ) {
         Figure figure = new Figure();
         figure.setDashboard(dashboard);
@@ -60,7 +58,6 @@ public class Figure {
         figure.description = description;
         figure.originalFileName = originalFileName;
         figure.fileName = fileName;
-        figure.iframeTag = iframeTag;
         return figure;
     }
 
@@ -78,7 +75,6 @@ public class Figure {
         dto.setDescription(this.getDescription());
         dto.setOriginalFileName(this.getOriginalFileName());
         dto.setFileName(this.getFileName());
-        dto.setIframeTag(this.getIframeTag());
         dto.setDashboardTitle(this.getDashboard().getTitle());
         dto.setDashboardId(this.getDashboard().getId());
         dto.setCreatedAt(this.getCreatedAt());
@@ -88,12 +84,11 @@ public class Figure {
     /* Figure 수정 */
     public void update(
             String title, String description,
-            String originalFilename, String fileName, String iframeTag
+            String originalFilename, String fileName
     ) {
         this.title = title;
         this.description = description;
         this.originalFileName = originalFilename;
         this.fileName = fileName;
-        this.iframeTag = iframeTag;
     }
 }

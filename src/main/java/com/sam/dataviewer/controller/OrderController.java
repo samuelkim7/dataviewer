@@ -2,9 +2,11 @@ package com.sam.dataviewer.controller;
 
 import com.sam.dataviewer.dto.FileDto;
 import com.sam.dataviewer.dto.OrderDto;
+import com.sam.dataviewer.exception.CustomException;
 import com.sam.dataviewer.service.FileService;
 import com.sam.dataviewer.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -47,12 +50,8 @@ public class OrderController {
 
         Long orderId = orderService.order(principal.getName(), orderDto);
 
-        try {
-            if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
-                fileService.saveFile(orderId, files);
-            }
-        } catch (IOException e) {
-            result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
+        if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
+            fileService.saveFile(orderId, files);
         }
         return "redirect:/orders";
     }
@@ -83,13 +82,10 @@ public class OrderController {
             return "order/orderDetail";
         }
 
-        try {
-            if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
-                fileService.saveFile(orderDto.getId(), files);
-            }
-        } catch (IOException e) {
-            result.rejectValue("fileName", "IOException", "파일을 다시 한번 확인해보세요.");
+        if (files != null && !files.isEmpty() && !files.get(0).isEmpty()) {
+            fileService.saveFile(orderDto.getId(), files);
         }
+
         orderService.updateOrder(orderDto);
         return "redirect:/orders";
     }
@@ -116,5 +112,12 @@ public class OrderController {
     public String cancelOrder(@PathVariable Long id) {
         orderService.cancelOrder(id);
         return "redirect:/orders";
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public String handleCustomException(CustomException e, Model model) {
+        model.addAttribute("error", e.getMessage());
+        log.error("handleCustomException", e);
+        return "error";
     }
 }

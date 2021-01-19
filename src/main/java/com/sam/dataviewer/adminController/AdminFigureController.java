@@ -2,10 +2,12 @@ package com.sam.dataviewer.adminController;
 
 import com.sam.dataviewer.dto.DashboardDto;
 import com.sam.dataviewer.dto.FigureDto;
+import com.sam.dataviewer.exception.CustomException;
 import com.sam.dataviewer.service.DashboardService;
 import com.sam.dataviewer.service.FigureService;
 import com.sam.dataviewer.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/admin")
 public class AdminFigureController {
 
@@ -48,20 +51,12 @@ public class AdminFigureController {
             return "admin/figure/createFigureForm";
         }
 
-        //파일 업로드
-        String fileName = null;
-        try {
-            if (file != null && !file.isEmpty()) {
-                fileName = fileService.uploadFile(file);
-            }
-        } catch (IOException e) {
-            //
-        }
-
-        //figure Entity 생성 및 저장
         if (file != null && !file.isEmpty()) {
+            // 파일 업로드 및 figure Entity 생성
+            String fileName = fileService.uploadFile(file);
             figureService.create(dashboardId, figureDto, file.getOriginalFilename(), fileName);
         } else {
+            // figure Entity 생성
             figureService.create(dashboardId, figureDto, null, null);
         }
 
@@ -99,26 +94,19 @@ public class AdminFigureController {
             return "admin/figure/figureDetail";
         }
 
-        // 파일 업로드 및 현재 파일 삭제
-        String fileName = null;
-        try {
-            if (file != null && !file.isEmpty()) {
-                fileName = fileService.uploadFile(file);
-                fileService.deleteFile(figureDto.getFileName());
-            }
-        } catch (IOException e) {
-        }
 
-        // figure Entity 수정
         if (file != null && !file.isEmpty()) {
+            // 파일 업로드 및 현재 파일 삭제, figure Entity 수정
+            String fileName = fileService.uploadFile(file);
+            fileService.deleteFile(figureDto.getFileName());
             figureService.updateFigure(figureDto, file.getOriginalFilename(), fileName);
         } else {
+            // figure Entity 수정
             figureService.updateFigure(
                     figureDto, figureDto.getOriginalFileName(),
                     figureDto.getFileName()
             );
         }
-
         return "redirect:/admin/figures";
     }
 
@@ -134,11 +122,19 @@ public class AdminFigureController {
     @GetMapping({"/figure/delete/{id}", "/figure/delete/{id}/{fileName}"})
     public String deleteFigure(@PathVariable Long id,
                                @PathVariable(required = false) String fileName) {
-        //첨부 파일 삭제
         if (fileName != null) {
+            // 첨부 파일 삭제
             fileService.deleteFile(fileName);
         }
+        // figure Entity 삭제
         figureService.deleteFigure(id);
         return "redirect:/admin/figures";
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public String handleCustomException(CustomException e, Model model) {
+        model.addAttribute("error", e.getMessage());
+        log.error("handleCustomException", e);
+        return "error";
     }
 }

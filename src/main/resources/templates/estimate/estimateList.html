@@ -42,7 +42,8 @@
                                 <td th:text="${#numbers.formatInteger(dto.price, 3, 'COMMA')} + '원'"></td>
                                 <td th:switch="${dto.status.name()}">
                                     <span th:case="'OFFER'">요청</span>
-                                    <span th:case="'ACCEPT'">승낙</span>
+                                    <span th:case="'ACCEPT'">승인</span>
+                                    <span th:case="'PAID'">결제 완료</span>
                                     <span th:case="'CANCEL'">취소</span>
                                 </td>
                                 <td th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></td>

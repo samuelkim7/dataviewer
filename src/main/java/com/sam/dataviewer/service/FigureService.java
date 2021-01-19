@@ -26,9 +26,8 @@ public class FigureService {
                        String originalFileName, String fileName) {
         Dashboard dashboard = dashboardRepository.findById(dashboardId).orElse(null);
         Figure figure = Figure.createFigure(
-                dashboard, dto.getTitle(),
-                dto.getDescription(), originalFileName,
-                fileName, dto.getIframeTag()
+                dashboard, dto.getTitle(), dto.getDescription(),
+                originalFileName, fileName
         );
 
         figureRepository.save(figure);
@@ -54,7 +53,7 @@ public class FigureService {
         if (figure != null) {
             figure.update(
                     dto.getTitle(), dto.getDescription(),
-                    originalFilename, fileName, dto.getIframeTag());
+                    originalFilename, fileName);
         }
     }
 
