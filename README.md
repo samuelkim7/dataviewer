@@ -12,9 +12,9 @@
 
 ### Data Analysis
 1) [amazon bestsellers](https://github.com/samuelkim7/dataviewer/blob/master/data_analysis/amazon_bestsellers.ipynb)
-- 11년간 amazon 베스트셀러(상위 50위)에 대한 분석 (Python)
+- amazon에서 11년간 판매된 책들 중 베스트셀러(상위 50위)에 대한 분석 (Python)
 - data: https://www.kaggle.com/sootersaalu/amazon-top-50-bestselling-books-2009-2019
 
 2) [fifa19 online players](https://github.com/samuelkim7/dataviewer/blob/master/data_analysis/fifa19_analysis.ipynb)
-- fifa19 online 내 선수들에 대한 데이터 분석 (PySpark 사용)
+- fifa19 online 내 선수들에 대한 데이터 분석 (PySpark)
 - data: https://www.kaggle.com/karangadiya/fifa19
